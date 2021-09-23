@@ -1,0 +1,71 @@
+
+	//Coin-Change Problem (Recursive and Top Down my Solution)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int minNumberofCoinsforChange(int n,vector<int> denoms){
+    //Base Case
+    if(n==0){
+        return 0;
+    }
+    int minCoins=INT_MAX;
+    for(int i=0;i<denoms.size();i++){
+        if(n-denoms[i]>=0){
+            int coins=minNumberofCoinsforChange(n-denoms[i],denoms);
+            if(coins!=INT_MAX and coins+1<minCoins){
+                minCoins=1+coins;
+            }
+        }
+    } 
+    return minCoins;
+}
+
+int minNumberofCoinsforChangeTD(int n,vector<int> denoms,int *dp){
+    //Base Case
+    if(n==0){
+        return 0;
+    }
+    if(dp[n]!=0){
+        return dp[n];
+    }
+    int minCoins=INT_MAX;
+    for(int i=0;i<denoms.size();i++){
+        if(n-denoms[i]>=0){
+            int coins=minNumberofCoinsforChangeTD(n-denoms[i],denoms,dp);
+            if(coins!=INT_MAX and coins+1<minCoins){
+                minCoins=1+coins;
+            }
+        }
+    } 
+    dp[n]=minCoins;
+    return dp[n];
+}
+
+
+<------------OPTIMISED SOLUTION------------>
+
+int minNumberofCoinsforChange(int n,vector<int> denoms){
+    vector<int> dp(n+1,0);
+    dp[0]=0;
+    for(int i=1;i<=n;i++){
+        dp[i]=INT_MAX;
+        for(int c:denoms){
+            if(i-c>=0 and dp[i-c]!=INT_MAX){
+                dp[i]=min(dp[i],1+dp[i-c]);
+            }
+        }
+    }
+    return dp[n]==INT_MAX?-1:dp[n];
+}
+
+
+
+int main() {
+    int n=10;
+    vector<int> denoms={2,3,6};
+    int dp[n+1]={0};
+    cout<<minNumberofCoinsforChange(n,denoms)<<endl;
+    cout<<minNumberofCoinsforChangeTD(n,denoms,dp)<<endl;
+    return 0;
+}
