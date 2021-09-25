@@ -1,0 +1,74 @@
+
+	//LeetCode 712. Minimum ASCII Delete Sum for Two Strings
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int minimumDeleteSum(string s1, string s2) {
+	vector<vector<int>> dp(s1.length() + 1, vector<int>(s2.length() + 1));
+	for (int i = dp.size() - 1; i >= 0; i--) {
+		for (int j = dp[0].size() - 1; j >= 0; j--) {
+			if (i == dp.size() - 1 and j == dp[0].size() - 1) {
+				dp[i][j] = 0;
+			} else if (i == dp.size() - 1) {
+				dp[i][j] = (int)s2[j] + dp[i][j + 1];
+			} else if (j == dp[0].size() - 1) {
+				dp[i][j] = (int)s1[i] + dp[i + 1][j];
+			} else {
+				if (s1[i] == s2[j]) {
+					dp[i][j] = dp[i + 1][j + 1];
+				} else {
+					dp[i][j] = min(s1[i] + dp[i + 1][j], s2[j] + dp[i][j + 1]);
+				}
+			}
+		}
+	}
+	return dp[0][0];
+}
+
+
+int main() {
+    string s1="sea",s2="eat";
+    cout<<minimumDeleteSum(s1,s2)<<endl;
+}
+
+<--------BRUTE FORCE APPROACH----------->
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int helper(string s1,string s2,int i,int j,vector<vector<int>> &dp){
+    if(i==s1.length() and j==s2.length()){
+        return 0;
+    }
+
+    if(j==s2.length()){
+        return (int)s1[i] + helper(s1,s2,i+1,j,dp);
+
+    }
+    if(i==s1.length()){
+        return (int)s2[j] + helper(s1,s2,i,j+1,dp);
+
+    }
+
+    if(dp[i][j]!=-1){
+        return dp[i][j];
+    }
+
+    if(s1[i]==s2[j]){
+        return dp[i][j]=helper(s1,s2,i+1,j+1,dp);
+    }else{
+        return dp[i][j]=min(s1[i]+helper(s1,s2,i+1,j,dp),s2[j]+helper(s1,s2,i,j+1,dp));
+    }
+}
+
+int minimumDeleteSum(string s1, string s2) {
+    vector<vector<int>> dp(s1.length(),vector<int>(s2.length(),-1));
+    return helper(s1,s2,0,0,dp);
+}
+
+int main() {
+    string s1="sea",s2="eat";
+   cout<<minimumDeleteSum(s1,s2)<<endl;
+   return 0;
+}
