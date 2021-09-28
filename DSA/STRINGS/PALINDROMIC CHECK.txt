@@ -1,0 +1,18 @@
+
+
+	//To check if the string is palindromic of not
+
+
+//Recursive Approach
+	
+bool isPlaindrome(string s,int i,int j){
+    //base case
+    if(i>=j){
+        return true;
+    }
+    if(s[i]==s[j]){
+        return isPlaindrome(s,i+1,j-1);
+    }else{
+        return false;
+    }
+}
