@@ -1,0 +1,52 @@
+
+	//Edit Distance Compelete Code
+
+//Min no of steps to make s1 == s2 (strings equal)
+//By doing some steps like
+//1)Insert an Element
+//2)Delete an Element
+//3)Replace an Element
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+int helper(string s1,string s2,int i,int j,vector<vector<int>> &dp){
+    if(i==s1.length() and j==s2.length()){
+        return 0;
+    }
+    //delete letter from s1
+    if(j==s2.length()){
+        return s1.length()-i;
+    }
+    //adding letter is s1
+    if(i==s1.length()){
+        return s2.length()-j;
+    }
+
+    if(dp[i][j]!=-1){
+        return dp[i][j];
+    }
+
+    if(s1[i]==s2[j]){
+        return dp[i][j]=helper(s1,s2,i+1,j+1,dp);
+    }else{
+        return dp[i][j]=1+min(helper(s1,s2,i+1,j,dp),min(helper(s1,s2,i,j+1,dp),helper(s1,s2,i+1,j+1,dp)));
+    }
+}
+
+int editDistance(string str1, string str2){
+    int s1=str1.length();
+    int s2=str2.length();
+    vector<vector<int>> dp(s1,vector<int>(s2,-1));
+
+    return helper(str1,str2,0,0,dp);
+}
+
+int main() {
+    string s1="geek";
+    string s2="gesek";
+    cout<<editDistance(s1,s2)<<endl;
+    
+    return 0;
+}
