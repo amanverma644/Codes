@@ -1,0 +1,35 @@
+
+	//Sorted Permutation Code
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void helper(string s,int i,set<string> &output){
+    //base case
+    if(s[i] == '\0'){
+        output.insert(s);
+        return;
+    }
+    //rec case
+    for(int k=i;k<s.size();k++){
+        swap(s[i],s[k]);
+        helper(s,i+1,output);
+    }
+    return;
+}
+
+vector<string> findSortedPermutations(string s){
+    set<string> output;
+    helper(s,0,output);
+    vector<string> ans(begin(output),end(output));
+    return ans;
+}
+
+int main() {
+   string s="acb";
+   vector<string> ans=findSortedPermutations(s);
+   for(auto x:ans){
+       cout<<x<<endl;
+   }
+   return 0;
+}

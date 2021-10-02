@@ -1,0 +1,52 @@
+
+	//Interview Bit Ways to Decode
+
+#include <bits/stdc++.h>
+using namespace std;
+
+const int BLOCK = 1000000007;;
+
+
+int numDecodings(string A) {
+    int n=A.length();
+    if(n==1 and A[0]=='0'){
+        return 0;
+    }
+    vector<int> dp(n);
+    //first num would be from 1....9
+    dp[0]=(A[0]=='0' ? 0 : 1);
+    for(int i=1;i<n;i++){
+        //4 Csses
+        //Csse 1: i == i-1 == 0
+        //Csse 2: i == 0 snd i-1 != 0
+        //Csse 3: i != 0 snd i-1 == 0
+        //Csse 4: i != 0 snd i-1 != 0
+        if(A[i-1] == '0' and A[i] == '0'){
+            dp[i]=0;
+        }else if (A[i-1] == '0' and A[i] != '0'){
+            dp[i]=dp[i-1] % BLOCK;
+        }else if(A[i-1] != '0' and A[i] == '0'){
+
+            if(A[i-1] == '1' or A[i-1] == '2'){
+                dp[i]= (i >= 2 ? dp[i-2] : 1) % BLOCK;
+            }else{
+                dp[i]=0;
+            }
+
+        }else{
+            int x = (A[i-1]-'0')*10 + (A[i]-'0');
+            if(x<=26){
+                dp[i]=(dp[i-1] % BLOCK+ (i >= 2 ? dp[i-2] : 1) % BLOCK);
+            }else{
+                dp[i]=dp[i-1] % BLOCK;
+            }
+        }
+    }
+    return dp[n-1] % BLOCK;
+}
+
+int main() {
+    string A="12";
+    cout<<numDecodings(A)<<endl;
+    return 0;
+}
