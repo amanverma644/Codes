@@ -1,6 +1,14 @@
 
-	//Coin-Change Problem (Recursive and Top Down my Solution)
+	//Coin-Change Problem
 
+/*
+Given an array of coin denominations, and integer M representing target money.
+
+We need to find the min coins required to make the change.
+*/
+
+
+//<----------BRUTE FORCE APPROACH---------->
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -21,6 +29,7 @@ int minNumberofCoinsforChange(int n,vector<int> denoms){
     return minCoins;
 }
 
+//<----------TOP-DOWN APPROACH---------->
 int minNumberofCoinsforChangeTD(int n,vector<int> denoms,int *dp){
     //Base Case
     if(n==0){
@@ -43,8 +52,7 @@ int minNumberofCoinsforChangeTD(int n,vector<int> denoms,int *dp){
 }
 
 
-<------------OPTIMISED SOLUTION------------>
-
+//<----------BOTTOM-UP APPROACH---------->
 int minNumberofCoinsforChange(int n,vector<int> denoms){
     vector<int> dp(n+1,0);
     dp[0]=0;

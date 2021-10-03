@@ -1,6 +1,12 @@
 
 	//Count BST or Catalan Number Compelete code
 
+/*
+Count the number of Binary Search Trees that can be formed using N nodes, numbered from 1 to N.
+*/
+
+
+//<------BRUTE FORCE APPROACH------->
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -19,6 +25,7 @@ int countBST(int n){
     return ans;
 }
 
+//<------TOP DOWN APPROACH------->
 int countBSTTopDown(int n,vector<int> dp){
     //Base Case
     if(n==0 or n==1){
@@ -36,7 +43,8 @@ int countBSTTopDown(int n,vector<int> dp){
     return dp[n]=ans;
 }
 
-<------OPTIMISED------->
+
+//<------BOTTOM-UP APPROACH------->
 int countBSTBottomUp(int n){
     vector<int> dp(n+1,0);
     dp[0]=dp[1]=1;

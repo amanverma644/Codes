@@ -1,6 +1,16 @@
 
 	//Frog Min-Cost problem
 
+/*
+There are N stones given in the form an array, each element in array represents the height of ith stone. There is a frog who is initially on stone 1.
+
+Frog will repeat the following action some number of times to reach stone N:
+->If the frog is cuurently on stone i, jump to stone i+1, or stone i+2. Here, a cost of |hi-hj| is incurred, where j is the stone to land on.
+
+Find the minimum possible total cost incurred before the frog reached stone N.
+*/
+
+<-----------CODE------------->
 #include <bits/stdc++.h>
 using namespace std;
 

@@ -1,6 +1,11 @@
 
-	//LIS (Longest Increasing Subsequence) compelete code
+	//LIS (Longest Increasing Subsequence)
 
+/*
+Given a array sequence, find the length of the longest subsequence of such that all elements of the subsequence are sorted in increasing order.
+*/
+
+//<------BOTTOM-UP APPROACH----->
 #include <bits/stdc++.h>
 using namespace std;
 

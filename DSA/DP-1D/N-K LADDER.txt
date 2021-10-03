@@ -1,6 +1,12 @@
 
 	//N-K ladder compelete code
 
+
+/*
+Given a Ladder of size N, and in integer K, write a function to compute number of ways to climb the ladder if you can take a jump of almost k at every step.
+*/
+
+//<----------BRUTE FORCE APPROACH----------->
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -18,6 +24,7 @@ int countWays(int n,int k){
     return ans;
 }
 
+//<----------TOP-DOWN APPROACH----------->
 int countWaysTD(int n,int k,int *dp){
     if(n==0){
         return 1;
@@ -35,6 +42,7 @@ int countWaysTD(int n,int k,int *dp){
     return dp[n]=ans;
 }
 
+//<----------BOTTOM-UP APPROACH----------->
 int countWaysBU(int n,int k){
     vector<int> dp(n+1,0);
     dp[0]=1;
@@ -48,7 +56,7 @@ int countWaysBU(int n,int k){
     return dp[n];
 }
 
-<----------OPTIMISED APPROACH----------->
+//<----------OPTIMISED APPROACH----------->
 int countWaysOpt(int n,int k){
     vector<int> dp(n+1,0);
     dp[0]=1;

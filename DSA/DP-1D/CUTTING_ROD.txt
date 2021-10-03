@@ -1,0 +1,50 @@
+
+	//Cutting Rods Problem
+
+//<-----BRUTE FORCE APPROACH---->
+#include <bits/stdc++.h>
+using namespace std;
+
+int max_profit(int *prices,int n){
+    //Base Case
+    if(n==0){
+        return 0;
+    }
+
+    int ans=INT_MIN;
+    for(int i=0;i<n;i++){
+        int cut=i+1;
+        int current_ans=prices[i]+max_profit(prices,n-cut);
+        ans=max(ans,current_ans);
+    }
+    return ans;
+}
+
+//<-----BOTTOM-UP APPROACH---->
+int max_profitDP(int *prices,int n){
+    int *dp=new int[n+1];
+    dp[0]=0;
+    for(int len=1;len<=n;len++){
+        int ans=INT_MIN;
+        for(int i=0;i<len;i++){
+            int cut=i+1;
+            int current_ans=prices[i]+dp[len-cut];
+            ans=max(current_ans,ans);
+        }
+        dp[len]=ans;
+    }
+    return dp[n];
+}
+
+int main() {
+    int n;
+    cin>>n;
+    int *prices=new int[n];
+    for(int i=0;i<n;i++){
+        cin>>prices[i];
+    }
+    cout<<max_profit(prices,n)<<endl;
+    cout<<max_profitDP(prices,n)<<endl;
+    delete prices;
+    return 0;
+}

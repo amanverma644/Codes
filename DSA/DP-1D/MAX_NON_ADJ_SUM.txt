@@ -1,6 +1,10 @@
 	
 	//Max Non Adjacent sum
 
+/*
+Given an array of positive integers, find the maximum sum of non adjacent elements in the array 
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
