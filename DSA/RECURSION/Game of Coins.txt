@@ -1,0 +1,34 @@
+
+	//Game of Coins
+/*
+Oswald and Henry are playing the game of coins. They have a row of 'n' coins [C1,C2,C3...Cn] with values [V1,V2,V3...Vn] where Ci coin has Vi value. They take turns alternatively. In one turn the player can pick either the first or the last coin of the row. Given both Oswald and Henry are very smart players, you need to find the maximum possible value Oswald can earn if he plays first.
+*/
+
+
+//<---------CODE--------->
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int helper(int L,int R,vector<int> v){
+    //base case
+    if(L>=R){
+        return L == R ? v[L] : 0;
+    }
+
+    //rec case
+    return max(v[L]+helper(L+2,R,v),v[R]+helper(L,R-2,v));
+
+}
+
+int MaxValue(int n, vector<int> v){
+    return helper(0,n-1,v);
+}
+
+int main() {
+    int n=4;
+    vector<int> v={1,2,3,4};
+
+    cout<<MaxValue(n,v)<<endl;
+    return 0;
+}

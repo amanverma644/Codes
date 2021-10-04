@@ -1,0 +1,57 @@
+
+	//Longest Possible Route
+
+/*
+Given an M x N matrix, with a few hurdles arbitrarily placed, calculate the length of longest possible route possible from top left position (0,0) to bottom right position (m,n)&nbsp; within the matrix. We are allowed to move to only adjacent cells which are not hurdles. The route cannot contains any diagonal moves and a location once visited in a particular path cannot be visited again.
+*/
+
+//<------------------CODE-------------------->
+#include <bits/stdc++.h>
+using namespace std;
+
+int helper(int i,int j,vector<vector<int>> &v,int m,int n,vector<vector<bool>> & isVisited){
+    //base case
+    if(i==m and j==n){
+        return 1;
+    }
+
+    isVisited[i][j]=true;
+    //down
+    int a1=0,a2=0,a3=0,a4=0;
+    if(i+1<=m and !isVisited[i+1][j] and v[i+1][j]==1){
+        a1=helper(i+1,j,v,m,n,isVisited);
+    }
+
+    //right
+    if(j+1<=n and !isVisited[i][j+1] and v[i][j+1]==1){
+        a2=helper(i,j+1,v,m,n,isVisited);
+    }
+
+    //up
+    if(i>=1 and !isVisited[i-1][j] and v[i-1][j]==1){
+        a3=helper(i-1,j,v,m,n,isVisited);
+    }
+
+    //left
+    if(j>=1 and !isVisited[i][j-1] and v[i][j-1]==1){
+        a4=helper(i,j-1,v,m,n,isVisited);
+    }
+
+    isVisited[i][j]=false;
+    return 1 + max({a1,a2,a3,a4});
+}
+
+int findLongestPath(int m, int n, vector<vector<int>> v){
+    vector<vector<bool>> isVisited(m+1,vector<bool>(n+1,false));
+    return helper(0,0,v,m-1,n-1,isVisited)-1;
+}
+
+int main() {
+    int m=3,n=3;
+    vector<vector<int>> v={ {1,1,1},
+                            {1,1,1},
+                            {1,0,1}};
+
+    cout<<findLongestPath(m,n,v)<<endl;
+    return 0;
+}

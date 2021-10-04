@@ -1,0 +1,30 @@
+
+	//Modulo Exponentiation
+
+#include <bits/stdc++.h>
+using namespace std;
+const int BLOCK = 1000000007;
+
+long long int powerModulo(int a, int b){
+    long long int ans=1;
+    for(int i=1;i<=b;i++){
+        ans = ((ans % BLOCK) * (a % BLOCK)) % BLOCK;
+    }
+    return ans ;
+}
+
+long long int powerModulo2(int a, int b){
+    if(b==0){
+        return 1;
+    }
+    return ((a % BLOCK) * (powerModulo2(a,b-1) % BLOCK)) % BLOCK ;
+}
+
+int main() {
+    int a = 50;
+    int b = 50;
+    cout<<powerModulo(a,b)<<endl;
+    cout<<powerModulo2(a,b)<<endl;
+
+    return 0;
+}
