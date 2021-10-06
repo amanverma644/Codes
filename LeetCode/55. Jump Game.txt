@@ -1,0 +1,25 @@
+
+	//LeetCode 55. Jump Game
+
+//Question link: https://leetcode.com/problems/jump-game/
+
+<------------CODE-------------->
+#include <bits/stdc++.h>
+using namespace std;
+
+bool canJump(vector<int>& nums) {
+    int minJumps=0;
+    for(int i=nums.size()-2;i>=0;i--){
+        minJumps++;
+        if(nums[i]>=minJumps){
+            minJumps=0;
+        }
+    }
+    return minJumps == 0 ? true : false;
+}
+
+int main() {
+    vector<int> nums={2,3,1,1,4};
+    canJump(nums) == 1 ? cout<<"true" : cout<<"false";
+    return 0;
+}
