@@ -1,0 +1,26 @@
+
+	//Insert Node at i-th position
+
+node* insertNode(node *head,int i,int data){
+    node *newnode = new node(data);
+    int count = 0;
+    node *temp = head;
+
+    if(i == 0){
+        newnode->next = head;
+        head = newnode;
+        return head;
+    }
+
+    while(temp!=NULL and count < i-1){
+        temp=temp->next;
+        count++;
+    }
+    if(temp!=NULL){
+        node *a=temp->next;
+        temp->next = newnode;
+        newnode->next = a;
+    }
+
+    return head;
+}
