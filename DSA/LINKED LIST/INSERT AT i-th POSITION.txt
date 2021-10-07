@@ -1,6 +1,8 @@
 
 	//Insert Node at i-th position
 
+//iterative approach
+
 node* insertNode(node *head,int i,int data){
     node *newnode = new node(data);
     int count = 0;
@@ -22,5 +24,27 @@ node* insertNode(node *head,int i,int data){
         newnode->next = a;
     }
 
+    return head;
+}
+
+//<------------------------------------------>
+//		Recursive approach
+//<------------------------------------------>
+
+node* insertNodeR(node *head,int i,int data){
+    //base case
+    if(head == NULL){
+        return head;
+    }
+
+    if(i == 0){
+        node* newNode = new node(data);
+        newNode->next = head;
+        return newNode;
+    }
+
+    //rec case
+    node *temp = insertNodeR(head->next,i-1,data);
+    head->next = temp;
     return head;
 }
