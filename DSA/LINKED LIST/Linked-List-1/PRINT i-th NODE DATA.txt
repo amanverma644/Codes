@@ -1,3 +1,4 @@
+/*
 Coding Problem
 Problem Statement: Print i-th Node Data
 Problem Level: EASY
@@ -48,8 +49,9 @@ Sample Output 2 :
 3
 0
 
+*/
 
-//<-----------CODE------------->
+//<-----------SOLUTION------------->
 
 int ithPlace(node *head,int target){
     if(head == NULL){
