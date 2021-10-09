@@ -1,0 +1,47 @@
+
+	//328. Odd Even Linked List
+
+//Problem Link: https://leetcode.com/problems/odd-even-linked-list
+
+node* oddEvenList(node* head) {
+    if(head == NULL){
+        return head;
+    }
+
+    node *oHead = NULL;
+    node *oTail = NULL;
+
+    node *eHead = NULL;
+    node *eTail = NULL;
+
+    int cnt = 1;
+    while(head != NULL){
+        if(cnt & 1){
+            if(oHead == NULL){
+                oHead = head;
+                oTail = head;
+            }else{
+                oTail->next = head;
+                oTail = oTail->next;
+            }
+        }else{
+            if(eHead == NULL){
+                eHead = head;
+                eTail = head;
+            }else{
+                eTail->next = head;
+                eTail = eTail->next;
+            }
+        }
+        cnt++;
+        head = head->next;
+    }
+
+
+    oTail->next = NULL;
+    eTail->next = NULL;
+
+
+    oTail->next = eHead;
+    return oHead;
+}

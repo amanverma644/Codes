@@ -1,0 +1,46 @@
+
+	//234. Palindrome Linked List
+
+//Problem link : https://leetcode.com/problems/palindrome-linked-list
+
+
+ListNode *reverseLL(ListNode *head){
+    if(head == NULL or head->next == NULL){
+        return head;
+    }
+
+    ListNode *sh = reverseLL(head->next);
+    head->next->next = head;
+    head->next = NULL;
+
+    return sh;
+}
+
+bool isPalindrome(node* head) {
+    if(head == NULL){
+        return false;
+    }
+
+    node *slow = head;
+    node *fast = head->next;
+
+    while(fast != NULL and fast->next != NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    slow->next = reverseLL(slow->next);
+    slow = slow->next;
+    
+    node *temp = head;
+
+    while(slow != NULL){
+        if(temp->data != slow->data){
+            return false;
+        }
+        slow = slow->next;
+        temp = temp->next;
+    }
+
+    return true;
+}
