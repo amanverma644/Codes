@@ -1,0 +1,35 @@
+
+	//K-Reverse
+/*
+Given a linked list, write a function to reverse every k nodes.
+(where k is an input to the function)
+*/
+
+<------------SOLUTION------------->
+
+node* kReverse(node *head, int k){
+    //base case
+    if(head == NULL){
+        return head;
+    }
+    //reverse the first k elements
+    node *current = head;
+    node *prev = NULL;
+    node *next = NULL;
+    int cnt = 1;
+
+    while(current!=NULL and cnt<=k){
+        next = current->next;
+        current->next = prev;
+
+        prev = current;
+        current = next;
+        cnt++;
+    }
+
+    if(current!=NULL){
+        head->next = kReverse(current,k);
+    }
+
+    return prev;
+}

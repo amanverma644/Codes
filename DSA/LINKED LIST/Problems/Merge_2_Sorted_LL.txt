@@ -1,0 +1,21 @@
+
+	//Merge Two Sorted Linked List
+
+node* merge(node *a,node *b){
+    if(a==NULL){
+        return b;
+    }
+    if(b==NULL){
+        return a;
+    }
+
+    node *c;
+    if(a->data>b->data){
+        c=b;
+        c->next=merge(a,b->next);
+    }else{
+        c=a;
+        c->next=merge(a->next,b);
+    }
+    return c;
+}
