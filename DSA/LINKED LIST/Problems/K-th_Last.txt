@@ -1,0 +1,29 @@
+
+	//K-th Last
+
+/*
+Implement a function that returns the Kth last of element from the linked list, in a single pass. You can assume K will be less than / equal to length of linked list.
+*/
+
+//<-----------SOLUTION----------->
+int kthLastElement(node *head, int k){
+    node *current = head;
+    node *forward = head;
+
+    //first increase the size of window 
+    //move the forward ptr upto k terms
+    int cnt = 1;
+    while(forward != NULL and cnt <= k){
+        forward = forward->next;
+        cnt++;
+    }
+
+    //now move both forward and current ptr
+    //until forward ptr becomes null
+    while(forward != NULL){
+        forward = forward->next;
+        current = current->next;
+    }
+
+    return current -> data;
+}

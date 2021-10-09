@@ -1,0 +1,13 @@
+	
+	//Jump Game Array
+
+int Solution::canJump(vector<int> &A) {
+    int minJumps = 0;
+    for(int i = A.size()-2;i>=0;i--){
+        minJumps++;
+        if(A[i]>=minJumps){
+            minJumps = 0;
+        }
+    }
+    return minJumps == 0 ? 1 : 0;
+}
