@@ -1,0 +1,40 @@
+
+	//92. Reverse Linked List II
+
+//Problem Link: https://leetcode.com/problems/reverse-linked-list-ii
+
+ListNode* reverseBetween(ListNode* head, int left, int right) {
+    if(head == NULL or head->next == NULL){
+        return head;
+    }
+
+    ListNode *prev = NULL;
+    ListNode *curr = head;
+
+    int i=1,j=1;
+    while(i<left){
+        prev = curr;
+        curr = curr->next;
+        i++;
+        j++;
+    }
+
+    ListNode *connection = prev;
+    ListNode *tail = curr;
+
+    while(j<=right){
+        ListNode *next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+        j++;
+    }
+
+    if(connection != NULL){
+        connection->next = prev;
+    }else{
+        head = prev;
+    }
+    tail->next = curr;
+    return head;
+}
