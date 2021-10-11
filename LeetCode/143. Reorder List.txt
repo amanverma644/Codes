@@ -1,0 +1,75 @@
+
+	//143. Reorder List
+
+//Problem Link: https://leetcode.com/problems/reorder-list
+
+int LLlength(ListNode *head){
+    if(head == NULL){
+        return 0;
+    }
+    return 1 + LLlength(head->next);
+}
+
+void reorderList(ListNode* head) {
+    if(head == NULL or head->next == NULL){
+        return;
+    }
+    //find the mid-element
+    ListNode *slow = head;
+    ListNode *fast = head->next;
+    while(fast != NULL and fast->next != NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    ListNode *connection = slow;
+    slow = slow->next;
+
+    // cout<<slow->data<<endl;
+    //reverse the 2nd half of the linked list
+
+    ListNode *current = slow;
+    ListNode *prev = NULL;
+
+    while(current != NULL){
+        ListNode *next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    connection->next = prev;
+
+    ListNode *head2 = prev;
+    ListNode *temp = head;
+
+    int n = LLlength(temp);
+    temp = head;
+
+    // cout<<n<<endl;
+    if(!(n&1)){
+        while(head2->next != NULL){
+            ListNode *n1 = temp->next;
+            ListNode *n2 = head2->next;
+
+            temp->next = head2;
+            head2->next = n1;
+
+            temp = n1;
+            head2 = n2; 
+        }
+        temp->next = head2;
+        head2->next = NULL;
+    }else{
+        while(head2 != NULL){
+            ListNode *n1 = temp->next;
+            ListNode *n2 = head2->next;
+
+            temp->next = head2;
+            head2->next = n1;
+
+            temp = n1;
+            head2 = n2; 
+        }
+        temp->next = NULL;
+    }
+}
