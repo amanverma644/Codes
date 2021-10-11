@@ -1,0 +1,66 @@
+
+	//82. Remove Duplicates from Sorted List II
+
+//Problem Link: https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii
+
+//<-------------SOLUTION--------------->
+ListNode* deleteDuplicates(ListNode* head) {
+    if(head == NULL or head->next == NULL){
+        return head;
+    }
+
+    ListNode *dummy = new ListNode(0);
+    ListNode *itr = dummy;
+
+    itr->next = head;
+    ListNode *curr = head->next;
+
+    while(curr != NULL){
+        bool isLoopRun = false;
+        while(curr!= NULL and curr->val == itr->next->val){
+            isLoopRun = true;
+            curr = curr->next;
+        }
+        if(isLoopRun){
+            itr->next = curr;
+        }else{
+            itr = itr->next;
+        }
+
+        if(curr != NULL){
+            curr = curr->next;
+        }
+    }
+    return dummy->next;
+}
+
+
+//<-----------Another approach---------->
+
+ListNode* deleteDuplicates(ListNode* head) {
+    if(head == NULL or head->next == NULL){
+        return head;
+    }
+
+    unordered_map<int,int> freq;
+    ListNode *temp = head;
+    while(temp != NULL){
+        freq[temp->val]++;
+        temp = temp->next;
+    }
+
+    temp = head;
+    ListNode *newNode = new ListNode(0);
+    ListNode *tail = newNode;
+    while(temp != NULL){
+        if(freq[temp->val] == 1){
+            tail->next = temp;
+            tail = tail->next;
+        }
+        temp = temp->next;
+    }
+    if(tail != NULL){
+        tail->next = NULL;
+    }
+    return newNode->next;
+}
