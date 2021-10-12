@@ -1,0 +1,22 @@
+
+	//148. Sort List
+
+//Problem Link: https://leetcode.com/problems/sort-list
+
+ListNode* sortList(ListNode* head) {
+    vector<int> v;
+    while(head != NULL){
+        v.push_back(head->data);
+        head = head->next;
+    }
+    sort(begin(v),end(v));
+    ListNode *dummy = new ListNode(0);
+    ListNode *tail = dummy;
+    for(auto x: v){
+        ListNode *newNode = new ListNode (x);
+        tail->next = newNode;
+        tail = tail->next;
+    }
+
+    return dummy->next;
+}
