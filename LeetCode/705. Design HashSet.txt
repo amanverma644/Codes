@@ -1,0 +1,75 @@
+
+	//705. Design HashSet
+
+//Problem Link:	https://leetcode.com/problems/design-hashset
+
+class node{
+public:
+    int data;
+    node *next;
+    node(int data){
+        this->data = data;
+        next = NULL;
+    }
+};
+
+class MyHashSet {
+public:
+    node *head;
+    MyHashSet() {
+        head = NULL;  
+    }
+    
+    void add(int key) {
+        node *newNode = new node(key);
+        if(head == NULL){
+            head = newNode;
+        }else{
+            node *temp = head->next;
+            node *prev = head;
+            while(temp != NULL){
+                if(temp->data == key){
+                    return;
+                }
+                prev = temp;
+                temp = temp->next;
+            }
+            prev->next = newNode;
+        }
+    }
+    
+    void remove(int key) {
+        if(head == NULL){
+            return;
+        }
+        if(head->data == key){
+            head = head->next;
+        }else{
+            node *temp = head->next;
+            node *prev = head;
+            while(temp != NULL and temp->data != key){
+                prev = temp;
+                temp = temp->next;
+            }
+            if(temp == NULL){
+                prev->next = temp;
+            }else{
+                prev->next = temp->next;
+            }
+        }
+    }
+    
+    bool contains(int key) {
+        if(head == NULL){
+            return false;
+        }
+        node *temp = head;
+        while(temp != NULL){
+            if(temp->data == key){
+                return true;
+            }
+            temp = temp->next;
+        }
+        return false;
+    }
+};
