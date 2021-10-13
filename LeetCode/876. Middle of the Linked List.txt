@@ -1,0 +1,34 @@
+
+	//876. Middle of the Linked List
+//Problem Link:	https://leetcode.com/problems/middle-of-the-linked-list
+
+//this problem can be done easily by runner technique
+
+//Approach - 1
+ListNode* middleNode(ListNode* head) {
+    ListNode *slow = head;
+    ListNode *fast = head;
+    
+    while(fast != NULL and fast->next != NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
+}
+
+//Approach - 2
+ListNode* middleNode(ListNode* head) {
+    if(head == NULL or head->next == NULL){
+        return head;
+    }
+    ListNode *slow = head;
+    ListNode *fast = head->next;
+    while(fast != NULL and fast->next != NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    if(fast == NULL){
+        return slow;
+    }
+    return slow->next;
+}
