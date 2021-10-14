@@ -1,0 +1,32 @@
+	
+	//24. Swap Nodes in Pairs
+
+//Problem link:	https://leetcode.com/problems/swap-nodes-in-pairs
+
+ListNode* swapPairs(ListNode* head) {
+    //base case
+    if(head == NULL or head->next == NULL){
+        return head;
+    }
+
+    //reverse the first 2 nodes
+    ListNode *prev = NULL;
+    ListNode *curr = head;
+    int cnt = 1;
+
+    while(curr != NULL and cnt<=2){
+        ListNode *next = curr->next;
+        curr->next = prev;
+        prev = curr;
+
+        curr = next;
+        cnt++;
+    }
+    
+    //recursive call
+    if(curr != NULL){
+        head->next = swapPairs(curr);
+    }
+
+    return prev;
+}
