@@ -1,0 +1,47 @@
+
+	//25. Reverse Nodes in k-Group
+
+//Problem link:	https://leetcode.com/problems/reverse-nodes-in-k-group
+
+int LLlength(ListNode *head){
+    if(head == NULL) return 0;
+    ListNode *temp = head;
+    int size = 0;
+    while(temp != NULL){
+        size++;
+        temp = temp->next;
+    }
+    return size;
+}
+
+ListNode *helper(ListNode *head,int k,int pairs){
+    if(head == NULL or head->next == NULL or pairs == 0){
+        return head;
+    }
+
+    pairs--;
+    //reverse the first k-nodes
+    ListNode *prev = NULL;
+    ListNode *curr = head;
+    int cnt = 1;
+
+    while(curr != NULL and cnt <= k){
+        ListNode *next = curr->next;
+        curr->next = prev;
+        
+        prev = curr;
+        curr = next;
+        cnt++;
+    }
+    if(curr != NULL and pairs>=1){
+        head->next = helper(curr,k,pairs);
+    }else{
+        head->next = curr;
+    }
+    return prev;
+}
+
+ListNode* reverseKGroup(ListNode* head, int k) {
+    int length = LLlength(head);
+    return helper(head,k,length/k);
+}
