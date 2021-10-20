@@ -1,0 +1,39 @@
+
+	//221. Maximal Square
+
+//Problem Link:	https://leetcode.com/problems/maximal-square
+
+int maximalSquare(vector<vector<char>>& matrix) {
+    //create a dp array of same size of matrix array
+    //start from the bottom-right corner
+    //initialise last row and col with their original value
+    //take min i.e, minvalue = (i+1,j),(i,j+1) and (i+1,j+1) 
+    //then, dp[i][j] = 1 + minvalue
+
+    vector<vector<int>> dp(matrix.size(),vector<int>(matrix[0].size()));
+    int ans = 0;
+
+    for(int i = matrix.size()-1;i >= 0 ;i--){
+        for(int j = matrix[0].size()-1;j >= 0;j--){
+            //last row and col
+            if(i == matrix.size() - 1 and j == matrix[0].size() - 1){ 
+                dp[i][j] = matrix[i][j] - '0';
+                ans = max(ans,dp[i][j]);
+            }else if(i == matrix.size() - 1){   //last row
+                dp[i][j] = matrix[i][j] - '0';
+                ans = max(ans,dp[i][j]);
+            }else if(j == matrix[0].size() - 1){    //last col
+                dp[i][j] = matrix[i][j] - '0';
+                ans = max(ans,dp[i][j]);
+            }else{
+                if(matrix[i][j] == '0'){
+                    dp[i][j] = 0;
+                }else{
+                    dp[i][j] = 1 + min(dp[i+1][j],min(dp[i][j+1],dp[i+1][j+1]));
+                    ans = max(ans,dp[i][j]);
+                }
+            }
+        }
+    }
+    return ans*ans;
+}

@@ -1,0 +1,55 @@
+
+	//740. Delete and Earn
+
+//Problem Link:	https://leetcode.com/problems/delete-and-earn
+
+//<--------------TOP-DOWN RECURSIVE APPROACH------------->
+int helper(vector<int> &nums,int i,vector<int> &dp){
+    if(i == nums.size()){
+        return 0;
+    }
+    if(dp[i] != -1){
+        return dp[i];
+    }
+    int element = nums[i];
+    int sum = 0;
+    //sum up all the duplicates of elements
+    int nextIndex = i;
+    while(nextIndex < nums.size() and nums[nextIndex] == element){
+        sum+=element;
+        nextIndex++;
+    }
+
+    //skip element + 1  elements
+    while(nextIndex < nums.size() and nums[nextIndex] == element+1){
+        nextIndex++;
+    }
+
+    return dp[i] = max(sum + helper(nums,nextIndex,dp),helper(nums,i+1,dp));
+}
+
+int deleteAndEarn(vector<int>& nums) {
+    sort(begin(nums),end(nums));
+    vector<int> dp(nums.size(),-1);
+    return helper(nums,0,dp);
+}
+
+
+//<------------DP APPROACH--------------->
+int deleteAndEarn(vector<int>& nums) {
+    vector<int> freq(10001,0);
+    vector<int> dp(10001,0);
+
+    for(int num:nums){
+        freq[num]++;
+    }
+
+    dp[1] = freq[1];
+    dp[2] = max(dp[1],freq[2]*2);
+
+    for(int i = 3;i<=10000;i++){
+        dp[i] = max(dp[i-1],dp[i-2] + freq[i]*i);
+    }
+
+    return dp[10000];
+}
