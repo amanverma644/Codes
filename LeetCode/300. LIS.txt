@@ -1,8 +1,8 @@
 
-	//LeetCode 300 LIS
+	//300. Longest Increasing Subsequence
 
-#include <bits/stdc++.h>
-using namespace std;
+//Problem Link:	https://leetcode.com/problems/longest-increasing-subsequence
+
 
 int lengthOfLIS(vector<int>& nums) {
     int n=nums.size();
@@ -19,9 +19,4 @@ int lengthOfLIS(vector<int>& nums) {
     return lis;
 }
 
-int main() {
-    vector<int> nums={10,9,2,5,3,7,101,18};
-    cout<<lengthOfLIS(nums)<<endl;
 
-    return 0;
-}
