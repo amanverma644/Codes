@@ -1,7 +1,5 @@
-	
-	//Extended Euclid Algorithm
 
-//Ref:	https://cp-algorithms.com/algebra/extended-euclid-algorithm.html
+	//Multiplicative Modulo Inverse
 
 class Triplet{
 public:
@@ -27,4 +25,9 @@ Triplet extendedEuclid(int a,int b){
     ans.x = smallAns.y;
     ans.y = smallAns.x - (a/b)*smallAns.y;
     return ans;
+}
+
+int mmInverse(int a,int m){
+    Triplet ans = extendedEuclid(a,m);
+    return ans.x;
 }
