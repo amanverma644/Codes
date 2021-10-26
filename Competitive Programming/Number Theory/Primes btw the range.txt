@@ -1,0 +1,52 @@
+
+/*
+No of Prime Numbers btw the range a and b 
+
+Input:
+q: No of testcases
+a,b: Integers
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void prime_sieve(int *p){
+    //first mark all odd numbers prime
+    for(int i = 3;i <= 1000000;i+=2){
+        p[i] = 1;
+    }
+    //sieve
+    for(long long i = 3;i <= 1000000;i+=2){
+        //if the current number is not marked (it is prime)
+        if(p[i] == 1){
+            for(long long j = i*i;j <= 1000000;j+=i){
+                p[j] = 0;
+            }
+        }
+    }
+    //special case
+    p[2] = 1;
+    p[0] = p[1] = 0;
+}
+
+int main() {
+    int p[1000005] = {0};
+
+    prime_sieve(p);
+
+    int csum[1000005] = {0};
+    //precompute the primes upto the index i (prefix sum)
+    for(int i = 1;i<=1000000;i++){
+        csum[i] = csum[i-1] + p[i];
+    }
+
+    //no of queries
+    int q;
+    cin>>q;
+    while(q--){
+        int a,b;
+        cin>>a>>b;
+        cout<<csum[b] - csum[a-1]<<endl;
+    }
+    return 0;
+}
