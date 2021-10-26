@@ -1,0 +1,50 @@
+
+	//204. Count Primes
+
+//Problem Link:	https://leetcode.com/problems/count-primes
+
+int sieve(int n){
+    vector<bool> isPrime(n+1,true);
+    isPrime[0] = false;
+    isPrime[1] = false;
+    
+    for(int i = 2;i*i<=n;i++){
+        if(isPrime[i]){
+            for(int j = i*i;j<=n;j+=i){
+                isPrime[j] = false;
+            }
+        }
+    }
+
+    int count = 0;
+    for(int i = 2;i<n;i++){
+        if(isPrime[i]){
+            count++;
+        }
+    }
+    return count;
+}
+
+int countPrimes(int n) {
+    return (n == 0 or n == 1) ? 0 : sieve(n);
+}
+
+//Same Approach (Code is Short)
+int sieve(int n){
+    vector<bool> isPrime(n,true);
+    isPrime[0] = false;
+    isPrime[1] = false;
+    
+    for(int i = 2;i*i<n;i++){
+        if(isPrime[i]){
+            for(int j = i*i;j<n;j+=i){
+                isPrime[j] = false;
+            }
+        }
+    }
+    return count(begin(isPrime),end(isPrime),true);
+}
+
+int countPrimes(int n) {
+    return (n == 0 or n == 1) ? 0 : sieve(n);
+}
