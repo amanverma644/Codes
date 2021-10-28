@@ -1,0 +1,21 @@
+
+	//42. Trapping Rain Water
+
+//Problem Link:	https://leetcode.com/problems/trapping-rain-water
+
+int trap(vector<int>& height) {
+    int n = height.size();
+    vector<int> left(n,0);
+    vector<int> right(n,0);
+
+    for(int i = 0,j = n-1;i<n,j>=0;i++,j--){
+        left[i] = (i > 0 ? max(height[i],left[i-1]) : height[i]);
+        right[j] = (j < n-1 ? max(height[j],right[j+1]) : height[j]);
+    }
+
+    int ans = 0;
+    for(int i = 0;i<n;i++){
+        ans+= min(left[i],right[i]) - height[i];
+    }
+    return ans;
+}
