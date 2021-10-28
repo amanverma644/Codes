@@ -1,0 +1,60 @@
+	
+		//Factorial Problem
+
+/*
+
+You are given two integers n and k. You need to find the maximum value of x , such that (n!)%(k^x) = 0.
+
+Input Format:
+First line of input contain no. of test cases
+Second line contains two integers n and k.
+
+Sample Input:
+Input:
+2
+5 2
+1000 2
+Output:
+3
+994
+
+*/
+
+void solve(){
+    int n,k;
+    cin>>n>>k;
+
+    int ans = INT_MAX;
+    int occ = 0; 
+    for(int i = 2;i*i<=k;i++){
+        if(k%i == 0){
+            occ = 0;
+            while(k%i == 0){
+                occ++;
+                k = k/i;
+            }
+            int cnt = 0;
+            long long p = i;
+            while(p <= n){
+                cnt+=n/p;
+                p = p*i;
+            }
+            ans = min(ans,cnt/occ);
+        }
+    }
+    if(k>1){
+        int p = k;
+        int cnt = 0;
+        while(p <= n){
+            cnt+=n/p;
+            p = p*k;
+        }
+        ans = min(ans,cnt);
+    }
+
+    if(ans == INT_MAX){
+        ans = 0;
+    }
+
+    cout<<ans<<endl;
+}
