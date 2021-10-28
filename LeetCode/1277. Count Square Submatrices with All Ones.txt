@@ -1,0 +1,17 @@
+
+	//1277. Count Square Submatrices with All Ones
+
+//Problem Link:	https://leetcode.com/problems/count-square-submatrices-with-all-ones
+
+int countSquares(vector<vector<int>>& matrix) {
+    int ans = 0;
+    for(int i = 0;i<matrix.size();i++){
+        for(int j = 0;j<matrix[0].size();j++){
+            if(matrix[i][j] and i and j){
+                matrix[i][j] = 1 + min(matrix[i][j-1],min(matrix[i-1][j-1],matrix[i-1][j]));
+            }
+            ans+= matrix[i][j];
+        }
+    }
+    return ans;
+}
