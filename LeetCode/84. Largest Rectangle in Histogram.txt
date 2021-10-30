@@ -1,0 +1,59 @@
+
+	//84. Largest Rectangle in Histogram
+
+//Problem Link:	https://leetcode.com/problems/largest-rectangle-in-histogram
+
+//Ref:	https://www.youtube.com/watch?v=0do2734xhnU
+
+int largestRectangleArea(vector<int>& heights) {
+    //right boundary (next smallest index on the right)
+    vector<int> rb(heights.size(), 0);
+    //left boundary (next smallest index on the left)
+    vector<int> lb(heights.size(), 0);
+
+
+    //filling rb
+    stack<int> s1;
+    s1.push(heights.size() - 1);
+    rb[heights.size() - 1] = heights.size();
+
+    for (int i = heights.size() - 2; i >= 0; i--) {
+        while (!s1.empty() and heights[i] <= heights[s1.top()]) {
+            s1.pop();
+        }
+
+        if (s1.empty()) {
+            rb[i] = heights.size();
+        } else {
+            rb[i] = s1.top();
+        }
+
+        s1.push(i);
+    }
+
+    //filling bb
+    stack<int> s2;
+    s2.push(0);
+    lb[0] = -1;
+
+    for (int i = 1; i < heights.size(); i++) {
+        while (!s2.empty() and heights[i] <= heights[s2.top()]) {
+            s2.pop();
+        }
+
+        if (s2.empty()) {
+            lb[i] = -1;
+        } else {
+            lb[i] = s2.top();
+        }
+
+        s2.push(i);
+    }
+
+    int maxArea = 0;
+    for (int i = 0; i < heights.size(); i++) {
+        int area = (rb[i] - lb[i] - 1) * heights[i];
+        maxArea = max(maxArea, area);
+    }
+    return maxArea;
+}

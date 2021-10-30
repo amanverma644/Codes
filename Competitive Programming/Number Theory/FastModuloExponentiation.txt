@@ -5,7 +5,7 @@
 Given two number a and b. Calculate a^b 
 */
 
-//Time Complexity: O(logN)
+//Time Complexity: O(logb)
 #include <bits/stdc++.h>
 using namespace std;
 
