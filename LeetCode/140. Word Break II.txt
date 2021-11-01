@@ -1,0 +1,33 @@
+
+	//140. Word Break II
+
+//Problem Link:	https://leetcode.com/problems/word-break-ii
+
+//Similar Problem: https://leetcode.com/problems/word-break
+
+vector<string> wordBreak(string s, vector<string>& wordDict) {
+    unordered_map<string,int> mp;
+    unordered_map<int,vector<string>> dp;
+    int n = s.size();
+    for(auto x:wordDict){
+        mp[x]++;
+    }
+
+    for(int i = 0;i<n;i++){
+        for(int j = 0;j<=i;j++){
+            string w2Search = s.substr(j,i-j+1);
+            if(mp.count(w2Search)){
+                if(j>0){
+                    auto oldWorlds = dp[j-1];
+                    for(auto word:oldWorlds){
+                        dp[i].push_back(word + " " + w2Search);
+                    }
+                }else{
+                    dp[i].push_back(w2Search);
+                }
+            }
+        }
+    }
+
+    return dp[n-1];
+}
