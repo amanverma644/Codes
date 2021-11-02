@@ -1,0 +1,35 @@
+	
+	//403. Frog Jump
+
+//Problem Link:	https://leetcode.com/problems/frog-jump
+
+//Ref Link: https://www.youtube.com/watch?v=1V8gRXh1qbU
+
+bool canCross(vector<int>& stones) {
+    int len = stones.size();
+    unordered_map<int,unordered_set<int>> mp;
+    for(auto x:stones){
+        mp[x];
+    }
+    mp[stones[0]].insert(1);
+
+    for(int i = 0;i<len;i++){
+        int currStone = stones[i];
+        unordered_set<int> jumps = mp[currStone];
+
+        for(auto jump:jumps){
+            int pos = currStone + jump;
+            if(pos == stones[len-1]){
+                return true;
+            }
+            if(mp.count(pos)){
+                if(jump-1>0){
+                    mp[pos].insert(jump - 1);
+                }
+                mp[pos].insert(jump);
+                mp[pos].insert(jump + 1);
+            }
+        }
+    }
+    return false;
+}
