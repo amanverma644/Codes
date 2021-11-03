@@ -1,0 +1,26 @@
+
+	//121. Best Time to Buy and Sell Stock
+
+//Problem Link:	https://leetcode.com/problems/best-time-to-buy-and-sell-stock
+
+int maxProfit(vector<int>& prices) {
+    int minPrice = INT_MAX;
+    int maxPro = 0;
+    for(int i = 0;i<prices.size();i++){
+        minPrice = min(minPrice,prices[i]);
+        maxPro = max(maxPro,prices[i] - minPrice);
+    }
+    return maxPro;
+}
+
+//<------------------------------------>
+//using kadanes algo
+int maxProfit(vector<int>& prices) {
+    int maxCurr = 0;
+    int maxPro = 0;
+    for(int i = 1;i<prices.size();i++){
+        maxCurr = max(0,maxCurr += prices[i] - prices[i-1]);
+        maxPro = max(maxPro,maxCurr);
+    }
+    return maxPro;
+}
