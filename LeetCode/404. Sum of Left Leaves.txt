@@ -1,0 +1,24 @@
+
+	//404. Sum of Left Leaves
+
+//Problem Link:	https://leetcode.com/problems/sum-of-left-leaves
+
+void dfs(TreeNode* root,int &ans,bool canTake){
+    if(root == NULL){
+        return;
+    }
+    //reached the left leaf node 
+    if(root->left == NULL and root->right == NULL){
+        if(canTake){
+            ans+=root->val;
+        }
+    }
+    dfs(root->left,ans,true);
+    dfs(root->right,ans,false);
+}
+
+int sumOfLeftLeaves(TreeNode* root) {
+    int ans = 0;
+    dfs(root,ans,false);
+    return ans;
+}
