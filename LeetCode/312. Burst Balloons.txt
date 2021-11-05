@@ -1,0 +1,25 @@
+
+	//312. Burst Balloons
+
+//Problem Link:	https://leetcode.com/problems/burst-balloons
+
+//Ref Link: https://www.youtube.com/watch?v=YzvF8CqPafI
+
+int maxCoins(vector<int>& nums) {
+    vector<vector<int>> dp(nums.size(),vector<int>(nums.size()));
+    for(int g = 0;g<dp.size();g++){
+        for(int i = 0,j = g;j<dp.size();i++,j++){
+            int maxV = INT_MIN;
+            for(int k = i;k<=j;k++){
+                int left = (k == i ? 0 : dp[i][k-1]);
+                int right = (k == j ? 0 : dp[k+1][j]);
+                int value = (i > 0 ? nums[i-1]:1)*nums[k]*(j != nums.size()-1 ? nums[j+1] : 1);
+
+                int total = left + right + value;
+                maxV = max(maxV,total);
+            }
+            dp[i][j] = maxV;
+        }
+    }
+    return dp[0][dp.size()-1];
+}
