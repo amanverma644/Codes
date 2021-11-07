@@ -1,0 +1,54 @@
+
+	//43. Multiply Strings
+
+//Problem Link:	https://leetcode.com/problems/multiply-strings
+
+//Ref:	https://www.youtube.com/watch?v=5NdhK3tZViQ
+
+string multiply(string num1, string num2) {
+    //num1 or num2 is zero
+    if(num1 == "0" || num2 == "0"){
+        return "0";
+    }
+
+    int l1 = num1.length();
+    int l2 = num2.length();
+    vector<int> res(l1+l2,0);
+
+    int i = l2-1;
+    //power factor
+    int pf = 0;
+    while(i>=0){
+        int ival = num2[i] - '0';
+        i--;
+
+        int j = l1-1;
+        int carry = 0;
+        int k = res.size() - 1 - pf;
+
+        while(j>=0 or carry != 0){
+            int jval = (j>=0 ? num1[j] - '0' : 0);
+            j--;
+
+            int product = ival*jval + carry + res[k];
+
+            res[k] = product%10;
+            carry = product/10;
+            k--;
+        }
+        pf++;
+    }
+
+    //remove leading zeroes
+    string ans = "";
+    bool flag = false;
+    for(auto x:res){
+        if(x == 0 and !flag){
+            continue;
+        }else{
+            flag = true;
+            ans+=(x+'0');
+        }
+    }
+    return ans;
+}
