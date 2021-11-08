@@ -1,0 +1,25 @@
+
+	//96. Unique Binary Search Trees
+
+//Problem Link:	https://leetcode.com/problems/unique-binary-search-trees
+
+int helper(int n,int *dp){
+
+    if(n==0 or n==1){
+        return 1;
+    }
+    if(dp[n]!=0){
+        return dp[n];
+    }
+    int ans=0;
+    for(int i=1;i<=n;i++){
+        int x=helper(i-1,dp);
+        int y=helper(n-i,dp);
+        ans+=x*y;
+    }
+    return dp[n]=ans;
+}
+int numTrees(int n) {
+    int *dp=new int[n+1]();
+    return helper(n,dp);
+}
