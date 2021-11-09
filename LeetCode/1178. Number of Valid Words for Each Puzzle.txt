@@ -1,0 +1,47 @@
+
+	//1178. Number of Valid Words for Each Puzzle
+
+//Problem Link:	https://leetcode.com/problems/number-of-valid-words-for-each-puzzle
+
+//Ref:	https://www.youtube.com/watch?v=9jV0CC_C26s
+
+vector<int> findNumOfValidWords(vector<string>& words,vector<string>& puzzles) {
+    unordered_map<char,vector<int>> mp;
+
+    for(auto word:words){
+        int mask = 0;
+        for(auto ch:word){
+            int bit = ch - 'a';
+            mask = (mask | (1 << bit));
+        }
+        unordered_set<char> unique;
+        for(auto ch:word){
+            if(unique.find(ch) != unique.end()){
+                continue;
+            }
+            unique.insert(ch);
+            mp[ch].push_back(mask);
+        }
+    }
+
+    vector<int> res;
+    for(auto puzzle:puzzles){
+        int pmask = 0;
+        for(auto ch:puzzle){
+            int bit = ch - 'a';
+            pmask = (pmask | (1 << bit));
+        }
+
+        char fch = puzzle[0];
+        auto wordsToCheck = mp[fch];
+        int count = 0;
+
+        for(auto wmask:wordsToCheck){
+            if((wmask & pmask)== wmask){
+                count++;
+            }
+        }
+        res.push_back(count);
+    }
+    return res;
+}
