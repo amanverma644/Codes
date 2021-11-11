@@ -1,0 +1,14 @@
+
+	//1413. Minimum Value to Get Positive Step by Step Sum
+
+//Problem Link: https://leetcode.com/problems/minimum-value-to-get-positive-step-by-step-sum
+
+
+int minStartValue(vector<int>& nums) {
+    int minValue = 0,cs = 0;
+    for(auto x:nums){
+        cs+=x;
+        minValue = min(minValue,cs);
+    }
+    return 1 - minValue;
+}
