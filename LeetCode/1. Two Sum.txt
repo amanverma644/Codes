@@ -1,0 +1,38 @@
+
+	//1. Two Sum
+
+//Problem Link:https://leetcode.com/problems/two-sum
+
+//Using Hashmap
+vector<int> twoSum(vector<int>& nums, int target) {
+    vector<int> ans;
+    int n=nums.size();
+    unordered_map<int,int>  m;
+    m[nums[0]]=0;
+    for(int i=1;i<n;i++){
+        int currTarget=target-nums[i];
+        if(m.find(currTarget)!=m.end()){
+            ans.push_back(m[currTarget]);
+            ans.push_back(i);
+            return ans;
+        }
+        m[nums[i]]=i;
+    }
+    return ans;
+}   
+
+//Noive Approach
+vector<int> twoSum(vector<int>& nums, int target) {
+    vector<int> ans;
+    int n=nums.size();
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            if(nums[i]+nums[j]==target){
+                ans.push_back(i);
+                ans.push_back(j);
+                return ans;
+            }
+        }
+    }
+    return ans;
+}
