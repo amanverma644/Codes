@@ -1,0 +1,18 @@
+
+	//448. Find All Numbers Disappeared in an Array	
+
+//Problem Link:	https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array
+
+vector<int> findDisappearedNumbers(vector<int>& nums) {
+    unordered_set<int> isPresent(begin(nums),end(nums));
+    vector<int> res;
+    for(int i = 1;i<=nums.size();i++){
+        if(isPresent.find(i) != isPresent.end()){
+            continue;
+        }else{
+            res.push_back(i);
+            isPresent.insert(i);
+        }   
+    }
+    return res;
+}
