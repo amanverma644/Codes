@@ -1,0 +1,29 @@
+	
+	//461. Hamming Distance
+
+//Problem Link:	https://leetcode.com/problems/hamming-distance
+
+//Brian Kernighan's algorithm.
+int hammingDistance(int x, int y) {
+    int z = x^y;
+    int ans = 0;
+    while(z>0){
+        ++ans;
+        z = z&(z-1);
+    }
+    return ans;
+}
+
+//Noive Solution
+int hammingDistance(int x, int y) {
+    int z = x^y;
+    int ans = 0;
+    while(z>0){
+        int last_bit = z&1;
+        if(last_bit == 1){
+            ans++;
+        }
+        z = z >> 1;
+    }
+    return ans;
+}
