@@ -1,2 +1,2 @@
-# Codes
-My All DSA Codes
+# CODES
+My all DSA and LeetCode Codes
