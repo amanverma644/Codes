@@ -1,0 +1,51 @@
+
+	//632. Smallest Range Covering Elements from K Lists
+
+//https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists
+
+class compare{
+public:
+    bool operator()(vector<int> v1,vector<int> v2){
+        return v1[0]>v2[0];
+    }
+};
+
+vector<int> smallestRange(vector<vector<int>>& nums) {
+    vector<int> res={-100000,100000};
+    priority_queue < vector<int>, vector<vector<int>>, compare> pq;
+    int k = nums.size();
+    int maxElement = INT_MIN;
+
+    for (int i = 0; i < k; i++) {
+        //minimum of array
+        int moa	= nums[i][0];
+        //to be added
+        vector<int> tba = {moa, 0, i};
+        //0th -> minimum element from the array
+        //1st -> index of element from the array
+        //2nd -> index of array in nums
+        maxElement = max(maxElement, moa);
+         pq.push(tba);
+    }
+
+    while (true) {
+        auto vec = pq.top();
+        pq.pop();
+
+        if ((res[1] - res[0] )> (maxElement - vec[0])) {
+            res[0] = vec[0];
+            res[1] = maxElement;
+        }
+        vec[1]++;
+        //current array
+        auto ca = nums[vec[2]];
+        if (vec[1] == ca.size()) {
+            break;
+        } else {
+            vec[0] = ca[vec[1]];
+            maxElement = max(maxElement, ca[vec[1]]);
+            pq.push(vec);
+        }
+    }
+    return res;
+}
