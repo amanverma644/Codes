@@ -1,0 +1,11 @@
+
+	//575. Distribute Candies
+
+//Problem Link:	https://leetcode.com/problems/distribute-candies
+
+int distributeCandies(vector<int>& candyType) {
+   unordered_set<int> s(begin(candyType),end(candyType));
+   int n = candyType.size()/2;
+   int m = s.size();
+   return min(n,m);
+}
