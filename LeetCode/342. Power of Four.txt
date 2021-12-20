@@ -1,0 +1,21 @@
+
+	//342. Power of Four
+
+//Problem Link: https://leetcode.com/problems/power-of-four
+
+//Approach - 1
+bool isPowerOfFour(int n) {
+    if(n<=0){
+        return false;
+    }
+    return (n&(n-1)) == 0 && (1431655765&n) == n;
+}
+
+//Approach - 2 (Brute Force)
+bool isPowerOfFour(int num) {
+    while(num > 1) {
+        if(num % 4)return false;
+        num /= 4;
+    }
+    return num == 1;
+}
