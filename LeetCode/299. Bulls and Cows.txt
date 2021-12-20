@@ -1,0 +1,55 @@
+
+	//299. Bulls and Cows
+
+//Problem Link:	https://leetcode.com/problems/bulls-and-cows
+	
+//Approach-1
+
+string getHint(string secret, string guess) {
+	int bulls = 0;
+	int cows = 0;
+	vector<int> v(10, 0);
+
+	for (int i = 0; i < secret.length(); i++) {
+		int s = secret[i] - '0';
+		int g = guess[i] - '0';
+		if (s == g) {
+			bulls++;
+		} else {
+			if (v[s] < 0) cows++;
+			if (v[g] > 0) cows++;
+			v[s]++;
+			v[g]--;
+		}
+	}
+
+
+	return to_string(bulls) + "A" + to_string(cows) + "B";
+}
+
+//Approach-2 (BRUTE FORCE)
+
+string getHint(string secret, string guess) {
+	int bulls = 0;
+	int cows = 0;
+	unordered_map<char, int> mp;
+	string newGuess = "";
+
+	for (int i = 0; i < secret.length(); i++) {
+		if (secret[i] == guess[i]) {
+			bulls++;
+		} else {
+			newGuess += guess[i];
+			mp[secret[i]]++;
+		}
+	}
+
+	for (int i = 0; i < newGuess.length(); i++) {
+		if (mp[newGuess[i]] > 0) {
+			cows++;
+			mp[newGuess[i]]--;
+		}
+	}
+
+	return to_string(bulls) + "A" + to_string(cows) + "B";
+}
