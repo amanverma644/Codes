@@ -1,39 +1,35 @@
-	
+
 	//260. Single Number III
 
-//Problem Link:	https://leetcode.com/problems/single-number-iii
+//Problem Link: https://leetcode.com/problems/single-number-iii
 
-//Approach-1 
-vector<int> singleNumber(vector<int>& nums) {   
-    long long diff = 0;;
-    for(auto x:nums){
-        diff^=x;
-    }
-
-    diff &= -diff;
-    vector<int> res = {0,0};
-    for(int x:nums){
-        if((x&diff)==0){
-            res[0]^=x;
-        }else{
-            res[1]^=x;
-        }
-    }
-    return res;
-}
-
-//Noive Approach
 vector<int> singleNumber(vector<int>& nums) {
-    unordered_map<int,int> mp;
-    for(auto x:nums){
-        mp[x]++;
+    int result = 0;
+    for(int num:nums){
+        result = result ^ num;
     }
 
+    int pos = 0;
+    int temp = result;
+    while((temp & 1) == 0){
+        pos++;
+        temp = temp >> 1;
+    }
+
+    int setA = 0;
+    int setB = 0;
     vector<int> res;
-    for(auto p:mp){
-        if(p.second == 1){
-            res.push_back(p.first);
+
+    for(int num: nums){
+        if((num&(1<<pos))>0){
+            setA = setA ^ num;
+        }else{
+            setB = setB ^ num;
         }
     }
+
+    res.push_back(setA);
+    res.push_back(setB);
+
     return res;
 }
