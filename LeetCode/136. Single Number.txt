@@ -1,0 +1,12 @@
+
+	//136. Single Number
+
+//Problem Link:	https://leetcode.com/problems/single-number
+
+int singleNumber(vector<int>& nums) {
+    int cumulative_xor = 0;
+    for(auto num:nums){
+        cumulative_xor = cumulative_xor ^ num;
+    }
+    return cumulative_xor;
+}
