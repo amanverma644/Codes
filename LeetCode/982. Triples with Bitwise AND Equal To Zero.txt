@@ -1,0 +1,26 @@
+
+	//982. Triples with Bitwise AND Equal To Zero
+
+//Problem Link: https://leetcode.com/problems/triples-with-bitwise-and-equal-to-zero
+
+int countTriplets(vector<int>& nums) {
+    unordered_map<int, int> store;
+	int n = nums.size();
+
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			int val = nums[i] & nums[j];
+			store[val]++;
+		}
+	}
+
+	int ans = 0;
+	for (int i = 0; i < n; i++) {
+		for (auto itr : store) {
+			if ((nums[i]&itr.first) == 0) {
+				ans += itr.second;
+			}
+		}
+	}
+	return ans;
+}
