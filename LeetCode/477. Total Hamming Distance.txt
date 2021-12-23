@@ -1,0 +1,23 @@
+
+	//477. Total Hamming Distance
+
+//Problem Link:	https://leetcode.com/problems/total-hamming-distance
+
+int totalHammingDistance(vector<int>& nums) {
+	int ans = 0;
+	int n = nums.size();
+	for (int i = 0; i < 31; i++) {
+		int ones = 0, zeros = 0;
+		int val = 1 << i;
+
+		for (int j = 0; j < n; j++) {
+			if (nums[j]&val) {
+				ones++;
+			} else {
+				zeros++;
+			}
+		}
+		ans += ones * zeros;
+	}
+	return ans;
+}
