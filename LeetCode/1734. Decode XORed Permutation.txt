@@ -1,0 +1,38 @@
+
+	//1734. Decode XORed Permutation
+
+//Problem Link: https://leetcode.com/problems/decode-xored-permutation
+
+//Logic
+/*
+1) Take Xor of all the n elements from 1 to n = x
+2) Take Xor of all the elements (even indices) in encoded array = y
+3) last element = x^y
+4) ans[i] = ans[i+1] ^ encoded[i]
+*/
+
+vector<int> decode(vector<int>& encoded) {
+	int n = encoded.size();
+	vector<int> ans(n + 1, 0);
+
+	int val = 0, val1 = 0;
+
+	for (int i = 1; i <= n + 1; i++) {
+		val ^= i;
+	}
+
+	for (int i = 0; i < n; i++) {
+		if (!(i & 1)) {
+			val1 ^= encoded[i];
+		}
+	}
+
+	//last element
+	ans[n] = val ^ val1;
+
+	for (int i = n - 1; i >= 0; i--) {
+		ans[i] = encoded[i] ^ ans[i + 1];
+	}
+
+	return ans;
+}
