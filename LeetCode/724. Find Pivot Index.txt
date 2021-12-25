@@ -1,0 +1,57 @@
+
+	//724. Find Pivot Index
+
+//Problem Link:	https://leetcode.com/problems/find-pivot-index
+
+int pivotIndex(vector<int>& nums) {
+    int total = accumulate(begin(nums),end(nums),0);
+    int sum = 0;
+    for(int i = 0;i<nums.size();sum+=nums[i++]){
+        if(2*sum == total - nums[i]){
+            return i;
+        }
+    }
+    return -1;
+}
+
+//Novice Approach
+
+int pivotIndex(vector<int>& nums) {
+    int n = nums.size();
+    if(n <= 1){
+        return n - 1;
+    }
+    int cs = 0;
+    vector<int> left(n,0),right(n,0);
+
+    for(int i = 0;i<n;i++){
+        cs+=nums[i];
+        left[i] = cs;
+    }
+
+    cs = 0;
+    for(int i = n-1;i>=0;i--){
+        cs+=nums[i];
+        right[i] = cs;
+    }
+
+    int idx = -1;
+    for(int j = 0;j<n;j++){
+        if(j == 0){
+            if(right[j+1] == 0){
+                idx = j;
+                break;
+            }
+        }else if(j == n-1){
+            if(left[j-1] == 0){
+                idx = j;
+                break;
+            }
+        }else if (left[j-1] == right[j+1]){
+            idx = j;
+            break;
+        }
+    }
+
+    return idx;
+}
