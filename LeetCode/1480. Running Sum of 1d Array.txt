@@ -1,0 +1,22 @@
+
+	//1480. Running Sum of 1d Array
+
+//Problem Link:	https://leetcode.com/problems/running-sum-of-1d-array
+
+vector<int> runningSum(vector<int>& nums) {
+    partial_sum(begin(nums),end(nums),begin(nums));
+    return nums;
+}
+
+//Novice approach
+vector<int> runningSum(vector<int>& nums) {
+    int cs = nums[0];
+    vector<int> res;
+    res.push_back(cs);
+    
+    for(int i = 1;i<nums.size();i++){
+        cs+= nums[i];
+        res.push_back(cs);
+    }
+    return res;
+}
