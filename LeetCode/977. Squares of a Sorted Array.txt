@@ -1,0 +1,78 @@
+
+    	//977. Squares of a Sorted Array
+
+//Problem Link:	https://leetcode.com/problems/squares-of-a-sorted-array
+	
+//Two Pointer Approach
+	
+vector<int> sortedSquares(vector<int>& nums) {
+    int n = nums.size();
+    vector<int> res(n,0);
+    int l = 0,r = n - 1;
+
+    for(int i = n - 1;i>=0;i--){
+        if(abs(nums[l])>abs(nums[r])){
+            res[i] = nums[l] * nums[l++];
+        }else{
+            res[i] = nums[r] * nums[r--];
+        }
+    }
+    return res;
+}
+
+//Novice Approach
+
+vector<int> sortedSquares(vector<int>& nums) {
+    vector<int> res;
+    int n = nums.size();
+    //find the idx pivot element
+    int idx = n-1;
+    for(int i = 0;i<n;i++){
+        if(nums[i] >= 0){
+            idx = i;
+            break;
+        }
+    }
+
+    //divide the array about pivot element
+    vector<int> left;
+    vector<int> right;
+
+    int lIdx = idx - 1 ;
+    int rIdx = idx ;
+
+    for(int i = lIdx;i>=0;i--){
+        left.push_back(nums[i]*nums[i]);
+    }
+
+    for(int j = rIdx;j<n;j++){
+        right.push_back(nums[j]*nums[j]);
+    }
+
+    //merge both the sorted array
+    int i = 0;
+    int j = 0;
+
+    while(i<left.size() and j<right.size()){
+        if(left[i]<right[j]){
+            res.push_back(left[i]);
+            i++;
+        }else{
+            res.push_back(right[j]);
+            j++;
+        }
+    }
+
+    while(i<left.size()){
+        res.push_back(left[i]);
+        i++;
+    }
+
+    while(j<right.size()){
+        res.push_back(right[j]);
+        j++;
+    }
+    
+    
+    return res;
+}
