@@ -1,0 +1,20 @@
+
+	//26. Remove Duplicates from Sorted Array
+
+//Problem Link: https://leetcode.com/problems/remove-duplicates-from-sorted-array
+
+int removeDuplicates(vector<int>& nums) {
+	int n = nums.size();
+	if (n <= 0) {
+		return 0;
+	}
+	int k =	1;
+	for (int i = 1; i < n; ) {
+		if (nums[i] == nums[i - 1]) {
+			i++;
+		} else {
+			nums[k++] = nums[i++];
+		}
+	}
+	return k;
+}
