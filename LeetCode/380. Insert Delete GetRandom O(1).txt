@@ -1,0 +1,37 @@
+
+	//380. Insert Delete GetRandom O(1)
+
+//Problem Link:	https://leetcode.com/problems/insert-delete-getrandom-o1
+
+class RandomizedSet {
+public:
+    unordered_set<int> s;
+    RandomizedSet() {
+    }
+    
+    bool insert(int val) {
+        if(s.find(val) != s.end()){
+            return false;
+        }else{
+            s.insert(val);
+            return true;
+        }
+    }
+    
+    bool remove(int val) {
+        for(auto i = s.begin();i != s.end();i++){
+            if(*i == val){
+                s.erase(i);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    int getRandom() {
+        int r = rand() % s.size();
+        auto it = s.begin();
+        advance(it,r);
+        return *it;
+    }
+};
