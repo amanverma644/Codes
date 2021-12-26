@@ -1,0 +1,33 @@
+
+	//56. Merge Intervals
+
+//Problem Link:	https://leetcode.com/problems/merge-intervals
+
+bool compare(const vector<int> &v1, const vector<int> &v2) {
+	return v1[0] < v2[0];
+}
+
+vector<vector<int>> merge(vector<vector<int>>& intervals) {
+	int n = intervals.size();
+
+	sort(begin(intervals), end(intervals), compare);
+	vector<vector<int>> res;
+
+	int low = intervals[0][0];
+	int high = intervals[0][1];
+
+	for (int i = 1; i < n; i++) {
+		if (high >= intervals[i][0]) {
+			high = max(high, intervals[i][1]);
+		} else {
+			res.push_back({low, high});
+			low = intervals[i][0];
+			high = intervals[i][1];
+		}
+	}
+
+	res.push_back({low, high});
+
+	return res;
+}
+
