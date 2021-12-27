@@ -1,0 +1,54 @@
+
+	//79. Word Search
+
+//Problem Link:	https://leetcode.com/problems/word-search
+
+bool helper(vector<vector<char>>& board, string word, int m, int n, int i, int j, vector<vector<bool>> &visited, int pos) {
+	//base case
+	if (pos == word.length()) {
+		return true;
+	}
+
+	visited[i][j] = true;
+	bool ans = false;
+	//rec calls
+	//right
+	if (j + 1 < n and !visited[i][j + 1] and board[i][j + 1] == word[pos]) {
+		ans |= helper(board, word, m, n, i, j + 1, visited, pos + 1);
+	}
+	//bottom
+	if (i + 1 < m and !visited[i + 1][j] and board[i + 1][j] == word[pos]) {
+		ans |= helper(board, word, m, n, i + 1, j, visited, pos + 1);
+	}
+	//left
+	if (j - 1 >= 0 and !visited[i][j - 1] and board[i][j - 1] == word[pos]) {
+		ans |= helper(board, word, m, n, i, j - 1, visited, pos + 1);
+	}
+	//top
+	if (i - 1 >= 0 and !visited[i - 1][j] and board[i - 1][j] == word[pos]) {
+		ans |= helper(board, word, m, n, i - 1, j, visited, pos + 1);
+	}
+
+	visited[i][j] = false;
+
+	return ans;
+}
+
+bool exist(vector<vector<char>>& board, string word) {
+	int m = board.size();
+	int n = board[0].size();
+	vector<vector<bool>> visited(m, vector<bool>(n, false));
+	int res = false;
+
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			if (board[i][j] == word[0]) {
+				res = helper(board, word, m, n, i, j, visited, 1);
+				if (res) {
+					return res;
+				}
+			}
+		}
+	}
+	return res;
+}
