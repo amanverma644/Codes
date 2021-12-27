@@ -3,6 +3,45 @@
 
 //Problem Link:	https://leetcode.com/problems/word-search
 
+
+//Approach-1 (optimised)
+bool dfs(vector<vector<char>>& board, int i, int j, string &word) {
+	//base case
+	if (!word.size()) {
+		return true;
+	}
+
+	if (i<0 or j<0 or i >= board.size() or j >= board[0].size() or board[i][j] != word[0]) {
+		return false;
+	}
+	char c = board[i][j];
+	board[i][j] = '*';
+	string s = word.substr(1);
+	bool ans = dfs(board, i + 1, j, s) or dfs(board, i, j + 1, s) or dfs(board, i - 1, j, s) or dfs(board, i, j - 1, s);
+
+	board[i][j] = c;
+	return ans;
+}
+
+bool exist(vector<vector<char>>& board, string word) {
+	int m = board.size();
+	int n = board[0].size();
+	vector<vector<bool>> visited(m, vector<bool>(n, false));
+
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			if (board[i][j] == word[0]) {
+				if (dfs(board, i, j, word)) {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+
+//Approach - 2
 bool helper(vector<vector<char>>& board, string word, int m, int n, int i, int j, vector<vector<bool>> &visited, int pos) {
 	//base case
 	if (pos == word.length()) {
