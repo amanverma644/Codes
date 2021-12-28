@@ -1,0 +1,36 @@
+
+	//16. 3Sum Closest
+
+//Problem Link:	https://leetcode.com/problems/3sum-closest
+
+int threeSumClosest(vector<int>& nums, int target) {
+	int n = nums.size();
+	sort(begin(nums), end(nums));
+	int closestRange = INT_MAX;
+    int closestSum;
+
+	for (int i = 0; i < n - 2; i++) {
+		int newTarget = target - nums[i];
+		int lo = i + 1;
+		int hi = n - 1;
+		int cr; //current Range
+
+		while (lo < hi) {
+			if (nums[lo] + nums[hi] == newTarget) {
+				return target;
+			}
+
+			cr = abs(newTarget - (nums[lo] + nums[hi]));
+			if (cr < closestRange) {
+				closestRange = cr;
+				closestSum = nums[i] + nums[lo] + nums[hi];
+			}
+			if (nums[lo] + nums[hi] > newTarget) {
+				hi--;
+			} else {
+				lo++;
+			}
+		}
+	}
+	return closestSum;
+}
