@@ -1,0 +1,31 @@
+
+	//289. Game of Life
+
+//Problem Link:	https://leetcode.com/problems/game-of-life
+
+vector<vector<int>> directions = {{ 1, -1}, {1, 0}, {1, 1}, {0, 1}, { -1, 1}, { -1, 0}, { -1, -1}, {0, -1}};
+
+void gameOfLife(vector<vector<int>>& board) {
+	int m = board.size();
+	int n = board[0].size();
+
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			int lives = 0;
+			for (auto dir : directions) {
+				if (dir[0] + i < 0 or dir[0] + i >= m or dir[1] + j < 0 or dir[1] + j >= n) continue;
+				if (board[dir[0] + i][dir[1] + j] == 1 or board[dir[0] + i][dir[1] + j] == 2) {
+					lives++;
+				}
+			}
+			if (board[i][j] == 0 and lives == 3) board[i][j] = 3;
+			if (board[i][j] == 1 and (lives<2 or lives>3)) board[i][j] = 2;
+		}
+	}
+
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			board[i][j] = board[i][j] % 2;
+		}
+	}
+}
