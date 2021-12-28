@@ -1,0 +1,67 @@
+
+	//18. 4Sum
+
+//Problem Link:	https://leetcode.com/problems/4sum
+
+vector<vector<int>> threeSum(vector<int>& nums,int target,int si) {
+    vector<vector<int>> res;
+    int n = nums.size();
+    if(n - si < 3){
+        return res;
+    }
+
+    for(int i=si;i<n-2;i++){
+        if(i != si and nums[i] == nums[i-1]) continue;
+        int lo=i+1;
+        int hi=nums.size()-1;
+        int sum=target-nums[i];
+        cout<<lo<<" "<<hi<<endl;
+        while(lo<hi){
+            if(nums[lo]+nums[hi]==sum){
+
+                vector<int> temp;
+                temp.push_back(nums[i]);
+                temp.push_back(nums[lo]);
+                temp.push_back(nums[hi]);
+                res.push_back(temp);
+
+                while(lo < hi and nums[lo]==nums[lo+1]){
+                    lo++;
+                }
+
+                while(lo<hi and nums[hi]==nums[hi-1]){
+                    hi--;
+                }
+                lo++;
+                hi--;
+            }else if(nums[lo]+nums[hi]<sum){
+                lo++;
+            }else{
+                hi--;
+            }
+        }
+    }
+    return res;
+}
+
+vector<vector<int>> fourSum(vector<int>& nums, int target) {
+    vector<vector<int>> res;
+    int n = nums.size();
+    if(n<4){
+        return res;
+    }
+    sort(begin(nums),end(nums));
+    
+    for(int i = 0;i<=n-4;i++){
+        if(i>0 and (nums[i] == nums[i-1])){
+            continue;
+        }
+        int val = nums[i];
+        vector<vector<int>> subRes = threeSum(nums,target-val,i+1);
+        for(auto &num:subRes){
+            num.push_back(val);
+            res.push_back(num);
+        }
+    }
+    return res;
+}
