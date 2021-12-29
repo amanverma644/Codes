@@ -1,0 +1,32 @@
+
+	//39. Combination Sum
+
+//Problem Link:	https://leetcode.com/problems/combination-sum
+
+void dfs(vector<int>& candidates, int target, vector<vector<int>> &combinations, vector<int> &output,int begin) {
+	//base case
+	if (target == 0) {
+        combinations.push_back(output);
+		return;
+	}
+
+	//rec case
+    for(int i = begin;i<candidates.size();i++){
+		if (target - candidates[i] >= 0) {
+			output.push_back(candidates[i]);
+			dfs(candidates, target - candidates[i], combinations, output,i);
+	        output.pop_back();
+		}
+	}
+	return;
+}
+
+vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+	vector<vector<int>> combinations;
+	vector<int> output;
+
+    sort(begin(candidates),end(candidates));
+	dfs(candidates, target, combinations, output,0);
+
+	return combinations;
+}
