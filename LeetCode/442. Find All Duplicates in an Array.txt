@@ -1,0 +1,22 @@
+
+	//442. Find All Duplicates in an Array
+
+//Problem Link:	https://leetcode.com/problems/find-all-duplicates-in-an-array
+
+vector<int> findDuplicates(vector<int>& nums) {
+    //using negative indexing technique
+	int n = nums.size();
+	vector<int> duplicates;
+    for(int i = 0;i<n;i++){
+        int num = abs(nums[i]) - 1;
+        if(nums[num] < 0){
+			duplicates.push_back(abs(nums[i]));
+        }else{
+			nums[num]*= -1;
+        }
+    }
+	for (auto &num : nums) {
+		num = abs(num);
+	}
+	return duplicates;
+}
