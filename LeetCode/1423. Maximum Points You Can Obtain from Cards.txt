@@ -1,0 +1,34 @@
+
+	//1423. Maximum Points You Can Obtain from Cards
+
+//Problem Link:	https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards
+
+//visulization: https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/discuss/597825/Simple-Clean-Intuitive-Explanation-with-Visualization
+
+
+int maxScore(vector<int>& cardPoints, int k) {
+	int sum = 0;
+	int n = cardPoints.size();
+
+	vector<int> cumSumFront(n + 1, 0);
+	vector<int> cumSumEnd(n + 1, 0);
+
+	for (int i = 0; i < n; i++) {
+		sum += cardPoints[i];
+		cumSumFront[i + 1] = sum;
+	}
+
+	sum = 0;
+	for (int i = n - 1; i >= 0; i--) {
+		sum += cardPoints[i];
+		cumSumEnd[i] = sum;
+	}
+
+	reverse(begin(cumSumEnd), end(cumSumEnd));
+	int maxScore = 0;
+
+	for (int i = 0 ; i <= k; i++) {
+		maxScore = max(maxScore, cumSumFront[i] + cumSumEnd[k - i]);
+	}
+	return maxScore;
+}
