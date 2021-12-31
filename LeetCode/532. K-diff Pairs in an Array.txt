@@ -1,0 +1,25 @@
+
+	//532. K-diff Pairs in an Array
+
+//Problem Link:	https://leetcode.com/problems/k-diff-pairs-in-an-array
+
+//Two Pointer Approach
+int findPairs(vector<int>& nums, int k) {
+	int n = nums.size();
+
+	sort(begin(nums), end(nums));
+	int ans = 0;
+
+	for (int i = 0, j = 1; j < n;) {
+		if (j <= i or (nums[j] - nums[i] < k)) {
+			j++;
+		} else if ((i > 0 and nums[i] == nums[i - 1] ) or nums[j] - nums[i] > k) {
+			i++;
+		} else {
+			ans++;
+			i++;
+		}
+	}
+
+	return ans;
+}
