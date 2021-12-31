@@ -1,0 +1,32 @@
+
+	//974. Subarray Sums Divisible by K
+
+//Problem link:	https://leetcode.com/problems/subarray-sums-divisible-by-k
+
+//Ref Link:	https://www.youtube.com/watch?v=QM0klnvTQzk
+
+int subarraysDivByK(vector<int>& nums, int k) {
+	int ans = 0;
+	unordered_map<int, int> mp;
+	mp[0]++;
+
+	int sum = 0;
+	int rem = 0;
+
+	for(auto num:nums){
+		sum+=num;
+		rem = sum%k;
+
+		if(rem<0){
+			rem+=k;
+		}
+
+		if(mp.count(rem)){
+			ans+=mp[rem];
+			mp[rem]++;
+		}else{
+			mp[rem]++;
+		}
+	}
+	return ans;
+}
