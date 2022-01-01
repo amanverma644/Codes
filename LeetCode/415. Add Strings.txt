@@ -1,0 +1,43 @@
+
+	//415. Add Strings
+
+//Problem Link: https://leetcode.com/problems/add-strings
+
+int charToDigit(char c) {
+	return c - '0';
+}
+
+char digitToChar(int digit) {
+	return digit + '0';
+}
+
+string addStrings(string num1, string num2) {
+	if (num1.length() > num2.length()) {
+		swap(num1, num2);
+	}
+
+	reverse(begin(num1), end(num1));
+	reverse(begin(num2), end(num2));
+
+	string res = "";
+	int carry = 0;
+
+	for (int i = 0; i < num1.length(); i++) {
+		int sum = charToDigit(num1[i]) + charToDigit(num2[i]) + carry;
+		carry = sum / 10;
+		res.push_back(digitToChar(sum % 10));
+	}
+
+	for (int i = num1.length(); i < num2.length(); i++) {
+		int sum = charToDigit(num2[i]) + carry;
+		carry = sum / 10;
+		res.push_back(digitToChar(sum % 10));
+	}
+
+	if (carry) {
+		res.push_back('1');
+	}
+
+	reverse(begin(res), end(res));
+	return res;
+}
