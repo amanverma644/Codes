@@ -1,0 +1,11 @@
+	
+	//28. Implement strStr()
+
+//Problem Link:	https://leetcode.com/problems/implement-strstr
+
+//Brute Force Approach
+int strStr(string haystack, string needle) {
+    if(!needle.length()) return 0;
+    int idx = haystack.find(needle);
+    return idx >= haystack.length() ? -1 : idx;
+}
