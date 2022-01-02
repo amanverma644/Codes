@@ -1,0 +1,24 @@
+
+	//151. Reverse Words in a String
+
+//Problem Link:	https://leetcode.com/problems/reverse-words-in-a-string
+
+string reverseWords(string s) {
+	stringstream ss(s);
+	string token;
+	vector<string> tokens;
+
+	while (getline(ss, token, ' ')) {
+		tokens.push_back(token);
+	}
+
+	reverse(begin(tokens), end(tokens));
+	string res = "";
+	for (auto word : tokens) {
+		if (word.length())
+			res += word + " ";
+	}
+	res.pop_back();
+
+	return res;
+}
