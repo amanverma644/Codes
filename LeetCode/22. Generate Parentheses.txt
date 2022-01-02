@@ -1,0 +1,26 @@
+
+	//22. Generate Parentheses
+
+//Problem Link:	https://leetcode.com/problems/generate-parentheses
+
+void generateBrackets(int n, string s, int open, int close, int i, vector<string> &output) {
+	//base case
+	if (i == 2 * n) {
+		output.push_back(s);
+		return;
+	}
+
+	if (open < n) {
+		generateBrackets(n, s + "(", open + 1, close, i + 1, output);
+	}
+
+	if (close < open) {
+		generateBrackets(n, s + ")", open, close + 1, i + 1, output);
+	}
+}
+
+vector<string> generateParenthesis(int n) {
+	vector<string> res;
+	generateBrackets(n, "", 0, 0, 0, res);
+	return res;
+}
