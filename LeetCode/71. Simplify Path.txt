@@ -1,0 +1,23 @@
+
+	//71. Simplify Path
+
+//Problem Link:	https://leetcode.com/problems/simplify-path
+
+string simplifyPath(string path) {
+    stringstream ss(path);
+    string token;
+    vector<string> st;
+
+    while (getline(ss, token, '/')) {
+        if (token == "" or token == ".") continue;
+        if (token == ".." and !st.empty()) st.pop_back();
+        else if (token != "..") st.push_back(token);
+    }
+
+    string res = ""	;
+    for (auto str : st) {
+        res += "/" + str;
+    }
+
+    return st.size() > 0 ? res : "/";
+}
