@@ -1,0 +1,48 @@
+
+	//227. Basic Calculator II
+
+//Problem Link:	https://leetcode.com/problems/basic-calculator-ii
+
+int calculate(string s) {
+	int n = s.length();
+	stack<int> st;
+	char sign = '+';
+
+	for (int i = 0; i < n; i++) {
+		char ch = s[i];
+
+		if (isdigit(ch)) {
+			int val = 0;
+			while (i < n and isdigit(s[i])) {
+				val = val * 10 + (s[i] - '0');
+				i++;
+			}
+			i--;
+
+			if (sign == '+') {
+				st.push(val);
+			} else if (sign == '-') {
+				st.push(-val);
+			} else if (sign == '*') {
+				int last_digit = st.top();
+				st.pop();
+				int ans = last_digit * val;
+				st.push(ans);
+			} else {
+				int last_digit = st.top();
+				st.pop();
+				int ans = last_digit / val;
+				st.push(ans);
+			}
+		} else if (ch != ' ') {
+			sign = ch;
+		}
+	}
+
+	int sum = 0;
+	while (!st.empty()) {
+		sum += st.top();
+		st.pop();
+	}
+	return sum;
+}
