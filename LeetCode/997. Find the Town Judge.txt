@@ -1,0 +1,33 @@
+
+	//997. Find the Town Judge
+
+//Problem Link:	https://leetcode.com/problems/find-the-town-judge
+		
+//Using one vector
+int findJudge(int n, vector<vector<int>>& trust) {
+	vector<int> v(n + 1, 0);
+	for (auto p : trust) {
+		v[p[0]]--;
+		v[p[1]]++;
+	}
+	for (int i = 1; i <= n; i++) {
+		if (v[i] == n - 1) return i;
+	}
+	return -1;
+}
+
+//using two vectors
+int findJudge(int n, vector<vector<int>>& trust) {
+	vector<int> trusts(n + 1, 0);
+	vector<int> trusted(n + 1, 0);
+
+	for (auto p : trust) {
+		trusts[p[0]]++;
+		trusted[p[1]]++;
+	}
+
+	for (int i = 1; i <= n; i++) {
+		if (trusts[i] == 0 and trusted[i] == n - 1) return i;
+	}
+	return -1;
+}
