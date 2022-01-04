@@ -1,0 +1,50 @@
+
+	//202. Happy Number
+
+//Problem Link:	https://leetcode.com/problems/happy-number
+
+//Floyd's Cycle Detection
+int next(int n) {
+	int sum = 0;
+
+	while (n != 0) {
+		sum += pow(n % 10, 2);
+		n /= 10;
+	}
+
+	return sum;
+}
+
+
+bool isHappy(int n) {
+	int slow = next(n);
+	int fast = next(next(n));
+
+	while (slow != fast) {
+		slow = next(slow);
+		fast = next(next(fast));
+	}
+
+	return fast == 1;
+}
+
+//Using hashset
+bool isHappy(int n) {
+	unordered_set<int> s;
+	while (n != 1) {
+		if (s.find(n) == s.end()) {
+			s.insert(n);
+		} else {
+			return false;
+		}
+
+		int sum = 0;
+		while (n > 0) {
+			sum += pow(n % 10, 2);
+			n /= 10;
+		}
+
+		n = sum;
+	}
+	return true;
+}
