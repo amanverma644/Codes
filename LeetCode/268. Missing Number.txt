@@ -1,0 +1,47 @@
+
+	//268. Missing Number
+
+//Problem Link:	https://leetcode.com/problems/missing-number
+
+//XOR
+int missingNumber(vector<int>& nums) {
+	int n = nums.size();
+	int res = n;
+
+	for (int i = 0; i < n; i++) {
+		res ^= i;
+		res ^= nums[i];
+	}
+
+	return res;
+}
+
+
+//SUM
+int missingNumber(vector<int>& nums) {
+	int n = nums.size();
+	int sum = (n) * (n + 1) / 2;
+
+	for (int num : nums) {
+		sum -= num;
+	}
+
+	return sum;
+}
+
+//Binary Search
+int missingNumber(vector<int>& nums) {
+	sort(begin(nums), end(nums));
+	int left = 0;
+	int right = nums.size();
+
+	while (left < right) {
+		int mid = (left + right) / 2;
+		if (nums[mid] > mid) {
+			right = mid;
+		} else {
+			left = mid + 1;
+		}
+	}
+	return left;
+}
