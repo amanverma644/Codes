@@ -1,0 +1,20 @@
+
+	//168. Excel Sheet Column Title
+
+//Problem Link:	https://leetcode.com/problems/excel-sheet-column-title
+
+//Method- 1
+string convertToTitle(int columnNumber) {
+    return columnNumber == 0 ? "" : convertToTitle((--columnNumber)/26) + (char)(columnNumber%26 + 'A');
+}
+
+//Method- 2
+string convertToTitle(int columnNumber) {
+    string res = "";
+    while(columnNumber){
+        res+=(char)((--columnNumber)%26 + 'A');
+        columnNumber/=26;
+    }
+    reverse(begin(res),end(res));
+    return res;
+}
