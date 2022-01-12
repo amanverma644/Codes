@@ -1,0 +1,18 @@
+
+	//434. Number of Segments in a String
+
+//Problem Link:	https://leetcode.com/problems/number-of-segments-in-a-string
+
+int countSegments(string s) {
+	stringstream ss(s);
+	string token;
+	vector<string> tokens;
+
+	while (getline(ss, token, ' ')) {
+        if(token != ""){
+		    tokens.push_back(token);
+        }
+	}
+
+	return tokens.size();
+}
