@@ -1,0 +1,49 @@
+
+	//1578. Minimum Time to Make Rope Colorful
+
+//Problem Link:	https://leetcode.com/problems/minimum-time-to-make-rope-colorful
+
+//Approach- 1
+int minCost(string colors, vector<int>& neededTime) {
+	int res = 0, max_cost = 0, sum_cost = 0;
+	int n = colors.length();
+
+	for (int i = 0; i < n; i++) {
+		if (i > 0 and colors[i] != colors[i - 1]) {
+			res += sum_cost - max_cost;
+			max_cost = sum_cost = 0;
+		}
+
+		sum_cost += neededTime[i];
+		max_cost = max(max_cost, neededTime[i]);
+	}
+	res += sum_cost - max_cost;
+	return res;
+}
+
+//Approach- 2
+//Brute Force
+int minCost(string colors, vector<int>& neededTime) {
+	int cost = 0;
+	int i = 0;
+	int n = colors.length();
+
+	for (; i < n - 1; i++) {
+		if (colors[i] != colors[i + 1]) {
+			continue;
+		} else {
+			// cout << "test" << endl;
+			priority_queue<int, vector<int>, greater<int>> pq;
+			while (i < n - 1 and colors[i] == colors[i + 1]) {
+				pq.push(neededTime[i]);
+				i++;
+			}
+			pq.push(neededTime[i]);
+			while (!pq.empty() and pq.size() > 1) {
+				cost += pq.top();
+				pq.pop();
+			}
+		}
+	}
+	return cost;
+}
