@@ -1,0 +1,20 @@
+
+	//452. Minimum Number of Arrows to Burst Balloons
+
+//Problem Link:	https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons
+
+int findMinArrowShots(vector<vector<int>>& points) {
+	int arrows = 1;
+	sort(begin(points), end(points));
+	//end diameter
+	int endD = INT_MAX;
+	for (auto point : points) {
+		if (point[0] > endD) {
+			arrows++;
+			endD = point[1];
+		} else {
+			endD = min(point[1], endD);
+		}
+	}
+	return arrows;
+}
