@@ -1,0 +1,20 @@
+
+	//435. Non-overlapping Intervals
+
+//Problem Link:	https://leetcode.com/problems/non-overlapping-intervals
+
+int eraseOverlapIntervals(vector<vector<int>>& intervals) {
+	sort(begin(intervals), end(intervals));
+	int cnt = 1;
+	int min_end = INT_MAX;
+	for (auto interval : intervals) {
+		if (interval[0] >= min_end) {
+			cnt++;
+			min_end = interval[1];
+		} else {
+			min_end = min(min_end, interval[1]);
+		}
+
+	}
+	return intervals.size() - cnt;
+}
