@@ -1,0 +1,25 @@
+
+	//621. Task Scheduler
+
+//Problem Link:	https://leetcode.com/problems/task-scheduler
+
+//Ref Link:	https://www.youtube.com/watch?v=sTEPmlWBmJU
+
+int leastInterval(vector<char>& tasks, int n) {
+	unordered_map<char, int> mp;
+	int maxF = 0;
+	for (auto task : tasks) {
+		mp[task]++;
+		maxF = max(maxF, mp[task]);
+	}
+
+	int chunks = maxF - 1;
+	int idleSpots = n * (chunks);
+
+	bool canTake = true;
+	for (auto p : mp) {
+		if (p.second == maxF and canTake) canTake = false;
+		else idleSpots -= min(p.second, chunks);
+	}
+	return idleSpots < 0 ? tasks.size() : tasks.size() + idleSpots;
+}
