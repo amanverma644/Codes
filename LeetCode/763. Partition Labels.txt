@@ -1,0 +1,48 @@
+
+	//763. Partition Labels
+
+//Problem Link:	https://leetcode.com/problems/partition-labels
+
+//Ref: https://www.youtube.com/watch?v=_I9di3CUOx4
+
+//HashMap
+vector<int> partitionLabels(string s) {
+	unordered_map<char, int> mp;
+	//fill the max impact of every character
+	for (int i = 0; i < s.length(); i++)
+		mp[s[i]] = i;
+
+	//make partition based upon impact
+	vector<int> res;
+	int prevI = -1;
+	int maxI = 0;
+	for (int i = 0; i < s.length(); i++) {
+		maxI = max(maxI, mp[s[i]]);
+		if (maxI == i) {
+			res.push_back(maxI - prevI);
+			prevI = maxI;
+		}
+	}
+	return res;
+}
+
+//Array as an Hashmap
+vector<int> partitionLabels(string s) {
+	int *arr = new int[26];
+	//fill the max impact of every character
+	for (int i = 0; i < s.length(); i++)
+		arr[s[i] - 'a'] = i;
+
+	//make partition based upon impact
+	vector<int> res;
+	int prevI = -1;
+	int maxI = 0;
+	for (int i = 0; i < s.length(); i++) {
+		maxI = max(maxI, arr[s[i] - 'a']);
+		if (maxI == i) {
+			res.push_back(maxI - prevI);
+			prevI = maxI;
+		}
+	}
+	return res;
+}
