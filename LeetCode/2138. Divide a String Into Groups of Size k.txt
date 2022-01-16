@@ -1,0 +1,28 @@
+
+	//2138. Divide a String Into Groups of Size k
+
+//Problem Link:	https://leetcode.com/problems/divide-a-string-into-groups-of-size-k
+
+vector<string> divideString(string s, int k, char fill) {
+	vector<string> res;
+	int n = s.length();
+	int i = 0;
+	for (; i < n - n % k  ; i += k) {
+		res.push_back(s.substr(i, k));
+	}
+
+	if (n % k) {
+		string last_string ;
+		for (i = n - n % k; i < n; i++) {
+			last_string += s[i];
+		}
+		int rem = k - last_string.length();
+		while (rem) {
+			last_string += fill;
+			rem--;
+		}
+		res.push_back(last_string);
+	}
+
+	return res;
+}
