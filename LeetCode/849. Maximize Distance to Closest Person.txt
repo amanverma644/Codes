@@ -1,0 +1,52 @@
+
+	//849. Maximize Distance to Closest Person
+
+//Problem Link:	https://leetcode.com/problems/maximize-distance-to-closest-person
+
+int maxDistToClosest(vector<int>& seats) {
+	int l = -1, res = 1, n = seats.size();
+
+	for (int r = 0; r < n; r++) {
+		if (seats[r] == 0) continue;
+
+		if (l == -1) res = max(res, r);
+		else res = max(res, (r - l) / 2);
+		l = r;
+	}
+
+	if (seats[n - 1] == 0) {
+		res = max(res, n - 1 - l);
+	}
+
+	return res;
+}
+
+
+//Not Refactored yet easy to understand
+int maxDistToClosest(vector<int>& seats) {
+	int l = -1, r = 0;
+	int res = 1;
+	int n = seats.size();
+
+	while (r < n) {
+		if (seats[r] == 0) {
+			r++;
+			continue;
+		}
+
+		if (l == -1) {
+			res = max(res, r);
+		} else {
+			res = max(res, (r - l) / 2);
+		}
+		l = r;
+		r++;
+	}
+	r--;
+
+	if (seats[r] == 0) {
+		res = max(res, r - l);
+	}
+
+	return res;
+}
