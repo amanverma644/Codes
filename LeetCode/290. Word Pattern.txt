@@ -1,0 +1,42 @@
+
+	//290. Word Pattern
+
+//Problem Link:	https://leetcode.com/problems/word-pattern
+
+/*
+->First we break string s into words
+->Assign  ith pattern to the ith word (from the vector word) in the hashmap
+Maintain two checks:
+->if the pattern is already assigned to some word but there is some different word in the vector words then we return false
+->if the word is assigned to some other key already then we return false.
+-----
+otherwise return true.
+*/
+
+bool wordPattern(string pattern, string s) {
+	unordered_map<char, string> mp;
+	//breaking string s into words
+	stringstream ss(s);
+	string word;
+	vector<string> words;
+
+	while (getline(ss, word, ' ')) {
+		words.push_back(word);
+	}
+
+	if (words.size() != pattern.length()) return false;
+
+	set<string> hist;
+	for (int i = 0; i < words.size(); i++) {
+
+		if (mp.count(pattern[i]) and mp[pattern[i]] != words[i]) return false;
+		else if (mp.count(pattern[i]) and mp[pattern[i]] == words[i]) continue;
+
+		if (!hist.count(words[i])) {
+			hist.insert(words[i]);
+			mp[pattern[i]] = words[i];
+		}
+		else return false;
+	}
+	return true;
+}
