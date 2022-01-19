@@ -1,0 +1,26 @@
+
+	//1691. Maximum Height by Stacking Cuboids
+
+//Problem Link:	https://leetcode.com/problems/maximum-height-by-stacking-cuboids
+
+int maxHeight(vector<vector<int>>& cuboids) {
+	for (auto &x : cuboids) {
+		sort(begin(x), end(x));
+	}
+	cuboids.push_back({0, 0, 0});
+	sort(begin(cuboids), end(cuboids));
+	int n = cuboids.size();
+
+	vector<int> dp(n, 0);
+	int res = 0;
+
+	for (int i = 1; i < n; i++) {
+		for (int j = 0; j < i; j++) {
+			if (cuboids[j][0] <= cuboids[i][0] and cuboids[j][1] <= cuboids[i][1] and cuboids[j][2] <= cuboids[i][2] ) {
+				dp[i] = max(dp[i], dp[j] + cuboids[i][2]);
+				res = max(res, dp[i]);
+			}
+		}
+	}
+	return res;
+}
