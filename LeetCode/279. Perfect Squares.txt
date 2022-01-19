@@ -1,0 +1,34 @@
+
+	//279. Perfect Squares
+
+//Problem Link:	https://leetcode.com/problems/perfect-squares
+
+//Bottom-up approach
+int numSquares(int n) {
+	vector<int> dp(n + 1, 0);
+	dp[0] = 0;
+	dp[1] = 1;
+	for (int i = 2 ; i <= n; i++) {
+		dp[i] = INT_MAX;
+		for (int j = 1; j * j <= i; j++) {
+			dp[i] = min(dp[i], dp[i - j * j] + 1);
+		}
+	}
+	return dp[n];
+}
+
+//Top-down approach
+int dfs(int n, vector<int> &dp) {
+	if (n == 0) return 0;
+	if (dp[n] != -1) return dp[n];
+	int minSq = INT_MAX;
+	for (int i = 1; i * i <= n; i++) {
+			int subP = dfs(n - i * i, dp);
+			if (subP != INT_MAX and 1 + subP < minSq) minSq = 1 + subP;
+	}
+	return dp[n] = minSq;
+}
+int numSquares(int n) {
+	vector<int> dp(n + 1, -1);
+	return dfs(n, dp);
+}
