@@ -1,0 +1,28 @@
+
+	//875. Koko Eating Bananas
+
+//Problem Link:	https://leetcode.com/problems/koko-eating-bananas
+
+bool canEatAllBanana(int mid, vector<int> &piles, int h) {
+	int minT = 0;
+	int n = piles.size();
+	for (int i = 0; i < n; i++) {
+		minT += piles[i] / mid;
+		int rem = piles[i] % mid;
+		if (rem) minT++;
+	}
+	return minT <= h;
+}
+
+int minEatingSpeed(vector<int>& piles, int h) {
+	int l = 1, r = (int)(1e9 + 1);
+	while (l < r) {
+		int mid = (l + r) / 2;
+		if (canEatAllBanana(mid, piles, h)) {
+			r = mid;
+		} else {
+			l = mid + 1;
+		}
+	}
+	return l;
+}
