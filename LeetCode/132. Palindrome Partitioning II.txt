@@ -1,0 +1,43 @@
+
+	//132. Palindrome Partitioning II
+
+//Problem Link:	https://leetcode.com/problems/palindrome-partitioning-ii
+
+//Ref: https://www.youtube.com/watch?v=qmTtAbOTqcg
+
+int minCut(string s) {
+	//gap strategy
+	int n = s.length();
+	vector<vector<bool>> dp(n, vector<bool>(n, false));
+	for (int g = 0; g < n; g++) {
+		for (int i = 0, j = g; j < n; i++, j++) {
+			if (g == 0) {
+				dp[i][j] = true;
+			} else if (g == 1) {
+				dp[i][j] = s[i] == s[j];
+			} else {
+				if (s[i] == s[j] and dp[i + 1][j - 1]) {
+					dp[i][j] = true;
+				} else {
+					dp[i][j] = false;
+				}
+			}
+		}
+	}
+
+	vector<int> strg(n, 0);
+	for (int j = 1; j < n; j++) {
+		if (dp[0][j]) {
+			strg[j] = 0;
+		} else {
+			int minV = INT_MAX;
+			for (int i = j; i > 0; i--) {
+				if (dp[i][j]) {
+					minV = min(minV, strg[i - 1]);
+				}
+			}
+			strg[j] = minV + 1;
+		}
+	}
+	return strg[n - 1];
+}
