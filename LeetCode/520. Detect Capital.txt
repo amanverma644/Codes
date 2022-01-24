@@ -1,0 +1,13 @@
+
+	//520. Detect Capital
+
+//Problem Link:	https://leetcode.com/problems/detect-capital
+
+bool detectCapitalUse(string word) {
+    string s = word,c = word;
+    transform(begin(s),end(s),begin(s),::tolower);
+    transform(begin(c),end(c),begin(c),::toupper);
+    if(word == c or word == s) return true;
+    else if(word[0] == c[0] and s.substr(1,s.length()) == word.substr(1,word.length())) return true;
+    return false;
+}
