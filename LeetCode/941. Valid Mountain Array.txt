@@ -1,0 +1,35 @@
+	
+	//941. Valid Mountain Array
+
+//Problem Link:	https://leetcode.com/problems/valid-mountain-array
+
+bool validMountainArray(vector<int>& arr) {
+    if(arr.size() <  3) return false;
+    int i = 1;
+    for(i = 1;i<arr.size()-1;i++){
+        if(arr[i]>arr[i-1]) continue;
+        else if(arr[i] == arr[i-1]) return false;
+        else break;
+    }
+    while(i<arr.size()){
+        if(i<2 or arr[i]>arr[i-1] or arr[i] == arr[i-1]) return false;
+        i++;
+    }
+    return true;
+}
+
+//Another clean approach
+bool validMountainArray(vector<int>& arr) {
+	int n = arr.size();
+	int i = 0;
+
+	// walk up
+	while (i < n - 1 and arr[i] < arr[i + 1]) i++;
+	//we can't on first or last
+	if (i == 0 or i == n - 1) return false;
+
+	//walk down
+	while (i < n - 1 and arr[i] > arr[i + 1]) i++;
+
+	return i == n - 1;
+}
