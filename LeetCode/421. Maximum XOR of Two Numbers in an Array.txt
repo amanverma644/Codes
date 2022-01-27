@@ -3,6 +3,87 @@
 
 //Problem Link:	https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array
 
+//Easy to understand
+class Node {
+public:
+	Node *left;
+	Node *right;
+};
+
+class Trie {
+public:
+	Node *root;
+
+	Trie() {
+		root = new Node();
+	}
+
+	void insert(int val) {
+		Node *temp = root;
+		int bitIndex = 31;
+		while (bitIndex >= 0) {
+			int bit = val & (1 << bitIndex);
+			if (bit) {
+				if (temp->right == NULL) {
+					temp->right = new Node();
+				}
+				temp = temp->right;
+			} else {
+				if (temp->left == NULL) {
+					temp->left = new Node();
+				}
+				temp = temp->left;
+			}
+			bitIndex--;
+		}
+	}
+
+	int query(int find) {
+		Node *temp = root;
+		int bitIndex = 31;
+		int maxNo = 0;
+
+		while (bitIndex >= 0) {
+			int mask = 1 << bitIndex;
+			int bit = find & (1 << bitIndex);
+			if (bit) {
+				if (temp->right != NULL) {
+					maxNo = maxNo | mask;
+					temp = temp->right;
+				} else {
+					temp = temp->left;
+				}
+			} else {
+				if (temp->left != NULL) {
+					temp = temp->left;
+				} else {
+					maxNo = maxNo | mask;
+					temp = temp->right;
+				}
+			}
+			bitIndex--;
+		}
+
+		return maxNo;
+	}
+};
+
+int findMaximumXOR(vector<int>& nums) {
+	Trie trie;
+	for (auto &val : nums) {
+		trie.insert(val);
+	}
+
+	int ans = 0;
+	for (auto &val : nums) {
+		int find = INT_MAX ^ val;
+		int res = trie.query(find);
+		ans = max(ans, res ^ val);
+	}
+	return ans;
+}
+
+//Another Optimised Approach
 struct Node {
     Node *links[2]; 
  
