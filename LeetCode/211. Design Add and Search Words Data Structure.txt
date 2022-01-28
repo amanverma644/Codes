@@ -54,3 +54,27 @@ private:
 		return false;
 	}
 };
+
+//Another Approach
+class WordDictionary {
+public:
+    unordered_map<int,vector<string>> m;
+    WordDictionary() {      
+    }  
+    void addWord(string word) {
+        m[word.length()].push_back(word);
+    }
+    
+    bool helper(string str, string word, int idx){
+        if(idx == word.length()) return true;
+        if(word[idx] == '.' or str[idx] == word[idx]) return helper(str,word,idx+1);
+        return false;
+    }
+    
+    bool search(string word) {
+        for(auto str:m[word.length()]){
+            if(helper(str,word,0)) return true;
+        }
+        return false;
+    }
+};
