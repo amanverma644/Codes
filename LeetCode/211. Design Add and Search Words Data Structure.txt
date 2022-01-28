@@ -1,0 +1,56 @@
+
+	//211. Design Add and Search Words Data Structure
+
+//Problem Link:	https://leetcode.com/problems/design-add-and-search-words-data-structure
+
+class Node {
+public:
+	char data;
+	unordered_map<char, Node*> m;
+	bool isTerminal;
+
+	Node(char data) {
+		this->data = data;
+		isTerminal = false;
+	}
+};
+
+class WordDictionary {
+public:
+    Node *root;
+    WordDictionary() {
+        root = new Node('\0');
+    }
+    
+    void addWord(string word) {
+        Node *temp = root;
+		for (auto ch : word) {
+			if (temp->m[ch] == 0) {
+				Node *newNode = new Node(ch);
+				temp->m[ch] = newNode;
+			}
+			temp = temp->m[ch];
+		}
+		temp->isTerminal = true;
+    }
+    
+    bool search(string word) {
+        return search(word, 0, root);
+    }
+private:
+    bool search(string word, int idx, Node* node) {
+		if (idx == word.length()) return node->isTerminal;
+		if (word[idx] == '.') {
+			for (auto ch : node->m) {
+				if (search(word, idx + 1, node->m[ch.first])) {
+					return true;
+				}
+			}
+		} else {
+			if (node->m.count(word[idx]) > 0) {
+				return search(word, idx + 1, node->m[word[idx]]);
+			}
+		}
+		return false;
+	}
+};
