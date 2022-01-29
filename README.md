@@ -1,2 +1,2 @@
 # CODES
-My all DSA and LeetCode Codes
+DSA and Leetcode solutions.
