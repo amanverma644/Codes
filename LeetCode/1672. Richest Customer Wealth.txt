@@ -1,0 +1,25 @@
+
+	//1672. Richest Customer Wealth
+
+//Problem Link:	https://leetcode.com/problems/richest-customer-wealth
+
+//Shorter Code
+int maximumWealth(vector<vector<int>>& accounts) {
+    int maxMoney = 0;
+    for(auto &account: accounts){
+        maxMoney = max(maxMoney, accumulate(begin(account),end(account),0));
+    }
+    return maxMoney;
+}
+
+//Brute Force
+int maximumWealth(vector<vector<int>>& accounts) {
+    int maxMoney = 0;
+    for(auto account: accounts){
+        int currMoney = 0;
+        for(auto m:account) currMoney+=m;     
+        maxMoney = max(maxMoney,currMoney);
+    }
+    return maxMoney;
+}
+
