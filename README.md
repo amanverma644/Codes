@@ -1,2 +1,2 @@
 # CODES
-DSA and Leetcode solutions.
+Important DSA concepts and Leetcode solutions.
