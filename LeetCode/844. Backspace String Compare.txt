@@ -1,0 +1,18 @@
+
+	//844. Backspace String Compare
+
+//Problem Link:https://leetcode.com/problems/backspace-string-compare
+
+string helper(string s){
+    string res = "";
+    int count = 0;
+    for(int i = s.length() - 1;i>=0;i--){
+        if(s[i] == '#') count++;
+        else if (count>0) count--;
+        else res+=s[i];
+    }
+    return res;
+}
+bool backspaceCompare(string s, string t) {
+    return helper(s) == helper(t);
+}
