@@ -1,0 +1,33 @@
+
+	//438. Find All Anagrams in a String
+
+//Problem Link:	https://leetcode.com/problems/find-all-anagrams-in-a-string
+
+//Array as an hashmap
+vector<int> findAnagrams(string s, string p) {
+	vector<int> target(26), curr(26);
+	for (auto ch : p) target[ch - 'a']++;
+	vector<int> res;
+	for (int i = 0; i < s.length(); i++) {
+		curr[s[i] - 'a']++;
+		if (i >= p.size()) curr[s[i - p.length()] - 'a']--;
+		if (target == curr) res.push_back(i - p.length() + 1);
+	}
+	return res;
+}
+
+//Using hashmap
+vector<int> findAnagrams(string s, string p) {
+	unordered_map<char, int> target, curr;
+	for (auto ch : p) target[ch]++;
+	vector<int> res;
+	for (int i = 0; i < s.length(); i++) {
+		curr[s[i]]++;
+		if (i >= p.length()) {
+			curr[s[i - p.length()]]--;
+			if (curr[s[i - p.length()]] == 0) curr.erase(s[i - p.length()]);
+		}
+		if (curr == target) res.push_back(i - p.length() + 1);
+	}
+	return res;
+}
