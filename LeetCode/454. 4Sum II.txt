@@ -1,0 +1,36 @@
+
+	//454. 4Sum II
+
+//Problem Link:	https://leetcode.com/problems/4sum-ii
+
+int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {
+	unordered_map<int, int> mp;
+	int ans = 0;
+	for (auto a : nums1) {
+		for (auto b : nums2) {
+			mp[-(a + b)]++;
+		}
+	}
+
+	for (auto c : nums3) {
+		for (auto d : nums4) {
+			int target = c + d;
+			ans += mp[target];
+		}
+	}
+	return ans;
+}
+
+//Same Logic But Concise Solution
+
+int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {
+	unordered_map<int, int> mp;
+	int ans = 0;
+	for (auto a : nums1) {
+		for (auto b : nums2) mp[-(a + b)]++;
+	}
+	for (auto c : nums3) {
+		for (auto d : nums4) ans += mp[c + d];
+	}
+	return ans;
+}
