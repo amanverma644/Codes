@@ -1,0 +1,58 @@
+
+	//730. Count Different Palindromic Subsequences
+
+//Problem Link:	https://leetcode.com/problems/count-different-palindromic-subsequences
+
+//Ref Link: https://www.youtube.com/watch?v=fvYlinirmFg
+
+int countPalindromicSubsequences(string s) {
+	int n = s.length(), mod = 1e9 + 7;
+	//store the idx of previous occuring character
+	vector<int> prev(n, -1);
+	unordered_map<char, int> mp;
+	for (int i = 0; i < s.length(); i++) {
+		if (mp.count(s[i])) {
+			prev[i] = mp[s[i]];
+		}
+		mp[s[i]] = i;
+	}
+	mp.clear();
+	//store the idx of next occuring character
+	vector<int> next(n, n + 1);
+	for (int i = n - 1; i >= 0; i--) {
+		if (mp.count(s[i])) {
+			next[i] = mp[s[i]];
+		}
+		mp[s[i]] = i;
+	}
+
+	//gap strategy
+	vector<vector<long long>> dp(n, vector<long long>(n, 0));
+	int ans = 0;
+	for (int g = 0; g < n; g++) {
+		for (int i = 0, j = g; j < n; i++, j++) {
+			if (g == 0) {
+				dp[i][j] = 1;
+			} else if (g == 1) {
+				dp[i][j] = 2;
+			} else {
+				if (s[i] != s[j]) {
+					dp[i][j] = (dp[i + 1][j] + dp[i][j - 1] - dp[i + 1][j - 1] + mod)%mod;
+				} else {
+					int n = next[i];
+					int p = prev[j];
+
+					if (n > p) {
+						dp[i][j] = 2 * dp[i + 1][j - 1] + 2;
+					} else if (n == p) {
+						dp[i][j] = 2 * dp[i + 1][j - 1] + 1;
+					} else {
+						dp[i][j] = (2 * dp[i + 1][j - 1] - dp[n + 1][p - 1] + mod)%mod;
+					}
+				}
+			}
+			dp[i][j] %= mod;
+		}
+	}
+	return dp[0][n - 1];
+}
