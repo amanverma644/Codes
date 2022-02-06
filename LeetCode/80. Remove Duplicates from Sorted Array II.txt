@@ -1,0 +1,35 @@
+
+	//80. Remove Duplicates from Sorted Array II
+
+//Problem Link:	https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii
+
+int removeDuplicates(vector<int>& nums) {
+	int cnt = 0, BLOCK = 1e4 + 1, prev = BLOCK;
+	for (int i = 1; i < nums.size(); i++) {
+		if (nums[i] == nums[i - 1]) cnt++;
+		else cnt = 0;
+
+		if (cnt > 1 or (nums[i] == prev and nums[i - 1] == BLOCK)) nums[i] = BLOCK;
+		else prev = nums[i];
+	}
+	int shift = 0;
+	for (int i = 2; i < nums.size(); i++) {
+		if (nums[i] == BLOCK) {
+			shift++;
+			continue;
+		}
+		nums[i - shift] = nums[i];
+	}
+	return nums.size() - shift;
+}
+
+//Another optimised Approach
+int removeDuplicates(vector<int>& nums) {
+	int i = 0;
+	for (auto num : nums) {
+		if (i < 2 or num > nums[i - 2]) {
+			nums[i++] = num;
+		}
+	}
+	return i;
+}
