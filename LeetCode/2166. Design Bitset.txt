@@ -1,0 +1,50 @@
+	
+	//2166. Design Bitset
+
+//Problem Link:	https://leetcode.com/problems/design-bitset
+
+class Bitset {
+public:
+	int size,cnt = 0;
+	string s, flipped;
+
+	Bitset(int size) {
+		this->size = size;
+		for(int i = 0;i<size;i++) s+='0',flipped+='1';
+	}
+
+	void fix(int idx) {
+		if(s[idx] == '0') cnt++;
+
+		s[idx] = '1';
+		flipped[idx] = '0';
+	}
+
+	void unfix(int idx) {
+		if(s[idx] == '1') cnt--;
+
+		s[idx] = '0';
+		flipped[idx] = '1';
+	}
+
+	void flip() {
+		swap(s,flipped);
+		cnt = size - cnt;
+	}
+
+	bool all() {
+		return cnt == s.length();
+	}
+
+	bool one() {
+		return cnt;
+	}
+
+	int count() {
+		return cnt;
+	}
+
+	string toString() {
+		return s;
+	}
+};
