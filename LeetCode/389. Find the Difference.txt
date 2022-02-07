@@ -1,0 +1,45 @@
+
+	//389. Find the Difference
+
+//Problem Link:	https://leetcode.com/problems/find-the-difference
+
+//Using Bit Manipulation
+char findTheDifference(string s, string t) {
+    int Xor=0;
+    for(auto ch:s) Xor^=ch-'a';
+    for(auto ch:t) Xor^=ch-'a';
+    return Xor + 'a';
+}
+
+//OR
+
+char findTheDifference(string s, string t) {
+    char Xor=0;
+    for(auto ch:s) Xor^=ch;
+    for(auto ch:t) Xor^=ch;
+    return Xor;
+}
+
+//Brute Force (Using Hashmap)
+char findTheDifference(string s, string t) {
+    unordered_map<char,int> mp;
+    for(auto ch:s) mp[ch]++;
+    char ans;
+    for(auto ch:t){
+        if(mp[ch]>0) mp[ch]--;
+        else{
+            ans= ch;
+            break;
+        }
+    }
+    return ans;
+}
+
+//using sorting
+char findTheDifference(string s, string t) {
+    sort(begin(s),end(s));sort(begin(t),end(t));
+    for(int i = 0;i<s.length();i++){
+        if(s[i] != t[i]) return t[i];
+    }
+    return t[t.length()-1];
+}
