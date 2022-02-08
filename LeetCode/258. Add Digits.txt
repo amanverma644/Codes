@@ -1,0 +1,38 @@
+
+	//258. Add Digits
+
+//Problem Link:	https://leetcode.com/problems/add-digits
+
+//Optimised approach
+
+/*
+Sequence:
+0 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 ....
+*/
+int addDigits(int num) {
+    return 1 + (num-1)%9;
+}
+
+//OR
+
+int addDigits(int num) {
+    if(num == 0) return 0;
+    return (num%9 == 0) ? 9 : num%9;
+}
+
+//Brute Force
+int sum(int n){
+    int ans = 0;
+    while(n){
+        ans+=n%10;
+        n/=10;
+    }
+    return ans;
+}
+
+int addDigits(int num) {
+    while((num/10)>0){
+        num = sum(num);
+    }
+    return num;
+}
