@@ -1,2 +1,2 @@
 # CODES
-Important DSA concepts and Leetcode solutions.
+Important DSA concepts and Leetcode solutions that might be useful in interviews.
