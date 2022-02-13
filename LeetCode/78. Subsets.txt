@@ -1,0 +1,45 @@
+
+	//78. Subsets
+
+//Problem Link:	https://leetcode.com/problems/subsets
+
+vector<vector<int>> subsets(vector<int>& nums) {
+    int n = nums.size();
+    vector<vector<int>> ans;
+    for(int i = 0;i<(1<<n);i++){
+        vector<int> temp;
+        for(int j = 0;j<n;j++){
+            //if jth bit of i is set
+            if((i>>j)&1) temp.push_back(nums[j]);
+        }
+        ans.push_back(temp);
+    }
+    return ans;
+}
+
+//Another Approach
+vector<int> overlayNumber(vector<int> &nums, int number) {
+	int j = 0;
+	vector<int> res;
+	while (number > 0) {
+		int last_digit = number & 1;
+		if (last_digit) {
+			res.push_back(nums[j]);
+		}
+		j++;
+		number = number >> 1;
+	}
+	return res;
+}
+
+vector<vector<int>> subsets(vector<int>& nums) {
+	int n = nums.size();
+	vector<vector<int>> res;
+
+	for (int i = 0; i < (1 << n); i++) {
+		vector<int> subResult = overlayNumber(nums, i);
+		res.push_back(subResult);
+	}
+
+	return res;
+}
