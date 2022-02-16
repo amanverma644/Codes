@@ -4,6 +4,16 @@
 //Problem link:	https://leetcode.com/problems/swap-nodes-in-pairs
 
 ListNode* swapPairs(ListNode* head) {
+    if(!head or !head->next) return head;
+    ListNode* second = head->next;
+    ListNode* third = second->next;
+    second->next = head;
+    head->next = swapPairs(third);
+    return second;
+}
+
+//Another Approach
+ListNode* swapPairs(ListNode* head) {
     //base case
     if(head == NULL or head->next == NULL){
         return head;
