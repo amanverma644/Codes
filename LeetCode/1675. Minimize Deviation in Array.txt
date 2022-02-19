@@ -1,0 +1,52 @@
+
+	//1675. Minimize Deviation in Array
+
+//Problem Link:	https://leetcode.com/problems/minimize-deviation-in-array
+
+/*
+Approach:
+We have to find the diff in min and max elements So pq will be the best data structure.
+
+Intution 1: we can multiply odd number with 2 only one time coz after that it'll became an even number.
+and then add it in the pq
+
+Intution 2: find the min deviation at each step:
+->maintain one min_element and res variable
+->if pq.top() == odd number => then stop coz we can't reduce it further.
+
+Below is the code
+*/	
+
+//using priority queue
+int minimumDeviation(vector<int>& nums) {
+    priority_queue<int> pq;
+    int min_el = INT_MAX,res = INT_MAX;
+    for(auto &num:nums){
+        num = num % 2 == 0 ? num : num * 2;
+        pq.push(num);
+        min_el = min(min_el,num);
+    }
+
+    while(pq.top()%2 == 0){
+        res = min(res,pq.top() - min_el);
+        min_el = min(min_el,pq.top()/2);
+        pq.push(pq.top()/2);
+        pq.pop();
+    }
+
+    return min(res,pq.top() - min_el);
+}
+
+//using set
+int minimumDeviation(vector<int>& nums) {
+    set<int> s;
+    for(auto &num:nums) s.insert(num%2 == 0 ? num : num * 2);
+    int res = *s.rbegin() - *s.begin();
+    while(*s.rbegin()%2==0){
+        int x = *s.rbegin();
+        s.erase(x);
+        s.insert(x/2);
+        res = min(res,*s.rbegin() - *s.begin());
+    }
+    return res;
+}
