@@ -1,0 +1,49 @@
+	
+	//1288. Remove Covered Intervals
+
+//Problem Link:	https://leetcode.com/problems/remove-covered-intervals
+
+/*
+Approach:
+> Sort the intervals on the basis of start time (if the start time is same then interval having greater end time is considered)
+> maintain maxEnd pointer which tracks the previous max ending point 
+> if two intervals are non-overlapping (maxEnd < currentInterval.start) then increase the count
+> otherwise check maxEnd is less than currentInterval.end then increase the count 
+> on any other case (currentInteval.end <= maxEnd) means the interval is already covered by some another interval and we don't need to increase the value of count in this case.
+*/
+
+
+bool compare(const vector<int>& v1, const vector<int>& v2) {
+	if (v1[0] == v2[0]) return v1[1] > v2[1];
+	return v1[0] < v2[0];
+}
+
+int removeCoveredIntervals(vector<vector<int>>& intervals) {
+    sort(begin(intervals),end(intervals),compare);
+    int maxEnd = INT_MIN;
+    int count = 0;
+    for(auto interval:intervals){
+        if(maxEnd < interval[0]){
+            maxEnd = interval[1];
+            count++;
+        }else if(maxEnd < interval[1]){
+            count++;
+            maxEnd = interval[1];
+        }
+    }
+    return count;
+}
+
+//Another Short Code
+int removeCoveredIntervals(vector<vector<int>>& intervals) {
+    int left = -1,right = -1,res = 0;
+    sort(begin(intervals),end(intervals));
+    for(auto &interval : intervals){
+        if(interval[0] > left and interval[1] > right){
+            left = interval[0];
+            res++;
+        }
+        right = max(right,interval[1]);
+    }
+    return res;
+}
