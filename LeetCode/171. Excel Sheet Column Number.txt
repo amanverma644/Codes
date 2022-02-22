@@ -1,0 +1,21 @@
+
+	//171. Excel Sheet Column Number
+
+//Problem link:	https://leetcode.com/problems/excel-sheet-column-number
+
+/*
+Similar to Binary to Decimal Conversion
+e.g: 
+436 -> 4*10*10 + 3*10 + 6
+Instead of base 10 it has base 26::
+ABC -> 26*26*1 + 26*2 + 3
+*/
+
+int titleToNumber(string columnTitle) {
+    int sum = 0;
+    for(auto &ch: columnTitle){
+        sum *= 26;
+        sum += ch - 'A' + 1;
+    }
+    return sum;
+}
