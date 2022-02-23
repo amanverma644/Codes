@@ -1,0 +1,16 @@
+
+	//133. Clone Graph
+
+//Problem Link:	https://leetcode.com/problems/clone-graph
+
+unordered_map<Node*,Node*> hash;
+Node* cloneGraph(Node* node) {
+    if(!node) return NULL;
+    if(hash.find(node) == hash.end()){
+        hash[node] = new Node(node->val);
+        for(auto neighbor:node->neighbors){
+            hash[node]->neighbors.push_back(cloneGraph(neighbor));
+        }
+    }
+    return hash[node];
+}
