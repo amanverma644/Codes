@@ -3,6 +3,51 @@
 
 //Problem Link: https://leetcode.com/problems/sort-list
 
+//Merge Sort
+ListNode* merge(ListNode* l1, ListNode* l2) {
+	ListNode *dummy = new ListNode(0);
+    ListNode *tail = dummy;
+	while (l1 != NULL and l2 != NULL) {
+		if (l1->val < l2->val) {
+			tail->next = l1;
+			l1 = l1->next;
+		} else {
+			tail->next = l2;
+			l2 = l2->next;
+		}
+		tail = tail->next;
+	}
+
+	if (l1 != NULL) tail->next = l1;
+    else tail->next = l2;
+    
+	return dummy->next;
+}
+
+ListNode* sortList(ListNode* head) {
+    if(!head or !head->next) return head;
+    
+	//Find the mid
+	ListNode* slow = head;
+	ListNode* fast = head;
+	ListNode* prev = NULL;
+
+	while (fast != NULL and fast->next != NULL) {
+		prev = slow;
+		slow = slow -> next;
+		fast = fast->next->next;
+	}
+
+	prev->next = NULL;
+
+	ListNode* l1 = sortList(head);
+	ListNode* l2 = sortList(slow);
+
+	//merge two sorted linked list
+	return merge(l1, l2);
+}
+
+//Brute Force
 ListNode* sortList(ListNode* head) {
     vector<int> v;
     while(head != NULL){
