@@ -1,0 +1,16 @@
+
+	//228. Summary Ranges
+
+//Problem Link: https://leetcode.com/problems/summary-ranges
+
+vector<string> summaryRanges(vector<int>& nums) {
+	vector<string> res;
+	for (int i = 0; i < nums.size(); i++) {
+		int start = nums[i];
+		while (i < nums.size() - 1 and nums[i] == nums[i + 1] - 1) i++;
+		int end = nums[i];
+		if (start == end) res.push_back(to_string(start));
+		else res.push_back(to_string(start) + "->" + to_string(end));
+	}
+	return res;
+}
