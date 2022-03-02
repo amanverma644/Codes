@@ -1,0 +1,38 @@
+
+	//392. Is Subsequence
+
+//Problem Link:	https://leetcode.com/problems/is-subsequence
+
+//Brute Force Rercursive Approach
+bool isSubsequence(string s, string t) {
+    if(!s.length()) return true;
+    if(!t.length()) return false;
+    if(s.back() == t.back()){
+        s.pop_back();t.pop_back();
+        return isSubsequence(s,t);
+    }
+    t.pop_back();
+    return isSubsequence(s,t);
+}
+
+//Two Pointer Approach
+bool isSubsequence(string s, string t) {
+    int i = 0,j = 0;
+    while(i<s.length() and j < t.length()){
+        if(s[i] == t[j]) i++;
+        j++;
+    }
+    return i == s.length();
+}
+
+//Dynamic Programming Approach
+bool isSubsequence(string s, string t) {
+    vector<vector<int>> dp(s.length() + 1,vector<int>(t.length() + 1,0));
+    for(int i = 1;i<=s.length();i++){
+        for(int j = 1;j<=t.length();j++){
+            if(s[i-1] == t[j-1]) dp[i][j] = 1 + dp[i-1][j-1];
+            else dp[i][j] = max(dp[i-1][j],dp[i][j-1]);
+        }
+    }
+    return dp[s.length()][t.length()] == s.length();
+}
