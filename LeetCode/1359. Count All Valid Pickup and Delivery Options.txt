@@ -1,0 +1,18 @@
+
+	//1359. Count All Valid Pickup and Delivery Options
+
+//Problem Link:	https://leetcode.com/problems/count-all-valid-pickup-and-delivery-options
+
+/*
+First elment will be pickup from n elements
+and its pair can be arranged in (2*n - 1) ways
+i.e, n*(2n-1)
+*/
+
+int countOrders(int n) {
+	long long res = 1, mod = 1e9 + 7;
+	for (int i = 1; i <= n; i++) {
+		res = (res * i * (2 * i - 1) ) % mod;
+	}
+	return res;
+}
