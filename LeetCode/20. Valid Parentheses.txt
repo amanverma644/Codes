@@ -1,0 +1,43 @@
+	//20. Valid Parentheses
+
+//Problem Link:	https://leetcode.com/problems/valid-parentheses
+
+//Short Code
+bool isValid(string s) {
+    stack<char> st;
+    for(auto ch:s){
+        if(ch == '(') st.push(')');
+        else if(ch == '{') st.push('}');
+        else if(ch == '[') st.push(']');
+        else if(ch == '(') st.push(')');
+        else if(st.empty() or st.top() != ch) return false;
+        else st.pop();
+            
+    }
+    return st.empty();
+}
+
+
+//Brute Force O(N)
+bool isValid(string s) {
+    stack<char> st;
+    for(auto ch:s){
+        if(ch == '(' or ch == '{' or ch == '['){
+            st.push(ch);
+        }else{
+            if(st.empty()) return false;
+            char c = st.top();
+            st.pop();
+
+            switch(ch){
+                case ')': if(c != '(') return false;
+                          break;
+                case '}': if(c != '{') return false;
+                          break;
+                case ']': if(c != '[') return false;
+                          break;
+            }
+        }
+    }
+    return st.empty();
+}
