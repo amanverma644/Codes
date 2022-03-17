@@ -1,0 +1,27 @@
+	//1791. Find Center of Star Graph
+
+//Problem link:	https://leetcode.com/problems/find-center-of-star-graph
+
+//One Liner Solution
+
+int findCenter(vector<vector<int>>& edges) {
+    return (edges[0][0] == edges[1][0] or edges[0][0] == edges[1][1]) ? edges[0][0] : edges[0][1];
+}
+
+	//Brute Force Approach
+
+int findCenter(vector<vector<int>>& edges) {
+    unordered_map<int,int> mp;
+    for(auto edge:edges){
+    	for(auto v:edge){
+    		mp[v]++;
+    	}
+    }
+
+    for(auto p:mp){
+    	if(p.second == edges.size()){
+    		return p.first;
+    	}
+    }
+    return 0;
+}
