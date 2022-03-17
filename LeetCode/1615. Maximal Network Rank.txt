@@ -1,0 +1,27 @@
+
+	//1615. Maximal Network Rank
+
+//Problem Link:	https://leetcode.com/problems/maximal-network-rank
+
+int maximalNetworkRank(int n, vector<vector<int>>& roads) {
+    vector<vector<int>> adj(n, vector<int>(n, 0));
+
+    list<int> *l = new list<int>[n];
+
+    for (auto road : roads) {
+        adj[road[0]][road[1]] = 1;
+        adj[road[1]][road[0]] = 1;
+        l[road[0]].push_back(road[1]);
+        l[road[1]].push_back(road[0]);
+    }
+
+    int maxRank = 0;
+    for (int i = 0; i < n; i++) {
+        int curMax = 0;
+        for (int j = i + 1; j < n; j++) {
+            curMax = l[i].size() + l[j].size() - (adj[i][j] ? 1 : 0);
+            maxRank = max(maxRank, curMax);
+        }
+    }
+    return maxRank;
+}
