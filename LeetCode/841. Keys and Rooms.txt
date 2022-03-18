@@ -1,0 +1,23 @@
+
+		//841. Keys and Rooms
+
+//Problem Link:	https://leetcode.com/problems/keys-and-rooms
+
+void dfs(int node,vector<vector<int>> &rooms,vector<bool> &visited){
+    visited[node] = true;
+    for(int nbr:rooms[node]){
+        if(!visited[nbr]){
+            dfs(nbr,rooms,visited);
+        }
+    }
+}
+    
+bool canVisitAllRooms(vector<vector<int>>& rooms) {
+	int n = rooms.size();
+    vector<bool> visited(n,false);
+    dfs(0,rooms,visited);
+    for(auto room:visited){
+        if(!room) return false;
+    }
+    return true;
+}
