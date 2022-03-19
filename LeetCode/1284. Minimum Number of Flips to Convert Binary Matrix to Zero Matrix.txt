@@ -1,0 +1,69 @@
+
+	//1284. Minimum Number of Flips to Convert Binary Matrix to Zero Matrix
+
+//Problem Link:	https://leetcode.com/problems/minimum-number-of-flips-to-convert-binary-matrix-to-zero-matrix
+
+int minFlips(vector<vector<int>>& mat) {
+	int n = mat.size();
+	int m = mat[0].size();
+
+	string s = "", zero = "";
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			s += to_string(mat[i][j]);
+			zero += "0";
+		}
+	}
+    
+	if (s == zero) return 0;
+
+	unordered_map<string, bool> vis;
+	queue<string> q;
+	q.push(s);
+	vis[s] = true;
+	int flips = 0;
+
+	while (!q.empty()) {
+		int size = q.size();
+		flips++;
+		while (size--) {
+			string curr = q.front();
+			q.pop();
+			for (int k = 0; k < curr.size(); k++) {
+				//get indexes as in matrix
+				int i = k / m;
+				int j = k - i * m;
+
+				string t = curr;
+				t[k] = char(int(t[k]) ^ 1);	//flip the i-th bit
+
+				//flip neighbours
+
+				//bottom
+				int newIndex = j + (i + 1) * m;
+				if (newIndex < m*n and newIndex >= 0 ) t[newIndex] = char(int(t[newIndex]) ^ 1);
+				//top
+				newIndex = j + (i - 1) * m;
+				if (newIndex < m*n and newIndex >= 0 ) t[newIndex] = char(int(t[newIndex]) ^ 1);
+
+				//right
+				newIndex = (j + 1) + i * m;
+				if (newIndex < m*n and newIndex >= 0 and j != m - 1) t[newIndex] = char(int(t[newIndex]) ^ 1);
+
+				//left
+				newIndex = (j - 1) + i * m;
+				if (newIndex < m*n and newIndex >= 0 and  j != 0 ) t[newIndex] = char(int(t[newIndex]) ^ 1);
+
+
+				if (t == zero) return flips;
+
+				if (!vis[t]) {
+					q.push(t);
+					vis[t] = true;
+				}
+			}
+		}
+	}
+
+	return -1;
+}
