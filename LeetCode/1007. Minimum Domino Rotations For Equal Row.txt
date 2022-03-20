@@ -1,0 +1,50 @@
+
+	//1007. Minimum Domino Rotations For Equal Row
+
+//Problem Link:	https://leetcode.com/problems/minimum-domino-rotations-for-equal-row
+
+int minDominoRotations(vector<int>& tops, vector<int>& bottoms) {
+    int n = tops.size();
+    vector<int> t(7,0),b(7,0),same(7,0);
+    for(int i = 0;i<n;i++){
+        t[tops[i]]++;
+        b[bottoms[i]]++;
+        if(tops[i] == bottoms[i]) same[tops[i]]++;
+    }
+    
+    for(int i = 1;i<7;i++){
+        if(t[i] + b[i] - same[i] == n){
+            return n - max(t[i],b[i]);
+        }
+    }
+    return -1;
+}
+
+//Brute Force
+int minDominoRotations(vector<int>& tops, vector<int>& bottoms) {
+	unordered_map<int, int> mp;
+	for (auto &num : tops) mp[num]++;
+	for (auto &num : bottoms) mp[num]++;
+	int n = tops.size();
+
+	int minSwaps = INT_MAX;
+	for (int i = 1; i < 7; i++) {
+		if (mp[i] >= n) {
+			int j = 0;
+			int c1 = 0;
+			int c2 = 0;
+			while (j < tops.size()) {
+				if (tops[j] != i and bottoms[j] != i) {
+					c1 = INT_MAX;
+					c2 = INT_MAX;
+					break;
+				}
+				else if (tops[j] != i) c1++;
+				else if (bottoms[j] != i) c2++;
+				j++;
+			}
+			minSwaps = min(minSwaps, min(c1, c2));
+		}
+	}
+	return minSwaps == INT_MAX ? -1 : minSwaps;
+}
