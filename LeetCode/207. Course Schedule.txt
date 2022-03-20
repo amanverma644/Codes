@@ -1,0 +1,61 @@
+	
+	//207. Course Schedule
+
+//Problem Link:	https://leetcode.com/problems/course-schedule
+
+class Graph {
+	int V;
+	list<int> *l;
+
+public:
+	Graph(int V) {
+		this->V = V;
+		l = new list<int>[V];
+	}
+
+	void addEdge(int i, int j, bool undir = false) {
+		l[i].push_back(j);
+		if (undir) {
+			l[j].push_back(i);
+		}
+	}
+
+	bool dfs(int source, vector<bool> &visited, vector<bool> &stack) {
+		//find the backedge
+		visited[source] = true;
+		stack[source] = true;
+
+		for (auto nbr : l[source]) {
+			if (stack[nbr]) return true;
+			else if (!visited[nbr]) {
+				bool nbrContainsCycle = dfs(nbr, visited, stack);
+				if (nbrContainsCycle) return true;
+			}
+		}
+
+		stack[source] = false;
+		return false;
+	}
+
+	bool contains_cycle() {
+		vector<bool> visited(V, false);
+		vector<bool> stack(V, false);
+		for (int i = 0; i < V; i++) {
+			if (!visited[i]) {
+				if (dfs(i, visited, stack)) return false;
+			}
+		}
+		return true;
+	}
+};
+
+class Solution {
+public:
+bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+    Graph g(numCourses);
+    for(auto &course:prerequisites){
+        g.addEdge(course[1],course[0]);
+    }
+    return g.contains_cycle();
+}
+};
