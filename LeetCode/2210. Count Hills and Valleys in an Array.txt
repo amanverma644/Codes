@@ -1,0 +1,15 @@
+
+	//2210. Count Hills and Valleys in an Array
+
+//Problem Link:	https://leetcode.com/problems/count-hills-and-valleys-in-an-array
+
+int countHillValley(vector<int>& nums) {
+    int res(0),left(nums[0]);
+    for(int i = 1;i<nums.size()-1;i++){
+        if((nums[i] > left and nums[i] > nums[i+1]) or (nums[i] < left and nums[i] < nums[i+1])){
+        	res++;
+        	left = nums[i];
+        }
+    }
+    return res;
+}
