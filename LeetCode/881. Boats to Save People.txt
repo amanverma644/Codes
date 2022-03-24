@@ -1,0 +1,16 @@
+
+	//881. Boats to Save People
+
+//Problem Link:	https://leetcode.com/problems/boats-to-save-people
+
+//two pointer approach
+int numRescueBoats(vector<int>& people, int limit) {
+    sort(begin(people),end(people));
+    int i = 0,j = people.size() - 1;
+    int boats = 0;
+    while(i<=j){
+        if(people[i] + people[j] <= limit) boats++,i++,j--;
+        else boats++,j--;
+    }
+    return boats;
+}
