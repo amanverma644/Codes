@@ -1,0 +1,36 @@
+
+	//1559. Detect Cycles in 2D Grid
+
+//Problem Link:	https://leetcode.com/problems/detect-cycles-in-2d-grid
+
+vector<vector<int>> directions = {{1, 0}, { -1, 0}, {0, 1}, {0, -1}};
+
+bool dfs(vector<vector<char>> &grid, int i, int j, vector<vector<bool>> &visited, int x, int y) {
+	visited[i][j] = true;
+	for (auto &dir : directions) {
+            int dx = i + dir[0];
+			int dy = j + dir[1];
+		if (dx < 0 or dx >= grid.size() or dy < 0 or dy >= grid[0].size() or (dx == x and dy == y) or grid[dx][dy] != grid[i][j]) continue;
+		else {
+            if (!visited[dx][dy]) {
+                bool subProb = dfs(grid, dx, dy, visited, i, j);
+                if (subProb) return true;
+            } else return true;   
+		}
+	}
+	return false;
+}
+
+
+bool containsCycle(vector<vector<char>>& grid) {
+	int n = grid.size();
+	int m = grid[0].size();
+
+	vector<vector<bool>> visited(n, vector<bool>(m, false));
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			if (!visited[i][j] and dfs(grid, i, j, visited, -1, -1)) return true;
+		}
+	}
+	return false;
+}
