@@ -3,6 +3,8 @@
 
 //Problem Link:	https://leetcode.com/problems/detect-cycles-in-2d-grid
 
+
+//DFS
 vector<vector<int>> directions = {{1, 0}, { -1, 0}, {0, 1}, {0, -1}};
 
 bool dfs(vector<vector<char>> &grid, int i, int j, vector<vector<bool>> &visited, int x, int y) {
@@ -30,6 +32,41 @@ bool containsCycle(vector<vector<char>>& grid) {
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < m; j++) {
 			if (!visited[i][j] and dfs(grid, i, j, visited, -1, -1)) return true;
+		}
+	}
+	return false;
+}
+
+//BFS
+
+vector<vector<int>> directions = {{1, 0}, { -1, 0}, {0, 1}, {0, -1}};
+
+bool containsCycle(vector<vector<char>>& grid) {
+	int n = grid.size();
+	int m = grid[0].size();
+
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			if (grid[i][j] >= 'a') {
+				queue<pair<int, int>> q;
+				q.push({i, j});
+				char val = grid[i][j];
+
+				while (!q.empty()) {
+					auto curr = q.front();
+					int row = curr.first, col = curr.second;
+					q.pop();
+					if (grid[row][col] < 'a') return true;
+					grid[row][col] -= 26;
+					for (auto dir : directions) {
+						int dx = dir[0] + row;
+						int dy = dir[1] + col;
+						if (dx >= 0 and dy >= 0  and dx < n and dy < m and grid[dx][dy] == val) {
+							q.push({dx, dy});
+						}
+					}
+				}
+			}
 		}
 	}
 	return false;
