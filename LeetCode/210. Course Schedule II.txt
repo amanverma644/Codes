@@ -3,6 +3,39 @@
 
 //Problem Link:	https://leetcode.com/problems/course-schedule-ii
 
+//BFS
+                
+void bfs(vector<int> g[],int numCourses,vector<int> &res){
+    vector<int> indegree(numCourses,0);
+    for(int i = 0;i<numCourses;i++){
+        for(auto nbr:g[i]) indegree[nbr]++;
+    }
+
+    //bfs
+    queue<int> q;
+    for(int i = 0;i<numCourses;i++) if(!indegree[i]) q.push(i);
+
+    while(!q.empty()){
+        int node = q.front();
+        res.push_back(node);
+        q.pop();
+
+        for(auto nbr:g[node]) if(--indegree[nbr] == 0) q.push(nbr);
+    }
+
+    if(res.size() != numCourses) res.clear();
+}
+
+vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+    vector<int> res;
+    vector<int> g[numCourses];
+    for(auto course:prerequisites) g[course[1]].push_back(course[0]);
+    bfs(g,numCourses,res);
+    return res;
+}
+
+
+//DFS
 void dfs(vector<int> g[],int node,vector<bool> &visited,list<int> &res){
     visited[node] = true;
     for(auto nbr:g[node]){
