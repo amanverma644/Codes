@@ -1,0 +1,52 @@
+
+	//210. Course Schedule II
+
+//Problem Link:	https://leetcode.com/problems/course-schedule-ii
+
+void dfs(vector<int> g[],int node,vector<bool> &visited,list<int> &res){
+    visited[node] = true;
+    for(auto nbr:g[node]){
+        if(!visited[nbr]){
+            dfs(g,nbr,visited,res);
+        }
+    }
+    res.push_front(node);
+}
+
+bool isDag(vector<int> g[],int node,int parent,vector<bool> &visited,vector<bool> &stack){
+    visited[node] = true;
+    stack[node] = true;
+    for(auto nbr:g[node]){
+        if(stack[nbr]) return false;
+        if(!visited[nbr]){
+            bool subProb = isDag(g,nbr,node,visited,stack);
+            if(!subProb) return false;
+        }
+    }
+    stack[node] = false;
+    return true;
+}
+
+vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+    vector<int> g[numCourses];
+    vector<int> ans;
+    
+    for(auto course:prerequisites) g[course[1]].push_back(course[0]);
+    
+    vector<bool> visited(numCourses,false),stack(numCourses,false);
+    for(int i = 0;i<numCourses;i++){
+        if(!(isDag(g,i,-1,visited,stack))) return ans;
+    }
+    
+    fill(visited.begin(),visited.end(),false);
+    list<int> res;
+    
+    for(int i = 0;i<numCourses;i++){
+        if(!visited[i]){
+            dfs(g,i,visited,res);
+        }
+    }
+    
+    for(auto node:res) ans.push_back(node);
+    return ans;
+}
