@@ -1,0 +1,43 @@
+
+	//74. Search a 2D Matrix
+
+//Problem Link:	https://leetcode.com/problems/search-a-2d-matrix
+
+//Binary Search
+bool searchMatrix(vector<vector<int>>& matrix, int target) {
+	int m = matrix.size(), n = matrix[0].size();
+    int r1 = 0,r2 = m - 1;
+    int c1 = 0,c2 = n - 1;
+    
+    while(r1 < r2){
+        int mid = r1 + (r2 - r1)/2;
+        if(matrix[mid][n-1] < target) r1 = mid + 1;
+        else if(matrix[mid][0] > target) r2 = mid -1;
+        else{
+            r1 = mid;
+            break;
+        }
+    }
+    
+    while(c1 <= c2){
+        int mid = c1 + (c2 - c1)/2;
+        if(matrix[r1][mid] == target) return true;
+        else if(matrix[r1][mid] < target) c1 = mid + 1;
+        else c2 = mid - 1;
+    }
+    return false;
+}
+
+//Another approach:TC:O(M+N)
+bool searchMatrix(vector<vector<int>>& matrix, int target) {
+	int m = matrix.size(), n = matrix[0].size();
+	for (int i = 0; i < m; i++) {
+		if (matrix[i][0] <= target and target <= matrix[i][n - 1]) {
+			for (auto ele : matrix[i]) {
+				if (ele == target) return true;
+			}
+			return false;
+		}
+	}
+	return false;
+}
