@@ -1,0 +1,85 @@
+
+	//1584. Min Cost to Connect All Points
+
+//Problem Link:	https://leetcode.com/problems/min-cost-to-connect-all-points
+
+class DSU {
+	int *parent;
+	int *rank;
+public:
+	DSU(int n) {
+		parent = new int[n];
+		rank = new int[n];
+
+		for (int i = 0; i < n; i++) {
+			parent[i] = -1;
+			rank[i] = 1;
+		}
+	}
+
+	int find(int i) {
+		if (parent[i] == -1) return i;
+		return parent[i] = find(parent[i]);
+	}
+
+	void unite(int x, int y) {
+		int s1 = find(x);
+		int s2 = find(y);
+
+		if (s1 != s2) {
+			if (rank[s2] < rank[s1]) {
+				parent[s2] = s1;
+				rank[s1] += rank[s2];
+			} else {
+				parent[s1] = s2;
+				rank[s2] += rank[s1];
+			}
+		}
+	}
+};
+
+class Graph {
+	vector<pair<int,pair<int,int>>> edgeList;
+	int V;
+public:
+	Graph(int V): V(V) {}
+
+	void addEdge(int x, int y, int w) {
+		edgeList.push_back({w, {x, y}});
+	}
+
+	int kruskal_mst() {
+		//Sort all the edges bases upon their weights
+		sort(begin(edgeList), end(edgeList));
+		DSU s(V);
+		int ans = 0;
+
+		for (auto edge : edgeList) {
+			int w = edge.first;
+			int x = edge.second.first;
+			int y = edge.second.second;
+
+			if (s.find(x) != s.find(y)) {
+				s.unite(x, y);
+				ans += w;
+			}
+		}
+		return ans;
+	}
+};
+
+class Solution {
+public:
+int minCostConnectPoints(vector<vector<int>>& points) {
+	int n = points.size();
+	Graph g(n);
+	for (int i = 0; i < n; i++) {
+		for (int j = i + 1; j < n; j++) {
+			int dist = abs(points[j][0] - points[i][0]) + abs(points[j][1] - points[i][1]);
+			g.addEdge(i, j,dist);
+		}
+	}
+
+	return g.kruskal_mst();
+}
+};
