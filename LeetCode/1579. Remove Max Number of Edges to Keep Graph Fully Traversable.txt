@@ -1,0 +1,74 @@
+
+	//1579. Remove Max Number of Edges to Keep Graph Fully Traversable
+
+//Problem Link:	https://leetcode.com/problems/remove-max-number-of-edges-to-keep-graph-fully-traversable
+
+class DSU {
+	vector<int> parent, rank;
+public:
+	DSU(int n) {
+		parent = vector<int>(n, -1);
+		rank = vector<int>(n, 1);
+	}
+
+	int find(int i) {
+		if (parent[i] == -1) return i;
+		return parent[i] = find(parent[i]);
+	}
+
+	bool unite(int x, int y) {
+		int s1 = find(x);
+		int s2 = find(y);
+
+		if (s1 == s2) return false;
+
+		if (rank[s1] < rank[s1]) {
+			parent[s2] = s1;
+			rank[s1] += rank[s2];
+		} else {
+			parent[s1] = s2;
+			rank[s2] += rank[s1];
+		}
+		return true;
+	}
+
+	int size(int i) {
+		return rank[find(i)];
+	}
+};
+
+class Solution {
+public:
+int maxNumEdgesToRemove(int n, vector<vector<int>>& edges) {
+	vector<vector<int>> alice, bob, both;
+	for (auto &edge : edges) {
+		if (edge[0] == 1) {
+			alice.push_back({edge[1] - 1, edge[2] - 1});
+		} else if (edge[0] == 2) {
+			bob.push_back({edge[1] - 1, edge[2] - 1});
+		} else {
+			both.push_back({edge[1] - 1, edge[2] - 1});
+		}
+	}
+
+	DSU a(n), b(n);
+	int ans = 0;
+	//add the common edges
+	for (auto edge : both) {
+		ans += a.unite(edge[0], edge[1]);
+		b.unite(edge[0], edge[1]);
+	}
+
+	for (auto edge : alice) {
+		ans += a.unite(edge[0], edge[1]);
+	}
+
+	for (auto edge : bob) {
+		ans += b.unite(edge[0], edge[1]);
+	}
+
+	if (a.size(0) < n or b.size(0) < n) return -1;
+	return edges.size() - ans;
+}
+
+};
