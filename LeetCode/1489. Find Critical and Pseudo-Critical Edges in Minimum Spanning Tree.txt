@@ -1,0 +1,86 @@
+	//1489. Find Critical and Pseudo-Critical Edges in Minimum Spanning Tree
+
+//Problem Link:	https://leetcode.com/problems/find-critical-and-pseudo-critical-edges-in-minimum-spanning-tree
+
+class DSU {
+	int *parent;
+	int *rank;
+	int size; // no of disjoint sets
+public:
+	DSU(int n): size(n) {
+		parent = new int[n];
+		rank = new int[n];
+		for (int i = 0; i < n; i++) {
+			parent[i] = -1;
+			rank[i] = 1;
+		}
+	}
+
+	int find(int i) {
+		if (parent[i] == -1) return i;
+		return parent[i] = find(parent[i]);
+	}
+
+	void unite(int x, int y) {
+		int s1 = find(x);
+		int s2 = find(y);
+
+		if (s1 != s2) {
+			if (rank[s2] < rank[s1]) {
+				parent[s2] = s1;
+				rank[s1] += rank[s2];
+			} else {
+				parent[s1] = s2;
+				rank[s2] += rank[s1];
+			}
+			size--;
+		}
+	}
+
+	int getSize() {return size;}
+};
+
+int getMST(int V, vector<vector<int>> &edges, vector<int> inc, vector<int> exc) {
+	DSU g(V);
+	int weight = 0;
+	if (!inc.empty()) {
+		g.unite(inc[0], inc[1]);
+		weight += inc[2];
+	}
+
+	for (auto edge : edges) {
+		int s1 = g.find(edge[0]);
+		int s2 = g.find(edge[1]);
+
+		if (s1 != s2) {
+            if(!exc.empty() and exc == edge) continue;
+			g.unite(s1, s2);
+			weight += edge[2];
+		}
+	}
+
+	return g.getSize() == 1 ? weight : INT_MAX;
+}
+
+class Solution {
+public:
+vector<vector<int>> findCriticalAndPseudoCriticalEdges(int n, vector<vector<int>>& edges) {
+	vector<int> c, p;
+	for (int i = 0; i < edges.size(); i++) edges[i].push_back(i);
+    sort(begin(edges), end(edges), [](vector<int> &a, vector<int> &b) {
+		return a[2] < b[2];
+	});
+	int minCost = getMST(n, edges, {}, {});
+
+	for (auto edge : edges) {
+		int exclude = getMST(n, edges, {}, edge);
+		if (exclude > minCost) {
+			c.push_back(edge[3]);
+		} else {
+			int exclude = getMST(n, edges, edge, {});
+			if (exclude == minCost) p.push_back(edge[3]);
+		}
+	}
+	return {c, p};
+}
+};
