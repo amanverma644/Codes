@@ -1,0 +1,22 @@
+
+	//58. Length of Last Word
+
+//Problem Link:	https://leetcode.com/problems/length-of-last-word
+
+int lengthOfLastWord(string s) {
+    int tail = s.length() - 1,res = 0;
+    while(tail >=0 and s[tail] == ' ') tail--;
+    while(tail >=0 and s[tail] != ' ') tail--,res++;
+    return res;
+}
+
+//Tokenisation
+int lengthOfLastWord(string s) {
+    stringstream ss(s);
+    vector<string> tokens;
+    string token;
+    while(getline(ss,token,' ')){
+        if(token != "") tokens.push_back(token);
+    }
+    return tokens[tokens.size() - 1].size();
+}
