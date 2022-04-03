@@ -1,0 +1,22 @@
+
+	//31. Next Permutation
+
+//Problem Link:	https://leetcode.com/problems/next-permutation
+
+//Ref: https://www.youtube.com/watch?v=LuLCLgMElus&ab_channel=takeUforward
+
+void nextPermutation(vector<int>& nums) {
+    int n = nums.size(),k,l;
+    for(k = n - 2;k>=0;k--){
+        if(nums[k] < nums[k+1]) break;
+    }
+
+    if(k<0) reverse(begin(nums),end(nums));
+    else{
+        for(l = n - 1;l>k;l--){
+            if(nums[l] > nums[k]) break;
+        }
+        swap(nums[k],nums[l]);
+        reverse(begin(nums) + k + 1,end(nums));
+    }
+}
