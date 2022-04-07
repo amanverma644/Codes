@@ -1,0 +1,28 @@
+
+		//923. 3Sum With Multiplicity
+
+//Problem Link:	https://leetcode.com/problems/3sum-with-multiplicity
+
+int threeSumMulti(vector<int>& arr, int target) {
+	sort(begin(arr), end(arr));
+	int n = arr.size();
+	int count = 0;
+	int mod = 1e9 + 7;
+	for (int i = 0; i < n; i++) {
+		int lo = i + 1;
+		int hi = n - 1;
+		while (lo < hi) {
+			if (arr[i] + arr[lo] + arr[hi] == target) {
+				int countlo = 1, counthi = 1;
+				while (lo < hi and arr[lo] == arr[lo + 1]) {countlo++; lo++;}
+				while (lo < hi and arr[hi] == arr[hi - 1]) {counthi++; hi--;}
+				if (lo == hi) count = (count + countlo * (countlo - 1) / 2) % mod;
+				else count = (count + countlo * counthi)%mod;
+				lo++, hi--;
+			}
+			else if (arr[i] + arr[lo] + arr[hi] > target) hi--;
+			else lo++;
+		}
+	}
+	return count;
+}
