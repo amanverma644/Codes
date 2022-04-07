@@ -1,0 +1,13 @@
+	//1046. Last Stone Weight
+
+//Problem Link:	https://leetcode.com/problems/last-stone-weight
+
+int lastStoneWeight(vector<int>& stones) {
+    priority_queue<int> pq(begin(stones),end(stones));
+    while(!pq.empty() and pq.size() > 1){
+        int s1 = pq.top(); pq.pop();
+        int s2 = pq.top(); pq.pop();
+        if(s1 != s2) pq.push(abs(s1-s2));
+    }
+    return pq.empty() ? 0 : pq.top();
+}
