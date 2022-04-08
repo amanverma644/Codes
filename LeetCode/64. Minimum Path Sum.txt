@@ -1,0 +1,41 @@
+
+	//64. Minimum Path Sum
+
+//Problem Link:	https://leetcode.com/problems/minimum-path-sum
+
+
+//Dijkstra Algorithm
+int minPathSum(vector<vector<int>>& grid) {
+    int m = grid.size();
+    int n = grid[0].size();
+
+    vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+    vector<vector<int>> directions = { {1, 0}, {0, 1}};
+
+    set<vector<int>> s;
+    dist[0][0] = grid[0][0];
+    s.insert({dist[0][0], 0, 0});
+
+    while (!s.empty()) {
+        auto itr = s.begin();
+        vector<int> curr =  *itr;
+        int cx = curr[1];
+        int cy = curr[2];
+        int distTillNow = curr[0];
+        s.erase(itr);
+
+        for (auto dir : directions) {
+            int dx = cx + dir[0];
+            int dy = cy + dir[1];
+
+            if (dx >= 0 and dx < m and dy >= 0 and dy < n and distTillNow + grid[dx][dy] < dist[dx][dy]) {
+                auto f = s.find({dist[dx][dy], dx, dy});
+                if (f != s.end()) s.erase(f);
+                dist[dx][dy] = distTillNow + grid[dx][dy];
+                s.insert({dist[dx][dy], dx, dy});
+            }
+        }
+    }
+
+    return dist[m - 1][n - 1];
+}
