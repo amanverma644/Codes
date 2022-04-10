@@ -1,0 +1,25 @@
+	
+	//682. Baseball Game
+
+//Problem Link:	https://leetcode.com/problems/baseball-game
+
+int calPoints(vector<string>& ops) {
+    stack<int> s;
+    for(auto op:ops){
+        if(op == "C") s.pop();
+        else if(op == "D"){
+           int x = s.top();
+           s.push(2*x); 
+        }else if(op == "+"){
+          int x = s.top();
+          s.pop();
+          int y = s.top();
+          s.push(x);
+          s.push(x + y);  
+        }else s.push(stoi(op));
+    }
+
+    int ans = 0;
+    while(!s.empty()) ans+=s.top(),s.pop();
+    return ans;
+}
