@@ -1,0 +1,37 @@
+
+		//1254. Number of Closed Islands
+
+//Problem Link:	https://leetcode.com/problems/number-of-closed-islands
+
+vector<vector<int>> directions = {{1, 0}, { -1, 0}, {0, 1}, {0, -1}};
+
+void flood_fill(vector<vector<int>> &grid, int i, int j, int color) {
+    grid[i][j] = color;
+    for (auto dir : directions) {
+        int dx = i + dir[0];
+        int dy = j + dir[1];
+        if (dx >= 0 and dx < grid.size()  and dy >= 0 and dy < grid[0].size()  and grid[dx][dy] == 0) {
+            flood_fill(grid, dx, dy, color);
+        }
+    }
+}
+
+int closedIsland(vector<vector<int>>& grid) {
+    for(int i = 0;i<grid.size();i++){
+        for(int j = 0;j<grid[0].size();j++){
+            if((i*j == 0 or i == grid.size() -1 or j == grid[0].size() - 1) and grid[i][j] == 0){
+                flood_fill(grid,i,j,1);
+            }
+        }
+    }
+    int count = 0;
+    for(int i = 0;i<grid.size();i++){
+        for(int j = 0;j<grid[0].size();j++){
+            if(grid[i][j] == 0){
+                flood_fill(grid,i,j,1);
+                count++;
+            }
+        }
+    }
+    return count;
+}
