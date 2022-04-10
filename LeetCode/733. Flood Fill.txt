@@ -1,0 +1,23 @@
+
+			//733. Flood Fill
+
+//Problem Link:	https://leetcode.com/problems/flood-fill
+	
+vector<vector<int>> directions = {{1,0},{-1,0},{0,1},{0,-1}};
+
+void flood_fill(vector<vector<int>> &newImage,int i,int j,int newColor,int oldColor){
+    newImage[i][j] = newColor;
+    for(auto dir:directions){
+        int dx = i + dir[0];
+        int dy = j + dir[1];
+        if(dx >=0 and dx < newImage.size() and dy >= 0 and dy < newImage[0].size() and newImage[dx][dy] == oldColor){
+            flood_fill(newImage,dx,dy,newColor,oldColor);
+        }
+    }
+}
+vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+    vector<vector<int>> newImage(image);
+    if(image[sr][sc] == newColor) return newImage;
+    flood_fill(newImage,sr,sc,newColor,image[sr][sc]);
+    return newImage;
+}
