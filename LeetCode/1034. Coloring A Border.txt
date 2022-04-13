@@ -1,0 +1,34 @@
+		//1034. Coloring A Border
+
+//Problem Link:	https://leetcode.com/problems/coloring-a-border
+
+vector<vector<int>> directions = {{ -1, 0}, {1, 0}, {0, 1}, {0, -1}};
+
+class Solution {
+public:
+	void flood_fill(vector<vector<int>> &grid, int row, int col, int oldColor) {
+		grid[row][col] = -oldColor;
+		for (auto dir : directions) {
+			int dx = row + dir[0];
+			int dy = col + dir[1];
+			if (dx >= 0 and dx < grid.size() and dy >= 0 and dy < grid[0].size() and grid[dx][dy] == oldColor) {
+				flood_fill(grid, dx, dy, oldColor);
+			}
+		}
+
+		if (row > 0 and row < grid.size() - 1 and col > 0 and col < grid[0].size() - 1 and abs(grid[row][col + 1]) == oldColor
+		        and abs(grid[row][col - 1]) == oldColor and abs(grid[row + 1][col]) == oldColor and abs(grid[row - 1][col]) == oldColor) {
+			grid[row][col] = oldColor;
+		}
+	}
+
+	vector<vector<int>> colorBorder(vector<vector<int>>& grid, int row, int col, int color) {
+		flood_fill(grid, row, col, grid[row][col]);
+		for (auto &x : grid) {
+			for (auto &y : x) {
+				if (y < 0) y = color;
+			}
+		}
+		return grid;
+	}
+};
