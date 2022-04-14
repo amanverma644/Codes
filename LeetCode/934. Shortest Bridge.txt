@@ -1,0 +1,61 @@
+	
+	//934. Shortest Bridge
+
+//Problem Link:	https://leetcode.com/problems/shortest-bridge
+
+vector<vector<int>> directions = {{1, 0}, { -1, 0}, {0, 1}, {0, -1}};
+
+class Solution {
+public:
+void dfs(vector<vector<int>>& grid, int x, int y, queue<pair<int, int>> &q, vector<vector<int>> &dist) {
+	q.push({x, y});
+	dist[x][y] = 0;
+	grid[x][y] = 0;
+	for (auto dir : directions) {
+		int dx = x + dir[0];
+		int dy = y + dir[1];
+
+		if (dx >= 0 and dx < grid.size() and dy >= 0 and dy < grid[0].size() and grid[dx][dy] == 1) {
+			dfs(grid, dx, dy, q, dist);
+		}
+	}
+}
+
+int shortestBridge(vector<vector<int>>& grid) {
+	queue<pair<int, int>> q;
+	vector<vector<int>> dist(grid.size(), vector<int>(grid[0].size(), INT_MAX));
+	for (int i = 0; i < grid.size(); i++) {
+		bool flag = false;
+		for (int j = 0; j < grid[0].size(); j++) {
+			if (grid[i][j] == 1) {
+				dfs(grid, i, j, q,dist);
+				flag = true;
+				break;
+			}
+		}
+		if (flag) break;
+	}
+
+	int res = INT_MAX;
+	while (!q.empty()) {
+		int x = q.front().first;
+		int y = q.front().second;
+		q.pop();
+
+		if (dist[x][y] != INT_MAX and grid[x][y] == 1) {
+			res = min(res, dist[x][y]);
+		}
+
+		for (auto dir : directions) {
+			int dx = x + dir[0];
+			int dy = y + dir[1];
+
+			if (dx >= 0 and dx < grid.size() and dy >= 0 and dy < grid[0].size() and dist[dx][dy] == INT_MAX) {
+				q.push({dx, dy});
+				dist[dx][dy] = 1 + dist[x][y];
+			}
+		}
+	}
+	return res - 1;
+}
+};
