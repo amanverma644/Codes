@@ -1,0 +1,9 @@
+		//700. Search in a Binary Search Tree
+
+//Problem Link:	https://leetcode.com/problems/search-in-a-binary-search-tree
+
+TreeNode* searchBST(TreeNode* root, int val) {
+    if(!root) return root;
+    if(root->val == val) return root;
+    else return root->val > val ? searchBST(root->left,val) : searchBST(root->right,val);
+}
