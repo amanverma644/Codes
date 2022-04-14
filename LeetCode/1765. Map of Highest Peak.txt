@@ -1,0 +1,41 @@
+
+	//1765. Map of Highest Peak
+
+//Problem Link:	https://leetcode.com/problems/map-of-highest-peak
+
+vector<vector<int>> directions = {{1, 0}, { -1, 0}, {0, 1}, {0, -1}};
+
+class Solution {
+public:
+vector<vector<int>> highestPeak(vector<vector<int>>& isWater) {
+	queue<pair<int, int>> q;
+    int n = isWater.size(),m = isWater[0].size();
+	vector<vector<int>> dist(n, vector<int>(m, INT_MAX));
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			if (isWater[i][j] == 1) {
+				q.push({i, j});
+				dist[i][j] = 0;
+			}
+		}
+	}
+
+	while (!q.empty()) {
+		int x = q.front().first;
+		int y = q.front().second;
+		q.pop();
+
+		for (auto dir : directions) {
+			int dx = x + dir[0];
+			int dy = y + dir[1];
+
+			if (dx >= 0 and dx < n and dy >= 0 and dy < m and dist[dx][dy] == INT_MAX) {
+				q.push({dx, dy});
+				dist[dx][dy] = 1 + dist[x][y];
+			}
+		}
+	}
+
+	return dist;
+}
+};
