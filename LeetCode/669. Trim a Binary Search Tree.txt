@@ -1,0 +1,21 @@
+
+	//669. Trim a Binary Search Tree
+
+//Problem Link:	https://leetcode.com/problems/trim-a-binary-search-tree
+
+TreeNode* dfs(TreeNode* root,int l,int h){
+    if(!root) return root;
+    if(root->val >= l and root->val <= h){
+        root->left = dfs(root->left,l,h);
+        root->right = dfs(root->right,l,h);
+    }
+
+    if(root->val < l) root = dfs(root->right,l,h);
+    else if(root->val > h) root = dfs(root->left,l,h);
+
+    return root;
+}
+
+TreeNode* trimBST(TreeNode* root, int low, int high) {
+    return dfs(root,low,high);
+}
