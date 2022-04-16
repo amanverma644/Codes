@@ -1,0 +1,17 @@
+	
+	//538. Convert BST to Greater Tree
+
+//Problem Link:	https://leetcode.com/problems/convert-bst-to-greater-tree
+
+int sum = 0;
+void dfs(TreeNode* root){
+    if(!root) return;
+    if(root->right) dfs(root->right);
+    sum+=root->val;
+    root->val = sum;
+    if(root->left) dfs(root->left);
+}
+TreeNode* convertBST(TreeNode* root) {
+    dfs(root);
+    return root;
+}
