@@ -1,0 +1,49 @@
+	
+	//897. Increasing Order Search Tree
+
+//Problem Link:	https://leetcode.com/problems/increasing-order-search-tree
+
+TreeNode* increasingBST(TreeNode* root,TreeNode* tail = NULL) {
+    if(!root) return tail;
+    TreeNode* subProb = increasingBST(root->left,root);
+    root->left = NULL;
+    root->right = increasingBST(root->right,tail);
+    return subProb;
+}
+
+//Another Approach
+
+TreeNode *newRoot,*curr;
+
+void dfs(TreeNode *root){
+    if(!root) return;
+    dfs(root->left);
+    if(!newRoot) newRoot = new TreeNode(root->val),curr = newRoot;
+    else curr->right = new TreeNode(root->val), curr = curr->right;
+    dfs(root->right);
+}
+
+TreeNode* increasingBST(TreeNode* root) {
+    dfs(root);
+    return newRoot;
+}
+
+//Iterative Solution
+TreeNode* increasingBST(TreeNode* root) {
+    TreeNode *newRoot = new TreeNode(0), *curr = newRoot;
+    stack<TreeNode*> st;
+    while(root or !st.empty()){
+        while(root){
+            st.push(root);
+            root = root->left;
+        }
+        root = st.top();
+        st.pop();
+        
+        curr->right = root;
+        curr = curr->right;
+        root->left = NULL;
+        root = root->right;
+    }
+    return newRoot->right;
+}
