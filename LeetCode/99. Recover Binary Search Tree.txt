@@ -1,0 +1,35 @@
+
+	//99. Recover Binary Search Tree
+
+//Problem Link:	https://leetcode.com/problems/recover-binary-search-tree
+
+class Solution {
+private:
+    TreeNode* first;
+    TreeNode* prev;
+    TreeNode* middle;
+    TreeNode* last;
+public:    
+    void inorder(TreeNode* root){
+        if(!root) return;
+        inorder(root->left);
+        if(prev != NULL and prev->val > root->val){
+            //check if it's the first violation
+            if(first == NULL){
+                first = prev;
+                middle = root;
+            }else{
+                last = root;
+            }
+        }
+        prev = root;
+        inorder(root->right);
+    }
+
+    void recoverTree(TreeNode* root) {
+        prev = new TreeNode(INT_MIN);
+        inorder(root);
+        if(first and last) swap(first->val,last->val);
+        else swap(first->val,middle->val);
+    }
+};
