@@ -1,0 +1,33 @@
+
+	//1192. Critical Connections in a Network
+
+//Problem Link:	https://leetcode.com/problems/critical-connections-in-a-network
+
+void dfs(vector<int> gr[],int cur,int par,vector<int> &vis,vector<int> &disc,vector<int> &low,vector<vector<int>> &bridges,int tme){
+    vis[cur] = 1;
+    disc[cur] = low[cur] = tme;
+    for(auto x:gr[cur]){
+        if(!vis[x]){
+            dfs(gr,x,cur,vis,disc,low,bridges,tme+1);
+            low[cur] = min(low[cur],low[x]);
+            if(low[x] > disc[cur]){
+                bridges.push_back({cur,x});
+            }
+        }else if(x != par){
+            low[cur] = min(low[cur],disc[x]);
+        }
+    }
+}
+
+vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+    vector<int> gr[n];
+    for(auto edge:connections){
+        int x = edge[0], y = edge[1];
+        gr[x].push_back(y);
+        gr[y].push_back(x);
+    }
+    vector<int> vis(n,0),disc(n),low(n);
+    vector<vector<int>> bridges;
+    dfs(gr,0,-1,vis,disc,low,bridges,1);
+    return bridges;
+}
