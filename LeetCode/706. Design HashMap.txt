@@ -1,0 +1,75 @@
+
+	//706. Design HashMap
+
+//Problem Link:	https://leetcode.com/problems/design-hashmap
+
+class Node {
+public:
+	pair<int, int> data;
+	Node* next;
+	Node(int key, int val) {
+		data.first = key;
+		data.second = val;
+		next = NULL;
+	}
+};
+
+class MyHashMap {
+	Node* head;
+public:
+	MyHashMap() {
+		head = NULL;
+	}
+
+	void put(int key, int value) {
+		Node* newNode = new Node(key, value);
+		if (head == NULL) {
+			head = newNode;
+		} else {
+			if (head->data.first == key) {
+				head->data.second = value;
+				return;
+			}
+			Node* temp = head ->next;
+			Node* prev = head;
+			while (temp) {
+				if (temp->data.first == key) {
+					temp->data.second = value;
+					return;
+				}
+                prev = temp;
+				temp = temp->next;
+			}
+			prev->next = newNode;
+		}
+	}
+
+	int get(int key) {
+		if (!head) return -1;
+		Node* temp = head;
+		while (temp) {
+			if (temp->data.first == key){
+                return temp->data.second;
+            }
+			temp = temp->next;
+		}
+		return -1;
+	}
+
+	void remove(int key) {
+		if(get(key) == -1) return;
+		if (head->data.first == key) {
+			head = head->next;
+		} else {
+			Node* temp = head->next;
+			Node* prev = head;
+			while (temp and temp->data.first != key) {
+                prev = temp;
+				temp = temp->next;
+			}
+			if (temp) {
+				prev->next = temp->next;
+			}
+		}
+	}
+};
