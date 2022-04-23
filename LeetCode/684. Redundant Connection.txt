@@ -1,0 +1,53 @@
+
+	//684. Redundant Connection
+
+//Problem Link:	https://leetcode.com/problems/redundant-connection
+
+//find
+int find_set(int i, int parent[]) {
+    if (parent[i] == -1) return i;
+    //path compression
+    return parent[i] = find_set(parent[i], parent);
+}
+
+//union
+void union_set(int x, int y, int parent[],int rank[]) {
+    int s1 = find_set(x, parent);
+    int s2 = find_set(y, parent);
+    if (s1 != s2) {
+        if (rank[s2] < rank[s1]) {
+            parent[s2] = s1;
+            rank[s1] += rank[s2];
+        } else {
+            parent[s1] = s2;
+            rank[s2] += rank[s1];
+        }
+    }
+}
+
+vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+    int n = edges.size();
+    int *parent = new int[n];
+    int *rank = new int[n];
+
+    fill(parent,parent + n,-1);
+    fill(rank,rank + n,1);
+
+    vector<int> res;
+    for(auto edge:edges){
+        int i = edge[0] - 1;
+        int j = edge[1] - 1;
+
+        int s1 = find_set(i,parent);
+        int s2 = find_set(j,parent);
+
+        if(s1 != s2){
+            union_set(i,j,parent,rank);
+        }else{
+            res.clear();
+            res.push_back(i + 1);
+            res.push_back(j + 1);
+        }
+    }
+    return res;
+}
