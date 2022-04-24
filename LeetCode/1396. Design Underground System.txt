@@ -1,0 +1,27 @@
+
+	//1396. Design Underground System
+
+//Problem Link:	https://leetcode.com/problems/design-underground-system
+
+unordered_map<int,pair<string,int>> checkin;
+unordered_map<string,pair<int,int>> checkout;
+
+UndergroundSystem() {
+}
+
+void checkIn(int id, string stationName, int t) {
+    checkin[id] = {stationName,t};
+}
+
+void checkOut(int id, string stationName, int t) {
+    auto p = checkin[id];
+    string route = p.first + "-" + stationName;
+    checkout[route].first += t - p.second;
+    checkout[route].second+=1;
+}
+
+double getAverageTime(string startStation, string endStation) {
+    string route = startStation + "-" + endStation;
+    auto p = checkout[route];
+    return (double) p.first/p.second;
+}
