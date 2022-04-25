@@ -1,0 +1,26 @@
+
+	//284. Peeking Iterator
+
+//Problem Link:	https://leetcode.com/problems/peeking-iterator
+
+class PeekingIterator : public Iterator {
+public:
+    list<int> v;
+	PeekingIterator(const vector<int>& nums) : Iterator(nums) {
+	    for(auto num:nums){
+            v.push_back(num);
+        }
+	}
+	int peek() {
+        return v.front();
+	}
+	int next() {
+	    int x = v.front();
+        v.pop_front();
+        return x;
+	}
+	
+	bool hasNext() const {
+	    return v.size();
+	}
+};
