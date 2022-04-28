@@ -1,0 +1,40 @@
+
+	//1631. Path With Minimum Effort
+
+//Problem Link:	https://leetcode.com/problems/path-with-minimum-effort
+
+int minimumEffortPath(vector<vector<int>>& heights) {
+    int m = heights.size();
+    int n = heights[0].size();
+    const int MAX = 1e6 + 1;
+
+    vector<vector<int>> dist(m,vector<int>(n,MAX));
+    vector<vector<int>> directions = {{1,0},{-1,0},{0,1},{0,-1}};
+    set<vector<int>> s;
+    dist[0][0] = 0;
+    s.insert({dist[0][0],0,0});
+
+    while(!s.empty()){
+        auto itr = s.begin();
+        vector<int> curr = *itr;
+        int distTillNow = curr[0];
+        int cx = curr[1];
+        int cy = curr[2];
+        s.erase(itr);
+
+        // cout<<cx<<" "<<cy<<endl;
+        for(auto dir:directions){
+            int dx = cx + dir[0];
+            int dy = cy + dir[1];
+            if(dx >=0 and dx < m and dy >= 0 and dy < n){
+                int newDist = max(distTillNow,abs(heights[dx][dy] - heights[cx][cy]));
+                if(newDist < dist[dx][dy]){
+                    dist[dx][dy] = newDist;
+                    s.insert({dist[dx][dy],dx,dy});      
+                }
+            }
+        }
+    }
+
+    return dist[m-1][n-1];
+}
