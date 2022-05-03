@@ -1,0 +1,34 @@
+
+	//581. Shortest Unsorted Continuous Subarray
+
+//Problem Link:	https://leetcode.com/problems/shortest-unsorted-continuous-subarray
+
+//O(N)
+int findUnsortedSubarray(vector<int>& nums) {
+    int n = nums.size();
+    //minimum from right hand side and max from left hand side
+    vector<int> minrhs(n),maxlhs(n);
+    minrhs[n-1] = nums[n-1],maxlhs[0] = nums[0];
+    for(int i = n - 2;i >= 0;i--){
+        minrhs[i] = min(minrhs[i+1],nums[i]);
+    }
+    for(int j = 1;j < n;j++){
+        maxlhs[j] = max(maxlhs[j-1],nums[j]);
+    }
+    
+    int i = 0,j = n - 1;
+    while(i < n and nums[i] <= minrhs[i]) i++;
+    while(j > i and nums[j] >= maxlhs[j]) j--;
+    return j - i + 1;
+}
+
+//O(NlogN)
+int findUnsortedSubarray(vector<int>& nums) {
+    vector<int> arr(nums);
+    sort(begin(arr),end(arr));
+    int n = nums.size();
+    int i = 0,j = n - 1;
+    while(i < n and nums[i] == arr[i]) i++;
+    while(j > i and nums[j] == arr[j]) j--;
+    return j-i+1;
+}
