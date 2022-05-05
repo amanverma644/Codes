@@ -1,0 +1,60 @@
+
+	//225. Implement Stack using Queues
+
+//Problem Link:	https://leetcode.com/problems/implement-stack-using-queues
+
+class MyStack {
+private:
+    queue<int> q1,q2;
+public:
+    MyStack() {
+    }
+    
+    void push(int x) {
+        q1.push(x);
+    }
+    
+    int pop() {
+        if(!q1.empty()){
+            while(q1.size() > 1){
+                q2.push(q1.front());
+                q1.pop();
+            }
+            int x = q1.front();
+            q1.pop();
+            return x;
+        }
+        while(q2.size() > 1){
+            q1.push(q2.front());
+            q2.pop();
+        }
+        int y = q2.front();
+        q2.pop();
+        return y;            
+    }
+    
+    int top() {
+        if(!q1.empty()){
+            while(q1.size() > 1){
+                q2.push(q1.front());
+                q1.pop();
+            }
+            int x = q1.front();
+            q1.pop();
+            q2.push(x);
+            return x;
+        }
+        while(q2.size() > 1){
+                q1.push(q2.front());
+                q2.pop();
+        }
+        int y = q2.front();
+        q2.pop();
+        q1.push(y);
+        return y;
+    }
+    
+    bool empty() {
+        return !(q1.size() or q2.size());
+    }
+};
