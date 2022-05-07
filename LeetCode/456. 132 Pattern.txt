@@ -1,0 +1,18 @@
+
+	//456. 132 Pattern
+
+//Problem Link:	https://leetcode.com/problems/132-pattern
+
+bool find132pattern(vector<int>& nums) {
+    stack<int> st;
+    int secondMax = INT_MIN;
+    for(int i = nums.size() - 1;i >= 0;i--){
+        if(nums[i] < secondMax) return true;
+        while(!st.empty() and nums[i] > st.top()){
+            secondMax = max(secondMax,st.top());
+            st.pop();
+        }
+        st.push(nums[i]);
+    }
+    return false;
+}
