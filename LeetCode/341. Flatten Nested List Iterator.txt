@@ -1,0 +1,32 @@
+
+	//341. Flatten Nested List Iterator
+
+//Problem Link:	https://leetcode.com/problems/flatten-nested-list-iterator
+
+class NestedIterator {
+public:
+    stack<NestedInteger> nodes;
+    void flatten(vector<NestedInteger> &nestedList){
+        for(int i = nestedList.size() - 1;i >= 0;i--){
+            nodes.push(nestedList[i]);
+        }
+    }
+    NestedIterator(vector<NestedInteger> &nestedList) {
+        flatten(nestedList);
+    }
+    
+    int next() {
+        int x = nodes.top().getInteger();
+        nodes.pop();
+        return x;
+    }
+    
+    bool hasNext() {
+        while((!nodes.empty()) and (!nodes.top().isInteger())){
+            auto l = nodes.top().getList();
+            nodes.pop();
+            flatten(l);
+        }
+        return !nodes.empty();
+    }
+};
