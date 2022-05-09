@@ -1,0 +1,49 @@
+
+	//17. Letter Combinations of a Phone Number
+
+//Problem Link:	https://leetcode.com/problems/letter-combinations-of-a-phone-number
+
+//Iterative Solution
+vector<string> keypad = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+
+vector<string> letterCombinations(string digits) {
+    if(!digits.length()) return {};
+    vector<string> res;
+    res.push_back("");
+    for(auto digit:digits){
+        vector<string> temp;
+        for(auto ch:keypad[digit - '0']){
+            for(auto x:res){
+                temp.push_back(x + ch);
+            }
+        }
+        res.swap(temp);
+    }
+    return res;
+}
+
+//Backtracking Solution
+void helper(vector<string> &v,int i,int n,string curr,vector<string> &res){
+    if(i == n){
+        res.push_back(curr);
+        return;
+    }
+    for(int j = 0;j < v[i].length();j++){
+        curr.push_back(v[i][j]);
+        helper(v,i+1,n,curr,res);
+        curr.pop_back();
+    }
+}
+
+vector<string> letterCombinations(string digits) {
+    if(digits.size() == 0) return {};
+    string keypad[8] = {"abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+    vector<string> v;
+    for(auto ch:digits){
+        v.push_back(keypad[(ch-'0')-2]);
+    }
+    int n = digits.length();
+    vector<string> res;
+    helper(v,0,n,"",res);
+    return res;
+}
