@@ -1,0 +1,23 @@
+
+	//216. Combination Sum III
+
+//Problem Link:	https://leetcode.com/problems/combination-sum-iii
+
+void helper(int start,int n,int k,vector<vector<int>> &res,vector<int> &comb){
+    if(n == 0 and comb.size() == k){
+        res.push_back(comb);
+        return;
+    }
+    for(int i = start;i<=9;i++){
+        comb.push_back(i);
+        helper(i+1,n-i,k,res,comb);
+        comb.pop_back();
+    }
+}
+
+vector<vector<int>> combinationSum3(int k, int n) {
+    vector<vector<int>> res;
+    vector<int> comb;
+    helper(1,n,k,res,comb);
+    return res;
+}
