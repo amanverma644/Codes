@@ -1,0 +1,31 @@
+
+	//1641. Count Sorted Vowel Strings
+
+//Problem Link:	https://leetcode.com/problems/count-sorted-vowel-strings
+
+//Using combinotorics
+int countVowelStrings(int n) {
+    return (n+1)*(n+2)*(n+3)*(n+4)/24;
+}
+
+//1D DP
+int countVowelStrings(int n) {
+    vector<int> dp(5,1);
+    for(int i = 1;i<n;i++){
+        for(int j = 1;j<5;j++){
+            dp[j]+=dp[j-1];
+        }
+    }
+    return accumulate(begin(dp),end(dp),0);
+}
+
+//2D DP
+int countVowelStrings(int n) {
+    vector<vector<int>> dp(n,vector<int>(5,1));
+    for(int i = 1;i<n;i++){
+        for(int j = 1;j<5;j++){
+            dp[i][j] = dp[i-1][j] + dp[i][j-1];
+        }
+    }
+    return accumulate(begin(dp[n-1]),end(dp[n-1]),0);
+}
