@@ -3,6 +3,30 @@
 
 //Problem Link:	https://leetcode.com/problems/permutations-ii
 
+
+//Swapping Approach
+void helper(vector<int> nums,int i,vector<vector<int>> &res){
+    if(i == nums.size() - 1){
+        res.push_back(nums);
+        return;
+    }
+
+    for(int j = i;j < nums.size();j++){
+        if(i != j and nums[i] == nums[j]) continue;
+        swap(nums[i],nums[j]);
+        helper(nums,i+1,res);
+    }
+}
+
+vector<vector<int>> permuteUnique(vector<int>& nums) {
+    sort(begin(nums),end(nums));
+    vector<vector<int>> res;
+    helper(nums,0,res);
+    return res;
+}
+
+
+//Backtracking Approach
 void helper(vector<int> &nums,vector<vector<int>> &res,vector<int> comb,vector<bool> &vis){
     if(comb.size() == nums.size()){
         res.push_back(comb);
