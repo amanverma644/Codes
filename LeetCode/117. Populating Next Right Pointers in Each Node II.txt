@@ -1,0 +1,72 @@
+
+	//117. Populating Next Right Pointers in Each Node II
+
+//Problem Link:	https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii
+
+
+//Iterative Approach
+Node* connect(Node* root) {
+    Node* curr = root;
+    Node* prev = NULL;
+    Node* head = NULL;
+    
+    while(curr){
+        //traverse the current level
+        while(curr){
+            if(curr->left){ 
+                if(prev) prev->next = curr->left;
+                else head = curr->left;
+                prev = curr->left;
+            }
+            if(curr->right){ 
+                if(prev) prev->next = curr->right;
+                else head = curr->right;
+                prev = curr->right;
+            }
+            curr = curr->next;
+        }
+        //move the curr pointer to the next level
+        curr = head;
+        prev = NULL;
+        head = NULL;
+    }
+    return root;
+}
+
+//Brute Force
+Node* connect(Node* root) {
+    if(!root) return root;
+
+    queue<Node*> q;
+    q.push(root);
+
+    while(!q.empty()){
+        int levelSize = q.size();
+        queue<Node*> conn;
+        while(levelSize){
+            Node* curr = q.front();
+            q.pop();
+            conn.push(curr);
+
+            if(curr and curr->left){
+                q.push(curr->left);
+            }
+            if(curr and curr->right){
+                q.push(curr->right);
+            }
+            levelSize--;
+        }
+
+        Node *prev = conn.front();
+        conn.pop();
+
+        while(!conn.empty()){
+            Node* curr = conn.front();
+            conn.pop();
+            prev->next = curr;
+            prev = curr;
+        }
+    }
+
+    return root;
+}
