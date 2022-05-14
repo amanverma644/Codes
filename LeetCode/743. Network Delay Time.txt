@@ -1,0 +1,55 @@
+
+	//743. Network Delay Time
+
+//Problem Link:	https://leetcode.com/problems/network-delay-time
+
+int dijkstra(vector<pair<int,int>> l[],int n,int src) {
+    vector<pair<int, int>> dist;
+    for (int i = 0; i < n; i++) {
+        dist.push_back({i, INT_MAX});
+    }
+    set<pair<int, int>> s;
+
+    s.insert({0, src});
+    dist[src].second = 0;
+
+    while (!s.empty()) {
+        auto itr = s.begin();
+        int node = itr->second;
+        int distTillNow = itr->first;
+        s.erase(itr); //pop
+
+        //iterate over the nbrs of node
+        for (auto nbrPair : l[node]) {
+            int nbr = nbrPair.first;
+            int currentEdge = nbrPair.second;
+
+            if (distTillNow + currentEdge < dist[nbr].second) {
+                //remove if nbr if already present in the set
+                auto f = s.find({dist[nbr].second, nbr});
+                if (f != s.end()) {
+                    s.erase(f);
+                }
+
+                //insert the updated value with the new dist
+                dist[nbr].second = distTillNow + currentEdge;
+                dist[nbr].first = node;
+                s.insert({dist[nbr].second, nbr});
+            }
+        }
+    }
+    int ans = INT_MIN;
+    for(auto x:dist){
+        ans = max(ans,x.second);
+    }
+    return ans == INT_MAX ? -1 : ans;
+}
+
+int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+    vector<pair<int,int>> l[n];
+    for(auto time:times){
+        l[time[0] - 1].push_back({time[1] - 1,time[2]});
+    }
+
+    return dijkstra(l,n,k-1);
+}
