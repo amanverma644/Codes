@@ -1,0 +1,25 @@
+
+	//1302. Deepest Leaves Sum
+
+//Problem Link:	https://leetcode.com/problems/deepest-leaves-sum
+
+int deepestLeavesSum(TreeNode* root) {
+    int res = 0;
+    
+    queue<TreeNode*> q;
+    q.push(root);
+    
+    while(!q.empty()){
+        int levelSize = q.size();
+        res = 0;
+        while(levelSize){
+            auto curr = q.front();
+            q.pop();
+            res+=curr->val;
+            if(curr->left) q.push(curr->left);
+            if(curr->right) q.push(curr->right);
+            levelSize--; 
+        }
+    }
+    return res;
+}
