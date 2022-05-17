@@ -1,0 +1,13 @@
+
+	//1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree
+
+
+//Problem Link:	https://leetcode.com/problems/find-a-corresponding-node-of-a-binary-tree-in-a-clone-of-that-tree
+
+TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) {
+    if(!original) return cloned;
+    if(original->val == target->val) return cloned;
+    TreeNode* leftSub = getTargetCopy(original->left,cloned->left,target);
+    if(leftSub) return leftSub;
+    return getTargetCopy(original->right,cloned->right,target);
+}
