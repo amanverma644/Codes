@@ -1,0 +1,32 @@
+
+	//329. Longest Increasing Path in a Matrix
+
+//Problem Link:	https://leetcode.com/problems/longest-increasing-path-in-a-matrix
+
+vector<vector<int>> directions = {{1,0},{-1,0},{0,1},{0,-1}};
+
+int dfs(vector<vector<int>>& matrix,int i,int j,vector<vector<int>> &dp){
+    if(dp[i][j] != 0) return dp[i][j];
+    int ans = 1;
+    for(auto dir:directions){
+        int dx = i + dir[0];
+        int dy = j + dir[1];
+        if(dx >= 0 and dx < matrix.size() and dy >= 0 and dy < matrix[0].size() and matrix[dx][dy] > matrix[i][j]){
+            int subProb = 1 + dfs(matrix,dx,dy,dp);
+            ans = max(ans,subProb);
+        }
+    }
+    dp[i][j] = ans;
+    return ans;
+}
+
+int longestIncreasingPath(vector<vector<int>>& matrix) {
+    vector<vector<int>> dp(matrix.size(),vector<int>(matrix[0].size(),0));
+    int res = 1;
+    for(int i = 0;i<matrix.size();i++){
+        for(int j = 0;j<matrix[0].size();j++){
+            res = max(res,dfs(matrix,i,j,dp));
+        }
+    }
+    return res;
+}
