@@ -1,0 +1,55 @@
+
+	//354. Russian Doll Envelopes
+
+//Problem Link:	https://leetcode.com/problems/russian-doll-envelopes
+
+//TC: O(NlogN)
+int binary_search(vector<int> &dp,int s,int e,int t){
+    while(s < e){
+        int mid = s + (e-s)/2;
+        if(dp[mid] == t) return mid;
+        if(dp[mid] > t) e = mid;
+        else s = mid + 1;
+    }
+    return s;
+}
+    
+int maxEnvelopes(vector<vector<int>>& envelopes) {
+    sort(begin(envelopes),end(envelopes),[](vector<int> a,vector<int> b){
+    if(a[0] == b[0]) return a[1] > b[1];
+    return a[0] < b[0]; 
+    });
+
+    int n = envelopes.size();
+    vector<int> dp(n,0);
+
+    int maxLen = 0;
+    for(int i = 0;i<n;i++){
+      int index = binary_search(dp,0,maxLen,envelopes[i][1]);
+      dp[index] = envelopes[i][1];
+      if(index == maxLen) maxLen++; 
+    }
+    return maxLen;
+}
+
+//Brute Force
+int maxEnvelopes(vector<vector<int>>& envelopes) {
+    sort(begin(envelopes),end(envelopes),[](vector<int> a,vector<int> b){
+    if(a[0] == b[0]) return a[1] > b[1];
+    return a[0] > b[0]; 
+    });
+
+    int n = envelopes.size();
+    vector<int> dp(n,1);
+
+    int ans = 1;
+    for(int i = 1;i<n;i++){
+        for(int j = 0;j<i;j++){
+            if(envelopes[j][0] > envelopes[i][0] and envelopes[j][1] > envelopes[i][1]){
+                dp[i] = max(dp[i],1 + dp[j]);
+                ans = max(ans,dp[i]);
+            }
+        }
+    }
+    return ans;
+}
