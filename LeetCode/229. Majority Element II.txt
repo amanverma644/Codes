@@ -1,0 +1,38 @@
+
+		//229. Majority Element II
+
+//Problem Link:	https://leetcode.com/problems/majority-element-ii
+
+//T.C: O(N), S.C: O(1)
+vector<int> majorityElement(vector<int>& nums) {
+    int a = 0,b = 0;
+    int cntA = 0,cntB = 0;
+    for(auto num:nums){
+        if(a == num) cntA++;
+        else if(b == num) cntB++;
+        else if(cntA == 0) a = num,cntA++;
+        else if(cntB == 0) b = num,cntB++;
+        else cntA--,cntB--;
+    }
+    cntA = cntB = 0;
+    for(auto num:nums){
+        if(a == num) cntA++;
+        else if(b == num) cntB++;
+    }
+
+    vector<int> res;
+    if(cntA > nums.size()/3) res.push_back(a);
+    if(cntB > nums.size()/3) res.push_back(b);
+    return res;
+}
+
+//T.C: O(N), S.C: O(N)
+
+vector<int> majorityElement(vector<int>& nums) {
+    int minFreq = nums.size() / 3;
+    vector<int> res;
+    unordered_map<int,int> mp;
+    for(auto num:nums) mp[num]++;
+    for(auto p: mp)if(p.second > minFreq) res.push_back(p.first);
+    return res;
+}	
