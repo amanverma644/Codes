@@ -3,6 +3,29 @@
 
 //Problem Link:	https://leetcode.com/problems/merge-sorted-array
 
+//TIME: O(M*N) ; SPACE: O(1)
+void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+    if(n == 0) return;
+    //iterate the over the list of nums1
+    for(int i = 0;i<m;i++){
+        if(nums1[i] > nums2[0]){
+            swap(nums1[i],nums2[0]);
+            int x = nums2[0];
+            //place the ele x at its correct position in nums2
+            //perform insertion sort
+            int j = 1;
+            for(;j < n and nums2[j] < x;j++){
+                nums2[j-1] = nums2[j];
+            }
+            nums2[j-1] = x;
+        }
+    }
+
+    for(int i = 0;i<n;i++) nums1[m + i] = nums2[i];
+}
+
+
+//uses extra O(M+N) space
 void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
     vector<int> res;
     int i = 0,j = 0;
