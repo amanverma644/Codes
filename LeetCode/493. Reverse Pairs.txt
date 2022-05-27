@@ -1,0 +1,38 @@
+
+		//493. Reverse Pairs
+
+//Problem Link:	https://leetcode.com/problems/reverse-pairs
+
+int merge(vector<int> &nums,int s,int mid,int e){
+    int cnt = 0;
+    int i = s, j = mid + 1;
+    for(;i<=mid;i++){
+        while(j <= e and (long) nums[i] > (long) 2 * nums[j]) j++;
+        cnt += j - (mid + 1);
+    }
+
+    vector<int> temp;
+    i = s, j = mid + 1;
+    while(i <= mid and j <= e){
+        if(nums[i] < nums[j]) temp.push_back(nums[i++]);
+        else temp.push_back(nums[j++]);
+    }
+    while(i <= mid) temp.push_back(nums[i++]);
+    while(j <= e) temp.push_back(nums[j++]);
+
+    for(int k = s;k<=e;k++) nums[k] = temp[k-s];
+    return cnt;
+}
+
+int mergeSort(vector<int> &nums,int s,int e){
+    if(s >= e) return 0;
+    int mid = s + (e-s)/2;
+    int inv = mergeSort(nums,s,mid);
+    inv += mergeSort(nums,mid+1,e);
+    inv += merge(nums,s,mid,e);
+    return inv;
+}
+
+int reversePairs(vector<int>& nums) {
+    return mergeSort(nums,0,nums.size() - 1);
+}
