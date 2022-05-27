@@ -1,0 +1,20 @@
+
+	//50. Pow(x, n)
+
+//Problem Link:	https://leetcode.com/problems/powx-n
+
+double mul(double x,double y) { return (x * y) ; }
+double powrm(double x,int n){
+    double res = 1.00;
+    while(n){
+        if(n & 1) res = mul(res,x);
+        n/=2;
+        x = mul(x,x);
+    }
+    return res;
+}
+double myPow(double x, int n) {
+    double res = powrm(x,abs(n));
+    if(n < 0) return 1.00/res;
+    return res;
+}
