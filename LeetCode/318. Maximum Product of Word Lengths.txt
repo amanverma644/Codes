@@ -1,0 +1,65 @@
+
+	//318. Maximum Product of Word Lengths
+
+//Problem Link:	https://leetcode.com/problems/maximum-product-of-word-lengths
+
+//using bitmasking
+
+//generate unique hash for all the words
+//then check if there is some word common or not
+int maxProduct(vector<string>& words) {
+    int n = words.size();
+    vector<int> mask(n);
+    int res = 0;
+    for(int i = 0;i<n;i++){
+        for(auto ch:words[i]) mask[i] |= 1 << (ch - 'a');
+        for(int j = 0;j<i;j++){
+            if(!(mask[i] & mask[j])) res = max(res,int(size(words[i])*size(words[j])));
+        }
+    }
+    return res;
+}
+
+//using bitset
+bool isCommon(bitset<26> &w1,bitset<26> &w2){
+    for(int i = 0;i<26;i++) if(w1[i] and w2[i]) return true;
+    return false;
+}
+
+int maxProduct(vector<string>& words) {
+    int n = words.size();
+    vector<bitset<26>> chars(n);
+
+    int res = 0;
+    for(int i = 0;i<n;i++){
+        for(auto ch:words[i]) chars[i][ch - 'a'] = 1;
+        for(int j = 0;j<i;j++){
+            if(!isCommon(chars[i],chars[j])){
+                res = max(res,int(size(words[i]) * size(words[j])));
+            }
+        }
+    }
+    return res;
+}
+
+//using hashmap
+bool isCommon(vector<int> &w1,vector<int> &w2){
+    for(int i = 0;i<26;i++) if(w1[i] and w2[i]) return true;
+    return false;
+}
+
+int maxProduct(vector<string>& words) {
+    int n = words.size();
+    vector<vector<int>> chars(n,vector<int>(26,0));
+
+    int res = 0;
+    for(int i = 0;i<n;i++){
+        for(auto ch:words[i]) chars[i][ch - 'a'] = 1;
+        for(int j = 0;j<i;j++){
+            if(!isCommon(chars[i],chars[j])){
+                res = max(res,int(size(words[i]) * size(words[j])));
+            }
+        }
+    }
+    return res;
+}
