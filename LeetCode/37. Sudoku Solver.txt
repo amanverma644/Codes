@@ -1,0 +1,39 @@
+
+	//37. Sudoku Solver
+
+//Problem Link:	https://leetcode.com/problems/sudoku-solver
+
+bool isSafe(vector<vector<char>>& board,int i,int j,char no){
+    //check same row and col
+    for(int k = 0;k<9;k++) if(board[i][k] == no or board[k][j] == no) return false;
+    //check for subgrid
+    int sx = (i/3)*3;
+    int sy = (j/3)*3;
+
+    for(int x = sx;x < sx + 3;x++){
+        for(int y = sy;y<sy+3;y++){
+            if(board[x][y] == no) return false;
+        }
+    }
+    return true;
+
+}
+bool solve(vector<vector<char>>& board,int i,int j){
+    if(i == board.size()) return true;
+    if(j == board.size()) return solve(board,i+1,0);
+    if(board[i][j] != '.') return solve(board,i,j+1);
+    for(int no = 1;no < 10;no++){
+        char num = no + 48;
+        if(isSafe(board,i,j,num)){
+            board[i][j] = num;
+            bool solveProblem = solve(board,i,j+1);
+            if(solveProblem) return true;
+            board[i][j] = '.';
+        }
+    }
+    return false;
+}
+void solveSudoku(vector<vector<char>>& board) {
+    solve(board,0,0);
+    return;
+}
