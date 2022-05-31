@@ -1,0 +1,49 @@
+
+	//1461. Check If a String Contains All Binary Codes of Size K
+
+//Problem Link:	https://leetcode.com/problems/check-if-a-string-contains-all-binary-codes-of-size-k
+	
+//Optimal approach
+bool hasAllCodes(string s, int k) {
+    unordered_set<string> sub;
+    int n = s.size()-k+1;
+    for(int i = 0;i < n;i++) sub.insert(s.substr(i,k));
+    return sub.size() == pow(2,k);
+}		
+
+//Brute Force
+int hash(string s){
+    int res = 0,mul = 1;
+    while(s.length()){
+        if(s.back() == '1') res+=mul;
+        mul*=2;
+        s.pop_back();
+    }
+    return res;
+}
+
+bool hasAllCodes(string s, int k) {
+    set<int> sub;
+    int n = s.size()-k+1;
+    for(int i = 0;i < n;i++) sub.insert(hash(s.substr(i,k)));
+    for(int i = 0;i < (1 << k);i++) if(sub.find(i) == sub.end()) return false;
+    return true;
+}
+
+//Optimised Brute Force
+int hash(string s){
+    int res = 0,mul = 1;
+    while(s.length()){
+        if(s.back() == '1') res+=mul;
+        mul*=2;
+        s.pop_back();
+    }
+    return res;
+}
+
+bool hasAllCodes(string s, int k) {
+    unordered_set<int> sub;
+    int n = s.size()-k+1;
+    for(int i = 0;i < n;i++) sub.insert(hash(s.substr(i,k)));
+    return sub.size() == pow(2,k);
+}
