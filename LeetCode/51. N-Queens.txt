@@ -1,0 +1,44 @@
+
+	//51. N-Queens
+
+//Problem Link:	https://leetcode.com/problems/n-queens
+
+bool canPlace(vector<vector<string>> &board,int x,int y){
+    //check up
+    int i,j;
+    for(i = x - 1;i>=0;i--) if(board[i][y] == "Q") return false;
+    //top - right diagnol
+    i = x - 1,j = y + 1;
+    while(i >= 0 and j < board[0].size()) if(board[i--][j++] == "Q") return false;
+    //top - left diagonal
+    i = x - 1,j = y - 1;
+    while(i >=0 and j >=0 ) if(board[i--][j--] == "Q") return false;
+    return true;
+}
+
+void nQueen(vector<vector<string>> board,int i,vector<vector<string>> &res){
+    if(i == board.size()){
+        vector<string> temp;
+        for(auto x:board){
+            string s = "";
+            for(auto y:x) s+=y;
+            temp.push_back(s);
+        }
+        res.push_back(temp);
+        return;
+    }
+
+    for(int j = 0;j<board.size();j++){
+        if(canPlace(board,i,j)){
+            board[i][j] = "Q";
+            nQueen(board,i+1,res);
+            board[i][j] = ".";
+        }
+    }
+}
+    
+vector<vector<string>> solveNQueens(int n) {
+    vector<vector<string>> res,board(n,vector<string>(n,"."));
+    nQueen(board,0,res);
+    return res;
+}
