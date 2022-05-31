@@ -1,0 +1,46 @@
+
+		//46. Permutations
+
+//Problem Link:	https://leetcode.com/problems/permutations
+
+//Backtracking Approach
+void helper(vector<int> &nums,vector<int> &vis,vector<int> perm,vector<vector<int>> &res){
+    if(perm.size() == nums.size()){
+        res.push_back(perm);
+        return;
+    }
+    for(int i = 0;i<nums.size();i++){
+        if(!vis[i]){
+            vis[i] = 1;
+            perm.push_back(nums[i]);
+            helper(nums,vis,perm,res);
+            perm.pop_back();
+            vis[i] = 0;
+        }
+    }
+}
+
+vector<vector<int>> permute(vector<int>& nums) {
+    vector<vector<int>> res;
+    vector<int> perm,vis(nums.size(),0);
+    helper(nums,vis,perm,res);
+    return res;
+}
+
+//Shorter Code
+void permute(vector<int> nums,int i,vector<vector<int>> &res){
+    if(i == nums.size()){
+        res.push_back(nums);
+        return;
+    }
+    for(int k = i;k<nums.size();k++){
+        swap(nums[i],nums[k]);
+        permute(nums,i+1,res);
+    }
+}
+
+vector<vector<int>> permute(vector<int>& nums) {
+    vector<vector<int>> res;
+    permute(nums,0,res);
+    return res;
+}
