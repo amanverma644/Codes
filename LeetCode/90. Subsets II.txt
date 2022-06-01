@@ -1,0 +1,24 @@
+	
+	//90. Subsets II
+
+//Problem Link:	https://leetcode.com/problems/subsets-ii
+
+//Backtracking based approach
+void helper(vector<int> &nums,int i,vector<int> comb,vector<vector<int>> &res){
+    if(i == nums.size()){
+        res.push_back(comb);
+        return;
+    }
+    helper(nums,i+1,comb,res);
+    while(i + 1 < nums.size() and nums[i] == nums[i+1]) comb.push_back(nums[i++]);
+    comb.push_back(nums[i]);
+    helper(nums,i+1,comb,res);
+}
+
+vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+    sort(begin(nums),end(nums));
+    vector<vector<int>> res;
+    vector<int> comb;
+    helper(nums,0,comb,res);
+    return res;
+}
