@@ -1,0 +1,27 @@
+
+	//40. Combination Sum II
+
+//Problem Link:	https://leetcode.com/problems/combination-sum-ii
+
+void dfs(vector<int>& candidates,int i,int target,vector<int> comb,vector<vector<int>> &res){
+    if(target == 0){
+        res.push_back(comb);
+        return;
+    }
+
+    for(int j = i;j<candidates.size();j++){
+        if(candidates[j] > target) return;
+        if(j and candidates[j] == candidates[j-1] and j > i) continue;
+        comb.push_back(candidates[j]);
+        dfs(candidates,j+1,target - candidates[j],comb,res);
+        comb.pop_back();
+    }
+}
+
+vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+    vector<vector<int>> res;
+    vector<int> comb;
+    sort(begin(candidates),end(candidates));
+    dfs(candidates,0,target,comb,res);
+    return res;
+}
