@@ -1,0 +1,25 @@
+
+	//1658. Minimum Operations to Reduce X to Zero
+
+//Problem Link:	https://leetcode.com/problems/minimum-operations-to-reduce-x-to-zero
+
+int minOperations(vector<int>& nums, int x) {
+    int target = 0;
+    for(auto num:nums) target+=num;
+    target-=x;
+
+    if(target == 0) return nums.size();
+
+    int sum = 0;
+    unordered_map<int,int> mp;
+    int res = INT_MIN;
+    mp[0] = -1;
+    for(int i = 0;i < nums.size();i++){
+        sum+=nums[i];
+        if(mp.find(sum - target) != mp.end()){
+            res = max(res,i - mp[sum-target]);
+        }
+        mp[sum] = i;
+    }
+    return res == INT_MIN ? -1 : nums.size() -  res;
+}
