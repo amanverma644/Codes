@@ -1,0 +1,24 @@
+
+	//968. Binary Tree Cameras
+
+//Problem Link:	https://leetcode.com/problems/binary-tree-cameras
+
+int res;
+//0 -> It's an leaf Node 
+//1 -> It's an parent of the leaf node but without the camera
+//2 -> It's an covered node without camera on it
+int dfs(TreeNode* root){
+    if(!root) return 2;
+    int left = dfs(root->left);
+    int right = dfs(root->right);
+    if(left == 0 or right == 0){
+        res++;
+        return 1;
+    }
+    return (left == 1 or right == 1) ? 2 : 0;
+
+}
+
+int minCameraCover(TreeNode* root) {
+    return (dfs(root) < 1 ? 1 : 0) + res;
+}
