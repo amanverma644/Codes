@@ -1,0 +1,32 @@
+
+	//1268. Search Suggestions System
+
+//Problem Link:	https://leetcode.com/problems/search-suggestions-system
+
+struct Node{
+  vector<string> suggest = {};
+  unordered_map<char,Node*> next = {};
+};
+
+vector<vector<string>> suggestedProducts(vector<string>& products, string searchWord) {
+    Node *root = new Node();
+    for(auto product:products){
+        Node *temp = root;
+        for(auto c:product){
+            if(temp->next.count(c) == 0){
+                temp->next[c] = new Node();
+            }
+            temp = temp->next[c];
+            temp->suggest.push_back(product);
+        }
+    }
+
+    vector<vector<string>> res(searchWord.size());
+    for(int i = 0;i<searchWord.length() and root->next.count(searchWord[i]);i++){
+        root = root->next[searchWord[i]];
+        sort(begin(root->suggest),end(root->suggest));
+        root->suggest.resize(min(3,int(root->suggest.size())));
+        res[i] = root->suggest;
+    }
+    return res;
+}
