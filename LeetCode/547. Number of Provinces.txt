@@ -1,0 +1,58 @@
+
+	//547. Number of Provinces
+
+//Problem Link:	https://leetcode.com/problems/number-of-provinces
+
+//BFS
+int findCircleNum(vector<vector<int>>& isConnected) {
+    int cnt = 0;
+    int V = isConnected.size();
+    vector<int> vis(V,0);
+    for(int i = 0;i < V;i++){
+        for(int j = 0;j < V;j++){
+            if(isConnected[i][j] and !vis[i]){
+                cnt++;
+                vis[i] = 1;
+                queue<int> q;
+                q.push(i);
+
+                while(!q.empty()){
+                    int node = q.front();
+                    q.pop();
+
+                    for(int nbr = 0;nbr < V;nbr++){
+                        if(isConnected[node][nbr] and !vis[nbr]){
+                            vis[nbr] = 1;
+                            q.push(nbr);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return cnt;
+}
+
+//DFS
+void dfs(vector<vector<int>> &isConnected,int node,vector<int> &vis){
+    vis[node] = 1;
+    for(int nbr = 0;nbr < isConnected.size();nbr++){
+        if(node == nbr) continue;
+        else if(isConnected[node][nbr] and !vis[nbr]){
+            dfs(isConnected,nbr,vis);
+        }
+    }
+}
+
+int findCircleNum(vector<vector<int>>& isConnected) {
+    int V = isConnected.size();
+    vector<int> vis(V,0);
+    int cnt = 0;
+    for(int i = 0;i < V;i++){
+        if(!vis[i]){
+            dfs(isConnected,i,vis);
+            cnt++;
+        }
+    }
+    return cnt;
+}
