@@ -1,0 +1,67 @@
+
+		//200. Number of Islands
+
+//Problem Link:	https://leetcode.com/problems/number-of-islands
+
+//BFS
+
+vector<vector<int>> directions = {{1,0},{-1,0},{0,1},{0,-1}};
+
+int numIslands(vector<vector<char>>& grid) {
+    int cnt = 0;
+    int m = grid.size(), n = grid[0].size();
+    for(int i = 0;i < m;i++){
+        for(int j = 0;j < n;j++){
+            if(grid[i][j] == '1'){
+                cnt++;
+                grid[i][j] = '0';
+                queue<pair<int,int>> q;
+                q.push({i,j});
+                while(!q.empty()){
+                    auto pos = q.front();
+                    q.pop();
+
+                    int ii = pos.first;
+                    int jj = pos.second;
+
+                    for(auto dir:directions){
+                        int dx = ii + dir[0];
+                        int dy = jj + dir[1];
+                        if(dx >=0 and dx < m and dy >= 0 and dy < n and grid[dx][dy] == '1'){
+                            grid[dx][dy] = '0';
+                            q.push({dx,dy});
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return cnt;
+}
+
+//DFS
+vector<vector<int>> directions = {{1,0},{-1,0},{0,1},{0,-1}};
+
+void dfs(vector<vector<char>>& grid,int i,int j){
+    grid[i][j] = '0';
+    for(auto dir:directions){
+        int dx = i + dir[0];
+        int dy = j + dir[1];
+        if(dx >=0 and dx < grid.size() and dy >= 0 and dy < grid[0].size() and grid[dx][dy] == '1'){
+            dfs(grid,dx,dy);
+        }
+    }
+}
+
+int numIslands(vector<vector<char>>& grid) {
+    int count = 0;
+    for(int i = 0;i < grid.size();i++){
+        for(int j = 0;j < grid[0].size();j++){
+            if(grid[i][j] == '1'){
+                dfs(grid,i,j);
+                count++;
+            }
+        }
+    }
+    return count;
+}
