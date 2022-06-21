@@ -1,0 +1,31 @@
+
+	//2192. All Ancestors of a Node in a Directed Acyclic Graph
+
+//Problem Link:	https://leetcode.com/problems/all-ancestors-of-a-node-in-a-directed-acyclic-graph
+
+//DFS
+void dfs(vector<vector<int>> &gr,int node,vector<int> &vis){
+    vis[node] = 1;
+    for(auto nbr:gr[node]){
+        if(!vis[nbr]) dfs(gr,nbr,vis);
+    }
+}
+
+vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
+    vector<vector<int>> res;
+    vector<vector<int>> gr(n);
+    for(auto p:edges){
+        gr[p[1]].push_back(p[0]);
+    }
+
+    for(int i = 0;i < n;i++){
+        vector<int> vis(n,0);
+        dfs(gr,i,vis);
+        vector<int> curAns;
+        for(int j = 0;j < n;j++){
+            if(vis[j] and i !=j ) curAns.push_back(j);
+        }
+        res.push_back(curAns);
+    }
+    return res;
+}
