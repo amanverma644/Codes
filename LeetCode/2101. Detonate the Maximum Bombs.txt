@@ -1,0 +1,47 @@
+
+	//2101. Detonate the Maximum Bombs
+
+//Problem Link:	https://leetcode.com/problems/detonate-the-maximum-bombs
+
+//BFS
+int maximumDetonation(vector<vector<int>>& bombs) {
+    int res = 0;
+    for(int i = 0;i < bombs.size();i++){
+        int x = bombs[i][0];
+        int y = bombs[i][1];
+        int r = bombs[i][2];
+
+        vector<int> vis(bombs.size(),0);
+        int cnt = 0;
+        queue<pair<int,pair<int,int>>> q;
+        q.push({x,{y,r}});
+        vis[i] = 1;
+
+        while(!q.empty()){
+            cnt++;
+            auto node = q.front();
+            q.pop();
+
+            int xx = node.first;
+            int yy = node.second.first;
+            int rr = node.second.second;
+
+            for(int j = 0; j < bombs.size();j++){
+                if(vis[j]) continue;
+                int dx = bombs[j][0];
+                int dy = bombs[j][1];
+                int dr = bombs[j][2];
+
+                long long x2 = pow(dx - xx,2);
+                long long y2 = pow(dy - yy,2);
+                long long r2 = pow(rr,2);
+                if(x2 + y2 <= r2){
+                    vis[j] = 1;
+                    q.push({dx,{dy,dr}});
+                }
+            }
+        }
+        res = max(res,cnt);
+    }
+    return res;
+}
