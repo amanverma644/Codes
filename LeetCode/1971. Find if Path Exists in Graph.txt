@@ -1,0 +1,54 @@
+
+	//1971. Find if Path Exists in Graph
+
+//Problem Link:	https://leetcode.com/problems/find-if-path-exists-in-graph
+
+//DFS
+bool dfs(vector<vector<int>> &gr,int node,vector<bool> &vis,int dest){
+    if(node == dest) return true;
+    vis[node] = true;
+    for(auto nbr:gr[node]){
+        if(!vis[nbr]){
+            bool isFound = dfs(gr,nbr,vis,dest);
+            if(isFound) return true;
+        }
+    }
+    return false;
+}
+
+bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
+    vector<bool> vis(n,false);
+    vector<vector<int>> gr(n);
+    for(auto p:edges){
+        gr[p[0]].push_back(p[1]);
+        gr[p[1]].push_back(p[0]);
+    }
+    return dfs(gr,source,vis,destination);
+}
+
+//BFS
+bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
+    vector<vector<int>> gr(n);
+    for(auto p:edges){
+        gr[p[0]].push_back(p[1]);
+        gr[p[1]].push_back(p[0]);
+    }
+
+    vector<bool> vis(n,false);
+    queue<int> q;
+    q.push(source);
+    vis[source] = true;
+
+    while(!q.empty()){
+        int node = q.front();
+        q.pop();
+
+        for(auto nbr:gr[node]){
+            if(!vis[nbr]){
+               vis[nbr] = true;
+               q.push(nbr);
+            } 
+        }
+    }
+    return vis[destination];
+}
