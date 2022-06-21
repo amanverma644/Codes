@@ -1,0 +1,83 @@
+
+	//1462. Course Schedule IV
+
+//Problem Link:	https://leetcode.com/problems/course-schedule-iv
+
+//DFS
+void dfs(vector<vector<int>> &gr,int src,int node,vector<int> &vis,vector<vector<bool>> &isReachable){
+    vis[node] = 1;
+    isReachable[src][node] = true;
+    
+    for(auto nbr:gr[node]){
+        if(!vis[nbr]){
+            dfs(gr,src,nbr,vis,isReachable);
+        }
+    }
+}
+    
+vector<bool> checkIfPrerequisite(int numCourses, vector<vector<int>>& prerequisites, vector<vector<int>>& queries) {
+    vector<vector<int>> gr(numCourses);
+    vector<vector<bool>> isReachable(numCourses,vector<bool>(numCourses,false));
+
+    for(auto p:prerequisites){
+        int u = p[0];
+        int v = p[1];
+        gr[u].push_back(v);
+        isReachable[u][v] = true;
+    }
+
+    for(int i = 0;i < numCourses;i++){
+        vector<int> vis(numCourses,0);
+        dfs(gr,i,i,vis,isReachable);
+    }
+    
+    vector<bool> res;
+    for(auto query:queries){
+        res.push_back(isReachable[query[0]][query[1]]);
+    }
+
+    return res;
+}
+
+//BFS
+vector<bool> checkIfPrerequisite(int numCourses, vector<vector<int>>& prerequisites, vector<vector<int>>& queries) {
+    vector<vector<int>> gr(numCourses);
+    vector<int> inDegree(numCourses,0);
+    vector<vector<bool>> isReachable(numCourses,vector<bool>(numCourses,false));
+
+    for(auto p:prerequisites){
+        int u = p[0];
+        int v = p[1];
+        gr[u].push_back(v);
+        inDegree[v]++;
+        isReachable[u][v] = true;
+    }
+
+    queue<int> q;
+    for(int i = 0;i < numCourses;i++){
+        if(inDegree[i] == 0) q.push(i);
+    }
+
+
+    while(!q.empty()){
+        int node = q.front();
+        q.pop();
+
+        for(auto nbr:gr[node]){
+            for(int i = 0;i < numCourses;i++){
+                if(isReachable[i][node]) isReachable[i][nbr] = true;
+            }
+            if(--inDegree[nbr] == 0){
+                q.push(nbr);
+            }
+        }
+    }
+
+
+    vector<bool> res;
+    for(auto query:queries){
+        res.push_back(isReachable[query[0]][query[1]]);
+    }
+
+    return res;
+}
