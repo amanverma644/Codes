@@ -1,0 +1,26 @@
+
+	//1042. Flower Planting With No Adjacent
+
+//Problem Link:	https://leetcode.com/problems/flower-planting-with-no-adjacent
+
+vector<int> gardenNoAdj(int n, vector<vector<int>>& paths) {
+    vector<int> res(n,0);
+    vector<vector<int>> gr(n);
+    for(auto edge:paths){
+        int u = edge[0] - 1;
+        int v = edge[1] - 1;
+        gr[u].push_back(v);
+        gr[v].push_back(u);
+    }
+
+    //Greddly check all the nbrs of the current node
+    //which color is available or not
+    for(int i = 0; i < n;i++){
+        bool isUsed[5] = {};
+        for(auto nbr:gr[i]) isUsed[res[nbr]] = true;
+        for(int clr = 1;clr < 5;clr++){
+            if(!isUsed[clr]) res[i] = clr;
+        }
+    }
+    return res;
+}
