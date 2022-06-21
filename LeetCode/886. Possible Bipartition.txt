@@ -1,0 +1,29 @@
+
+	//886. Possible Bipartition
+
+//Problem Link:	https://leetcode.com/problems/possible-bipartition
+
+//DFS
+bool canColor(vector<vector<int>> &gr,int node,int par,vector<int> &vis,int clr){
+    vis[node] = clr;
+    for(auto nbr:gr[node]){
+        if(!vis[nbr]){
+            bool subProb = canColor(gr,nbr,node,vis,3 - clr);
+            if(!subProb) return false;
+        }else if(nbr != par and vis[node] == vis[nbr]) return false;
+    }
+    return true;
+}
+
+bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
+    vector<vector<int>> gr(n);
+    for(auto p:dislikes){
+        gr[p[0] - 1].push_back(p[1] - 1);
+        gr[p[1] - 1].push_back(p[0] - 1);
+    }
+    vector<int> vis(n,0);
+    for(int i = 0;i < n;i++){
+        if(!vis[i] and !canColor(gr,i,-1,vis,1)) return false;
+    }
+    return true;
+}
