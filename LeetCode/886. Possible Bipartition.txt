@@ -3,6 +3,35 @@
 
 //Problem Link:	https://leetcode.com/problems/possible-bipartition
 
+//BFS
+bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
+    vector<vector<int>> gr(n);
+    for(auto p:dislikes){
+        gr[p[0] - 1].push_back(p[1] - 1);
+        gr[p[1] - 1].push_back(p[0] - 1);
+    }
+    vector<int> vis(n,0);
+    for(int i = 0;i < n;i++){
+        if(!vis[i]){
+            queue<int> q;
+            q.push(i);
+            vis[i] = 1;
+            while(!q.empty()){
+                int node = q.front();
+                q.pop();
+
+                for(auto nbr: gr[node]){
+                    if(!vis[nbr]){
+                        vis[nbr] = 3 - vis[node];
+                        q.push(nbr);
+                    }else if(vis[nbr] == vis[node]) return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 //DFS
 bool canColor(vector<vector<int>> &gr,int node,int par,vector<int> &vis,int clr){
     vis[node] = clr;
