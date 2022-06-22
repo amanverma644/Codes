@@ -1,0 +1,74 @@
+
+	//1466. Reorder Routes to Make All Paths Lead to the City Zero
+
+//Problem Link:	https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero
+
+//DFS
+void dfs(vector<vector<int>> &gr,vector<vector<int>> &back,int node,vector<int> &vis,int &res){
+    vis[node] = 1;
+    for(auto nbr:gr[node]){
+        if(!vis[nbr]){
+            res++;
+            dfs(gr,back,nbr,vis,res);
+        }
+    }
+    for(auto nbr:back[node]){
+        if(!vis[nbr]){
+            dfs(gr,back,nbr,vis,res);
+        }
+    }
+}
+    
+int minReorder(int n, vector<vector<int>>& connections) {
+    vector<vector<int>> gr(n);
+    vector<vector<int>> back(n);
+    for(auto p:connections){
+        gr[p[0]].push_back(p[1]);
+        back[p[1]].push_back(p[0]);
+    }
+
+    int res = 0;
+    vector<int> vis(n,0);
+    dfs(gr,back,0,vis,res);
+    return res;
+}
+
+//BFS
+int minReorder(int n, vector<vector<int>>& connections) {
+    vector<vector<int>> gr(n);
+    vector<vector<int>> back(n);
+    for(auto p:connections){
+        gr[p[0]].push_back(p[1]);
+        back[p[1]].push_back(p[0]);
+    }
+
+    int res = 0;
+    vector<int> vis(n,0);
+    vis[0] = 1;
+    queue<int> q;
+    q.push(0);
+
+    while(!q.empty()){
+        int node = q.front();
+        q.pop();
+
+        //change the dir
+        for(auto nbr:gr[node]){
+            if(!vis[nbr]){
+                res++;
+                vis[nbr] = 1;
+                q.push(nbr);
+            }
+        }
+
+        //push the other nodes
+        for(auto nbr:back[node]){
+            if(!vis[nbr]) {
+                vis[nbr] = 1;
+                q.push(nbr);
+            }
+        }
+    }
+
+    return res;
+}
