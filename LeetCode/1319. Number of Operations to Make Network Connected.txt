@@ -1,0 +1,36 @@
+
+	//1319. Number of Operations to Make Network Connected
+
+//Problem Link:	https://leetcode.com/problems/number-of-operations-to-make-network-connected
+
+//DFS
+void dfs(vector<vector<int>> &gr,int node,int par,vector<int> &vis,int &cnt){
+    vis[node] = 1;
+    for(auto nbr:gr[node]){
+        if(!vis[nbr]) dfs(gr,nbr,node,vis,cnt);
+        else if(nbr != par) cnt++;
+    }
+}
+
+int makeConnected(int n, vector<vector<int>>& connections) {
+    vector<vector<int>> gr(n);
+    for(auto p:connections){
+        gr[p[0]].push_back(p[1]);
+        gr[p[1]].push_back(p[0]);
+    }
+
+    int res = 0,comp = -1;
+    vector<int> vis(n,0);
+    for(int i = 0;i < n;i++){
+        int cnt = 0;
+        if(!vis[i]){
+            comp++;
+            dfs(gr,i,-1,vis,cnt);
+            cnt/=2;
+        }
+        res+=cnt;
+    }
+
+    if(comp == 0) return 0;
+    return comp > res ? -1 : comp;
+}
