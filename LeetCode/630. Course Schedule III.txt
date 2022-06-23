@@ -1,0 +1,29 @@
+
+	//630. Course Schedule III
+
+//Problem Link:	https://leetcode.com/problems/course-schedule-iii
+
+int scheduleCourse(vector<vector<int>>& courses) {
+    sort(begin(courses),end(courses),[](vector<int> a,vector<int> b){
+       if(a[1] == b[1]) return a[0] < b[0];
+       return  a[1]  <  b[1];
+    });
+
+    int day = 0;
+    priority_queue<int> pq;
+
+    for(auto p:courses){
+        int dur = p[0];
+        int lastD = p[1];
+
+        if(day + dur <= lastD){
+            day+=dur;
+            pq.push(dur);
+        }else if(!pq.empty() and pq.top() > dur){
+            day += dur - pq.top();
+            pq.pop();
+            pq.push(dur);
+        }
+    }
+    return pq.size();
+}
