@@ -1,0 +1,51 @@
+
+		//685. Redundant Connection II
+
+//Problem Link:	https://leetcode.com/problems/redundant-connection-ii
+
+//Ref: https://www.youtube.com/watch?v=d0tqBMRZ6UQ&t=594s&ab_channel=Pepcoding
+
+int find_set(int i,vector<int> &parent){
+    if(parent[i] == -1) return i;
+    return parent[i] = find_set(parent[i],parent);
+}
+
+void union_set(int x,int y,vector<int> &parent){
+    parent[y] = x;
+}
+
+vector<int> findRedundantDirectedConnection(vector<vector<int>>& edges) {
+    int n = edges.size();
+    vector<int> parent(n+1,-1);
+    vector<int> inDegree(n+1,-1);
+
+    int bl1 = -1;
+    int bl2 = -1;
+
+    for(int i = 0;i < n;i++){
+        int u = edges[i][0],v = edges[i][1];
+        if(inDegree[v] == -1){
+            inDegree[v] = i;
+        }else{
+            bl1 = i;
+            bl2 = inDegree[v];
+            break;
+        }
+    }
+
+
+    for(int i = 0;i < edges.size();i++){
+        if(i == bl1) continue;
+
+        int u = edges[i][0],v = edges[i][1];
+        int s1 = find_set(u,parent);
+        int s2 = find_set(v,parent);
+
+        if(s1 != s2) union_set(u,v,parent);
+        else{
+            if(bl1 == -1) return edges[i];
+            else return edges[bl2];
+        }
+    }
+    return edges[bl1];
+}
