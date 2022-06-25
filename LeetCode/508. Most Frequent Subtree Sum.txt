@@ -1,0 +1,23 @@
+
+	//508. Most Frequent Subtree Sum
+
+//Problem Link:	https://leetcode.com/problems/most-frequent-subtree-sum
+
+unordered_map<int,int> mp;
+int maxFreq = 0;
+
+int dfs(TreeNode *root){
+    if(!root) return 0;
+    int sum = dfs(root->left) + dfs(root->right) + root->val;
+    maxFreq = max(maxFreq,++mp[sum]);
+    return sum;
+}
+
+vector<int> findFrequentTreeSum(TreeNode* root) {
+    dfs(root);
+    vector<int> res;
+    for(auto x:mp){
+        if(x.second == maxFreq) res.push_back(x.first);
+    }
+    return res;
+}
