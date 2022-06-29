@@ -1,0 +1,17 @@
+	
+	//145. Binary Tree Postorder Traversal
+
+//Problem Link:	https://leetcode.com/problems/binary-tree-postorder-traversal
+
+void dfs(TreeNode* root,vector<int> &res){
+    if(!root) return;
+    dfs(root->left,res);
+    dfs(root->right,res);
+    res.push_back(root->val);
+}
+
+vector<int> postorderTraversal(TreeNode* root) {
+    vector<int> res;
+    dfs(root,res);
+    return res;
+}
