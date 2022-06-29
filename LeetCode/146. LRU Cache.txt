@@ -1,0 +1,55 @@
+
+	//146. LRU Cache
+
+//Problem Link:	https://leetcode.com/problems/lru-cache
+
+class Node{
+ public:
+    int key;
+    int val;
+    Node(int key,int val){
+        this->key = key;
+        this->val = val;
+    }
+};
+
+class LRUCache {
+public:
+    list<Node> l;
+    unordered_map<int,list<Node> :: iterator> m;
+    int capacity;
+    
+    LRUCache(int capacity) {
+        this->capacity = capacity;    
+    }
+    
+    int get(int key) {
+        if(m.count(key) != 0){
+            auto it = m[key];
+            l.push_front(*it);
+            l.erase(it);
+            m[key] = l.begin();
+            return l.begin()->val;
+        }
+        return -1;
+    }
+    
+    void put(int key, int value) {
+        if(m.count(key) != 0){
+            auto it = m[key];
+            it->val = value;
+            l.push_front(*it);
+            l.erase(it);
+            m[key] = l.begin();
+        }else{
+            if(l.size() == capacity){
+                auto last = l.back();
+                m.erase(last.key);
+                l.pop_back();
+            }
+            Node n(key,value);
+            l.push_front(n);
+            m[key] = l.begin();
+        }
+    }
+};
