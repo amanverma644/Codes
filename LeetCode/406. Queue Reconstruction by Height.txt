@@ -1,0 +1,17 @@
+
+	//406. Queue Reconstruction by Height
+
+//Problem Link:	https://leetcode.com/problems/queue-reconstruction-by-height
+
+vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+    sort(begin(people),end(people),[](vector<int> a,vector<int> b){
+        if(a[0] == b[0]) return a[1] < b[1];
+        return a[0] > b[0];
+    });
+
+    vector<vector<int>> res;
+    for(auto p:people){
+        res.insert(begin(res) + p[1],p);
+    }
+    return res;
+}
