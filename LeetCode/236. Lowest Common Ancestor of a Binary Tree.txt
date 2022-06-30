@@ -1,0 +1,48 @@
+
+	//236. Lowest Common Ancestor of a Binary Tree
+
+//Problem Link:	https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree
+
+//BRUTE FORCE [AC]
+unordered_map<TreeNode*,TreeNode*> Par;
+unordered_map<TreeNode*,int> Dep;
+
+void dfs(TreeNode* root,TreeNode* par){
+    if(!root) return;
+    Par[root] = par;
+    Dep[root] = 1 + Dep[par];
+    dfs(root->left,root);
+    dfs(root->right,root);
+}
+
+TreeNode* lca(TreeNode *p,TreeNode* q){
+    if(Dep[p] < Dep[q]) swap(p,q);
+    int diff = Dep[p] - Dep[q];
+    while(diff--){
+        p = Par[p];
+    }
+
+    while(p != q){
+        p = Par[p];
+        q = Par[q];
+    }
+    return p;
+}
+
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    TreeNode *n = new TreeNode(-1);
+    Dep[n] = -1;
+
+    dfs(root,n);
+
+    return lca(p,q);
+}
+
+//Optimised Approach
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    if(!root or root == p or  root == q) return root;
+    auto p1 = lowestCommonAncestor(root->left,p,q);
+    auto p2 = lowestCommonAncestor(root->right,p,q);
+    if(p1 and p2) return root;
+    return p1 ? p1 : p2;
+}
