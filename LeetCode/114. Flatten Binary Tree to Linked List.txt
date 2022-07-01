@@ -1,0 +1,70 @@
+
+	//114. Flatten Binary Tree to Linked List
+
+//Problem Link:	https://leetcode.com/problems/flatten-binary-tree-to-linked-list
+
+//BRUTE FORCE (AC)
+void dfs(TreeNode* root,vector<TreeNode*> &v){
+    if(!root) return;
+    v.push_back(root);
+    dfs(root->left,v);
+    dfs(root->right,v);
+}
+
+void flatten(TreeNode* root) {
+    if(!root) return;
+    vector<TreeNode*> v;
+    dfs(root,v);
+    for(int i = 0;i < v.size() - 1;i++){
+        v[i] -> right = v[i+1];
+        v[i] -> left = NULL;
+    }
+}
+
+
+//Optimised approach
+void dfs(TreeNode* root,TreeNode* &prev){
+    if(!root) return;
+    dfs(root->right,prev);
+    dfs(root->left,prev);
+    root->right = prev;
+    root->left = NULL;
+    prev = root;
+}
+
+void flatten(TreeNode* root) {
+    TreeNode* prev = NULL;
+    dfs(root,prev);
+}
+
+//Stack Approach
+void flatten(TreeNode* root) {
+    if(!root) return;
+    stack<TreeNode*> st;
+    st.push(root);
+    while(!st.empty()){
+        auto node = st.top();
+        st.pop();
+        if(node->right) st.push(node->right);
+        if(node->left) st.push(node->left);
+        if(!st.empty()) node->right = st.top();
+        node->left = NULL;
+    }
+}
+
+//Kind of morris traversal
+void flatten(TreeNode* root) {
+    if(!root) return;
+    while(root){
+        if(root->left){
+            TreeNode* prev = root->left;
+            while(prev->right){
+                prev = prev->right;
+            }
+            prev->right = root->right;
+            root->right = root->left;
+            root->left = NULL;
+        }
+        root = root->right;
+    }
+}
