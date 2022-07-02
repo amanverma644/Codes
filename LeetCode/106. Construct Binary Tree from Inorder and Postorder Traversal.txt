@@ -1,0 +1,24 @@
+
+	//106. Construct Binary Tree from Inorder and Postorder Traversal
+
+//Problem Link:	https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal
+
+
+TreeNode* buildTree(vector<int> &inorder,int inSt,int inEn,vector<int> &postorder,int postSt,int postEn,unordered_map<int,int> &mp){
+    if((inSt > inEn) or (postSt > postEn)) return NULL;
+    TreeNode* root = new TreeNode(postorder[postEn]);
+    int partition = mp[root->val];
+    int leftNodes = partition - inSt;
+
+    root->left = buildTree(inorder,inSt,partition - 1,postorder,postSt,postSt + leftNodes - 1,mp);
+    root->right = buildTree(inorder,partition + 1,inEn,postorder,postSt + leftNodes,postEn - 1,mp);
+    return root;
+
+}
+
+TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+    unordered_map<int,int> mp;
+    for(int i = 0;i < inorder.size();i++) mp[inorder[i]] = i;
+    TreeNode* root = buildTree(inorder,0,inorder.size() - 1,postorder,0,postorder.size() - 1,mp);
+    return root;
+}
