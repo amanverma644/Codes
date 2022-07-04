@@ -22,6 +22,22 @@ Node* connect(Node* root){
     return root;
 }
 
+//Recursive approach
+Node* connect(Node* root){
+    if(!root) return root;
+    
+    if(root->left){
+        root->left->next = root->right;
+        if(root->next){
+            root->right->next = root->next->left;
+        }
+    }
+    
+    root->left = connect(root->left);
+    root->right = connect(root->right);
+    return root;
+}
+
 //BRUTE FORCE (LEVEL ORDER TRAVERSAL)
 Node* connect(Node* root){
     if(!root) return root;
