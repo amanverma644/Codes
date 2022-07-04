@@ -1,0 +1,45 @@
+
+	//116. Populating Next Right Pointers in Each Node
+
+//Problem Link:	https://leetcode.com/problems/populating-next-right-pointers-in-each-node
+
+//O(1) SPACE
+Node* connect(Node* root){
+    if(!root) return root;
+    Node* pre = root;
+    Node* curr = NULL;
+    
+    while(pre->left){
+        curr = pre;
+        while(curr){
+            curr->left->next = curr->right;
+            if(curr->next) curr->right->next = curr->next->left;
+            curr = curr->next;
+                
+        }
+        pre = pre->left;        
+    }
+    return root;
+}
+
+//BRUTE FORCE (LEVEL ORDER TRAVERSAL)
+Node* connect(Node* root){
+    if(!root) return root;
+    queue<Node*> q;
+    q.push(root);
+    while(!q.empty()){
+        int size = q.size();
+        Node *prev = NULL;
+        while(size--){
+            auto node = q.front();
+            q.pop();
+
+            node->next = prev;
+            prev = node;
+
+            if(node->right) q.push(node->right);
+            if(node->left) q.push(node->left);
+        }
+    }
+    return root;
+}
