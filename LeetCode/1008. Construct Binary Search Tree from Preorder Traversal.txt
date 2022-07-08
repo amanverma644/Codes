@@ -19,3 +19,17 @@ TreeNode* buildBST(vector<int>& preorder,int preS,int preE){
 TreeNode* bstFromPreorder(vector<int>& preorder) {
     return buildBST(preorder,0,preorder.size()-1);
 }
+
+//Optimised Approach
+TreeNode* build(vector<int>& preorder,int &i,int ub){
+    if(i == preorder.size() or preorder[i] > ub) return NULL;
+    TreeNode* root = new TreeNode(preorder[i++]);
+    root->left = build(preorder,i,root->val);
+    root->right = build(preorder,i,ub);
+    return root;
+}
+
+TreeNode* bstFromPreorder(vector<int>& preorder) {
+    int i = 0;
+    return build(preorder,i,INT_MAX);
+}
