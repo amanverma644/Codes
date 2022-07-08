@@ -18,3 +18,13 @@ bool isValidBST(TreeNode* root) {
   for(int i = 0;i < v.size() - 1;i++) if(v[i] >= v[i+1]) return false;
   return true;
 }
+
+//OPTIMISED APPROACH
+bool isBST(TreeNode* root,long lb,long ub){
+    if(!root) return true;
+    if(root->val <= lb or root->val >= ub) return false;
+    return isBST(root->left,lb,root->val) and isBST(root->right,root->val,ub);
+}
+bool isValidBST(TreeNode* root) {
+    return isBST(root,LONG_MIN,LONG_MAX);
+}
