@@ -1,0 +1,26 @@
+
+	//1473. Paint House III
+
+//Problem Link:	https://leetcode.com/problems/paint-house-iiis
+
+const int MAX = 1e6 + 1;
+int dp[101][101][21] = {};
+int dfs(vector<int>& houses, vector<vector<int>>& cost,int i,int target,int prev_clr){
+    if(i >= houses.size() or target < 0){
+        return target == 0 ? 0 : MAX;
+    }
+    if(houses[i] != 0){
+        return dfs(houses,cost,i+1,target - (houses[i] == prev_clr ? 0 : 1),houses[i]);
+    }
+    if(dp[i][target][prev_clr] != 0) return dp[i][target][prev_clr];
+    auto res = MAX;
+    for(int clr = 1;clr <= cost[i].size();clr++){
+        res = min(res,cost[i][clr-1] + dfs(houses,cost,i+1,target - (prev_clr == clr ? 0 : 1),clr)) ;
+    }
+    return dp[i][target][prev_clr] = res;
+}
+
+int minCost(vector<int>& houses, vector<vector<int>>& cost, int m, int n, int target) {
+    auto res = dfs(houses,cost,0,target,0);
+    return res >= MAX ? -1 : res; 
+}
