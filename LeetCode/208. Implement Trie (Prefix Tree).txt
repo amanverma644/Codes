@@ -1,0 +1,54 @@
+
+	//208. Implement Trie (Prefix Tree)
+
+//Problem Link:	https://leetcode.com/problems/implement-trie-prefix-tree	
+
+class Node{
+public:
+    char data;
+    unordered_map<char,Node*> children;
+    bool isTerminal;
+    
+    Node(char data){
+        this->data = data;
+        isTerminal = false;
+    }
+};
+
+class Trie {
+public:
+    Node* root;
+    Trie() {
+        root = new Node('\0');
+    }
+    
+    void insert(string word) {
+        Node* temp = root;
+        for(auto ch:word){
+            if(temp->children.count(ch) == 0){
+                Node *n = new Node(ch);
+                temp->children[ch] = n;
+            }
+            temp = temp->children[ch];
+        }
+        temp->isTerminal = true;
+    }
+    
+    bool search(string word) {
+        Node* temp = root;
+        for(auto ch:word){
+            if(temp->children.count(ch) == 0) return false;
+            temp = temp->children[ch];
+        }
+        return temp->isTerminal;
+    }
+    
+    bool startsWith(string prefix) {
+        Node* temp = root;
+        for(auto ch:prefix){
+            if(temp->children.count(ch) == 0) return false;
+            temp = temp->children[ch];
+        }
+        return true;
+    }
+};
