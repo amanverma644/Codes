@@ -1,0 +1,27 @@
+
+	//473. Matchsticks to Square
+
+//Problem Link:	https://leetcode.com/problems/matchsticks-to-square
+
+bool dfs(vector<int>& matchsticks,int i,vector<int> &edges,int target){
+    if(i == matchsticks.size()){
+        return edges[0] == edges[1] and edges[1] == edges[2] and edges[2] == edges[3];
+    }
+    for(int j = 0;j < 4;j++){
+        if(edges[j] + matchsticks[i] > target) continue;
+        edges[j] += matchsticks[i];
+        if(dfs(matchsticks,i+1,edges,target)) return true;
+        edges[j] -= matchsticks[i];
+    }
+    return false;
+}
+
+bool makesquare(vector<int>& matchsticks) {
+    if(matchsticks.size() < 4) return false;
+    int sum = accumulate(begin(matchsticks),end(matchsticks),0);
+    if(sum%4 != 0) return false;
+    sort(begin(matchsticks),end(matchsticks),greater<int>());
+
+    vector<int> edges(4,0);
+    return dfs(matchsticks,0,edges,sum/4);
+}
