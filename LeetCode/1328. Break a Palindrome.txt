@@ -1,0 +1,44 @@
+
+		//1328. Break a Palindrome
+
+//Problem Link:	https://leetcode.com/problems/break-a-palindrome
+
+//BRUTE FORCE
+bool isPalindrome(string s){
+    int i = 0, j = s.length() - 1;
+    while(i<j) if(s[i++] != s[j--]) return false;
+    return true;
+}
+
+string breakPalindrome(string palindrome) {
+    string res = "";
+    if(palindrome.length() == 1) return res;
+    for(int i = 0;i < palindrome.length();i++){
+        for(int j = 0;j < 26;j++){
+            char temp = palindrome[i];
+            palindrome[i] = 'a' + j;
+            if(!isPalindrome(palindrome)){
+                if(res == ""){
+                    res = palindrome;
+                }else{
+                    res = min(res,palindrome);    
+                }
+            }
+            palindrome[i] = temp;
+        }
+    }
+    return res;
+}
+
+//Optimised Approach
+string breakPalindrome(string palindrome) {
+    int n = palindrome.length();
+    for(int i = 0;i < n/2;i++){
+        if(palindrome[i] != 'a'){
+            palindrome[i] = 'a';
+            return palindrome;
+        }
+    }
+    palindrome[n-1] = 'b';
+    return n > 1 ? palindrome : "";
+}
