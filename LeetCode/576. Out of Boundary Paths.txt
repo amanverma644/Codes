@@ -1,0 +1,27 @@
+
+	//576. Out of Boundary Paths
+
+//Problem Link:	https://leetcode.com/problems/out-of-boundary-paths
+
+int dp[51][51][51] = {};
+const int MOD = 1e9 + 7;
+vector<vector<int>> directions = {{1,0},{-1,0},{0,-1},{0,1}};
+int dfs(int m,int n,int i,int j,int maxMove){
+    if(i >= m or j >=n or i < 0 or j < 0) return 1;
+    if(maxMove == 0) return 0;
+
+    if(dp[i][j][maxMove] != -1) return dp[i][j][maxMove];
+
+    int res = 0;
+    for(auto dir:directions){
+        int dx = i + dir[0];
+        int dy = j + dir[1];
+        res = (res + dfs(m,n,dx,dy,maxMove - 1))%MOD;
+    }
+    return dp[i][j][maxMove] = res;
+}
+
+int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+    memset(dp,-1,sizeof(dp));
+    return dfs(m,n,startRow,startColumn,maxMove);
+}
