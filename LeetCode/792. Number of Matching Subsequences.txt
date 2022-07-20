@@ -1,0 +1,26 @@
+
+	//792. Number of Matching Subsequences
+
+//Problem Link:	https://leetcode.com/problems/number-of-matching-subsequences
+
+int numMatchingSubseq(string s, vector<string>& words) {
+    vector<vector<int>> v(26);
+    //store the occurance of every character 
+    for(int i = 0;i < s.length();i++){
+        char ch = s[i];
+        v[ch - 'a'].push_back(i);
+    }
+
+    int res = 0;
+    for(auto w:words){
+        int x = -1;
+        bool isFound = true;
+        for(auto ch:w){
+            auto it = upper_bound(begin(v[ch-'a']),end(v[ch-'a']),x);
+            if(it == end(v[ch-'a'])) isFound = false;
+            else x = *it;
+        }
+        if(isFound) res++;
+    }
+    return res;
+}
