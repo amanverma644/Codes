@@ -1,0 +1,24 @@
+
+	//890. Find and Replace Pattern
+
+//Problem Link:	https://leetcode.com/problems/find-and-replace-pattern
+
+bool canTake(string s1,string s2){
+    unordered_map<char,char> s1_to_s2,s2_to_s1;
+    for(int i = 0;i < s1.length();i++){
+        if((s1_to_s2[s1[i]] and s1_to_s2[s1[i]] != s2[i]) or (s2_to_s1[s2[i]] and s2_to_s1[s2[i]] != s1[i])) return false;
+        else{
+            s1_to_s2[s1[i]] = s2[i];
+            s2_to_s1[s2[i]] = s1[i];
+        }
+    }
+    return true;
+}
+
+vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+    vector<string> res;
+    for(auto w:words){
+        if(canTake(w,pattern)) res.push_back(w);
+    }
+    return res;
+}
