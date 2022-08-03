@@ -1,0 +1,33 @@
+
+	//729. My Calendar I
+
+//Problem Link:	https://leetcode.com/problems/my-calendar-i
+
+//Ordered_set
+set<pair<int,int>> s;
+MyCalendar() {
+
+}
+
+bool book(int start, int end) {
+    auto next = s.lower_bound({start,end});
+    if(next != s.end() and next->first < end) return false;
+    if(next != s.begin() and start < (--next)->second) return false;
+    s.insert({start,end});
+    return true;
+}
+
+
+//using vector
+vector<pair<int,int>> v;
+MyCalendar() {
+
+}
+
+bool book(int start, int end) {
+    for(auto p:v){
+        if(max(p.first,start) < min(p.second,end)) return false;
+    }
+    v.push_back({start,end});
+    return true;
+}
