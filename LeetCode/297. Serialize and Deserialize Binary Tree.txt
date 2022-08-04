@@ -1,0 +1,91 @@
+
+	//297. Serialize and Deserialize Binary Tree
+
+//Problem Link:	https://leetcode.com/problems/serialize-and-deserialize-binary-tree
+
+// Encodes a tree to a single string.
+string serialize(TreeNode* root) {
+    if(!root) return "";
+
+    string s = "";
+    queue<TreeNode*> q;
+    q.push(root);
+    while(!q.empty()){
+        int size = q.size();
+        while(size--){
+            auto top = q.front();
+            q.pop();
+
+            if(top == NULL){
+                s += "# ";
+            }else{
+                s += to_string(top->val);
+                s += " ";
+
+            }
+            if(top != NULL) {
+                q.push(top->left);
+                q.push(top->right);
+            }
+        }
+    }
+    s.pop_back();
+    return s;
+}
+
+
+// Decodes your encoded data to tree.
+TreeNode* deserialize(string data) {
+    if(data.size() == 0) return NULL;
+
+    stringstream ss(data);
+
+    vector<string> tokens;
+    string token;
+
+    while(getline(ss,token,' ')){
+        tokens.push_back(token);
+    }
+
+    TreeNode* root = NULL;
+    // for(auto t:tokens){
+    //     cout<<t<<endl;
+    // }
+    queue<TreeNode*> q;
+
+    int i = 0;
+    TreeNode* newNode = new TreeNode(stoi(tokens[i]));
+    q.push(newNode);
+
+    while(!q.empty()){
+        int size = q.size();
+        while(size--){
+            auto top = q.front();
+            q.pop();
+            i++;
+
+            if(root == NULL) root = top;
+
+            if(i >= tokens.size() - 2) continue;
+
+            if(tokens[i] == "#"){
+                top->left = NULL;
+            }else{
+                TreeNode* newNode = new TreeNode(stoi(tokens[i]));   
+                top->left = newNode;
+                q.push(newNode);
+            }
+
+            i++;
+
+            if(tokens[i] == "#"){
+                top->right = NULL;
+            }else{
+                TreeNode* newNode = new TreeNode(stoi(tokens[i]));   
+                top->right = newNode;
+                q.push(newNode);
+            }
+        }
+    }
+    return root;
+}
